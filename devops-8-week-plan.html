@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>8-Week DevOps Plan — Germany · Intermediate Track</title>
+  <title>8-Week DevOps Plan — 1 Hour/Day · Germany</title>
   <style>
     :root {
       --bg: #0f1419;
@@ -15,9 +15,8 @@
       --accent: #3b82f6;
       --accent-soft: rgba(59, 130, 246, 0.15);
       --success: #22c55e;
-      --success-soft: rgba(34, 197, 94, 0.15);
       --warning: #f59e0b;
-      --week-colors: #6366f1, #8b5cf6, #ec4899, #f43f5e, #f97316, #eab308, #10b981, #06b6d4;
+      --danger: #ef4444;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -52,8 +51,7 @@
     }
 
     h1 { font-size: clamp(1.5rem, 4vw, 2.25rem); font-weight: 700; margin-bottom: 0.5rem; }
-
-    .subtitle { color: var(--muted); font-size: 1rem; max-width: 680px; }
+    .subtitle { color: var(--muted); font-size: 1rem; max-width: 720px; }
 
     .meta-row {
       display: flex;
@@ -118,7 +116,6 @@
     }
 
     button:hover { background: var(--surface2); border-color: var(--accent); }
-
     button.danger:hover { border-color: #ef4444; color: #fca5a5; }
 
     .save-note {
@@ -130,25 +127,121 @@
 
     .save-note.visible { opacity: 1; }
 
+    .nav-weeks {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(15, 20, 25, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.5rem;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .nav-weeks-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .nav-weeks a {
+      font-size: 0.8125rem;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+    }
+
+    .nav-weeks a:hover { color: var(--text); background: var(--surface); }
+
     main {
       max-width: 960px;
       margin: 0 auto;
       padding: 2rem 1.5rem 4rem;
     }
 
-    .intro-card {
+    .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 1.5rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.25rem;
     }
 
-    .intro-card h2 { font-size: 1.125rem; margin-bottom: 0.75rem; }
+    .card h2 { font-size: 1.125rem; margin-bottom: 0.75rem; }
+    .card h3 { font-size: 1rem; margin: 1rem 0 0.5rem; color: #93c5fd; }
+    .card ul, .card ol { margin-left: 1.25rem; color: var(--muted); font-size: 0.9375rem; }
+    .card li { margin-bottom: 0.4rem; }
+    .card p { color: var(--muted); font-size: 0.9375rem; margin-bottom: 0.5rem; }
 
-    .intro-card ul { margin-left: 1.25rem; color: var(--muted); font-size: 0.9375rem; }
+    .warning-box {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
 
-    .intro-card li { margin-bottom: 0.35rem; }
+    .warning-box h2 { color: #fca5a5; font-size: 1.125rem; margin-bottom: 0.5rem; }
+    .warning-box p, .warning-box li { color: #fecaca; font-size: 0.9rem; }
+    .warning-box ul { margin: 0.5rem 0 0 1.25rem; }
+
+    .ok-box {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .ok-box h2 { color: #86efac; font-size: 1.125rem; margin-bottom: 0.5rem; }
+    .ok-box p, .ok-box li { color: #bbf7d0; font-size: 0.9rem; }
+    .ok-box ul { margin: 0.5rem 0 0 1.25rem; }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .day-chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      text-align: center;
+      font-size: 0.8125rem;
+    }
+
+    .day-chip strong { display: block; color: var(--text); margin-bottom: 0.25rem; }
+    .day-chip.busy { border-color: rgba(245, 158, 11, 0.5); background: rgba(245, 158, 11, 0.1); }
+    .day-chip.rest { border-color: rgba(139, 156, 179, 0.4); opacity: 0.75; }
+    .day-chip.study { border-color: rgba(34, 197, 94, 0.4); background: rgba(34, 197, 94, 0.08); }
+
+    .busy-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .busy-picker label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .busy-picker input { accent-color: var(--warning); }
 
     .week-section {
       margin-bottom: 2.5rem;
@@ -178,7 +271,6 @@
 
     .week-title { font-size: 1.25rem; font-weight: 600; }
     .week-goal { font-size: 0.875rem; color: var(--muted); margin-top: 0.25rem; }
-
     .week-progress {
       margin-left: auto;
       text-align: right;
@@ -195,6 +287,9 @@
       overflow: hidden;
     }
 
+    .day-card.busy-day { border-color: rgba(245, 158, 11, 0.35); }
+    .day-card.rest-day { border-color: rgba(139, 156, 179, 0.25); opacity: 0.85; }
+
     .day-header {
       display: flex;
       align-items: center;
@@ -203,12 +298,23 @@
       background: var(--surface2);
       cursor: pointer;
       user-select: none;
+      flex-wrap: wrap;
     }
 
     .day-header:hover { background: #2a3850; }
-
-    .day-label { font-weight: 600; font-size: 0.9375rem; flex: 1; }
+    .day-label { font-weight: 600; font-size: 0.9375rem; flex: 1; min-width: 180px; }
     .day-time { font-size: 0.75rem; color: var(--muted); }
+    .mode-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+    }
+    .mode-full { background: rgba(34, 197, 94, 0.2); color: #86efac; }
+    .mode-micro { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+    .mode-rest { background: rgba(139, 156, 179, 0.2); color: #cbd5e1; }
 
     .chevron {
       width: 18px;
@@ -242,15 +348,8 @@
       flex-shrink: 0;
     }
 
-    .task-item label {
-      cursor: pointer;
-      flex: 1;
-    }
-
-    .task-item.done label {
-      color: var(--muted);
-      text-decoration: line-through;
-    }
+    .task-item label { cursor: pointer; flex: 1; }
+    .task-item.done label { color: var(--muted); text-decoration: line-through; }
 
     .task-tag {
       display: inline-block;
@@ -268,48 +367,19 @@
     .tag-hands { background: rgba(34, 197, 94, 0.2); color: #86efac; }
     .tag-read { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
     .tag-de { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
+    .tag-micro { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
 
     .project-box {
       background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.08));
       border: 1px solid rgba(16, 185, 129, 0.3);
       border-radius: 12px;
       padding: 1.5rem;
-      margin-top: 1rem;
+      margin: 0 0 1rem;
     }
 
     .project-box h3 { color: #6ee7b7; font-size: 1rem; margin-bottom: 0.75rem; }
     .project-box p, .project-box li { font-size: 0.9rem; color: var(--muted); }
     .project-box ul { margin: 0.5rem 0 0 1.25rem; }
-
-    .nav-weeks {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(15, 20, 25, 0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-      padding: 0.75rem 1.5rem;
-      overflow-x: auto;
-      white-space: nowrap;
-    }
-
-    .nav-weeks-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .nav-weeks a {
-      font-size: 0.8125rem;
-      color: var(--muted);
-      text-decoration: none;
-      padding: 0.35rem 0.75rem;
-      border-radius: 6px;
-      border: 1px solid transparent;
-    }
-
-    .nav-weeks a:hover { color: var(--text); background: var(--surface); }
 
     footer {
       text-align: center;
@@ -329,15 +399,17 @@
 
   <header class="hero">
     <div class="hero-inner">
-      <div class="badge">Intermediate DevOps · Germany</div>
+      <div class="badge">1 Hour / Day · Working Professional · Germany</div>
       <h1>8-Week DevOps Learning Plan</h1>
       <p class="subtitle">
-        Daily tasks from IT support foundations to a production-ready capstone project.
-        Progress is saved automatically in your browser — no account needed.
+        Built for your real life: full-time IT support (08:00–17:00), second job twice a week (17:00–22:30),
+        and Sunday sports. Each study day is exactly <strong style="color:#e8edf4">1 hour</strong>.
+        Progress saves in your browser.
       </p>
       <div class="meta-row">
-        <span>~1.5–2 hours per weekday · 3–4 hours weekends</span>
-        <span>48 learning days total</span>
+        <span>~6 focused hours / week</span>
+        <span>Busy nights = 15 min micro mode</span>
+        <span>Sunday = rest / sports</span>
         <span>Capstone: weeks 7–8</span>
       </div>
     </div>
@@ -365,331 +437,450 @@
   </nav>
 
   <main>
-    <section class="intro-card">
-      <h2>How to use this plan</h2>
+    <section class="warning-box">
+      <h2>Do NOT set up your DevOps lab on the SAP work laptop</h2>
+      <p><strong>Short answer: No — it is not safe / not allowed for this.</strong></p>
       <ul>
-        <li><strong>Your advantage:</strong> As IT user support you already troubleshoot, document, and communicate with users — core DevOps skills.</li>
-        <li><strong>Daily rhythm:</strong> Read/watch (30 min) → hands-on lab (60–90 min) → write 3 bullet notes in a learning journal.</li>
-        <li><strong>Free tools:</strong> Linux VM (VirtualBox), Docker Desktop, GitHub free tier, AWS free tier or Azure free credits.</li>
-        <li><strong>Germany focus:</strong> Learn GDPR basics, document in English (most DevOps jobs) and practice German tech vocabulary for interviews.</li>
-        <li><strong>Job target:</strong> Junior→Intermediate DevOps Engineer, Platform Engineer, or Cloud Engineer (€45k–€65k typical entry in DE).</li>
+        <li>It is a <strong>company device</strong> for SAP / work. Installing VirtualBox, Docker, Kubernetes tools, or random software can break policy and get you in trouble.</li>
+        <li>You may not have admin rights — and asking IT for them for private learning is usually the wrong path.</li>
+        <li>Mixing personal learning with company data (SAP, tickets, emails) is a <strong>security + GDPR risk</strong> in Germany.</li>
+        <li>If something goes wrong (malware, disk full, broken VPN), it can affect your job.</li>
+      </ul>
+      <p style="margin-top:0.75rem"><strong>What to do instead:</strong> use a <em>personal</em> computer (laptop/desktop), or a cheap used laptop only for learning. Cloud free tiers (AWS/GitHub) for later weeks. Never put company SAP data into your learning projects.</p>
+    </section>
+
+    <section class="ok-box">
+      <h2>Your study machine (safe options)</h2>
+      <ul>
+        <li><strong>Best:</strong> Personal Windows/Mac/Linux laptop — install VirtualBox + Ubuntu here</li>
+        <li><strong>Budget:</strong> Used laptop (~€150–250) dedicated to learning</li>
+        <li><strong>Later weeks:</strong> Free cloud VMs (AWS free tier in Frankfurt) — still from personal account</li>
+        <li><strong>Allowed on work laptop:</strong> only reading docs / watching videos / LinkedIn learning if company policy allows — no lab installs</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Your weekly timetable (tutor version)</h2>
+      <p>Main job: <strong style="color:var(--text)">08:00–17:00</strong>. Second job nights: <strong style="color:var(--text)">17:00–22:30</strong> → after that you are tired. Sunday = sports.</p>
+      <p>Mark which two weekdays are your second-job nights. Those days switch to <strong style="color:var(--text)">15-minute micro mode</strong> (theory only). All other study days are a full <strong style="color:var(--text)">1-hour lesson</strong>. Sunday stays rest.</p>
+
+      <div class="busy-picker" id="busy-picker">
+        <label><input type="checkbox" value="Mon" /> Mon busy night</label>
+        <label><input type="checkbox" value="Tue" checked /> Tue busy night</label>
+        <label><input type="checkbox" value="Wed" /> Wed busy night</label>
+        <label><input type="checkbox" value="Thu" checked /> Thu busy night</label>
+        <label><input type="checkbox" value="Fri" /> Fri busy night</label>
+        <label><input type="checkbox" value="Sat" disabled /> Sat = full study</label>
+        <label><input type="checkbox" value="Sun" disabled /> Sun = sports / rest</label>
+      </div>
+
+      <div class="schedule-grid" id="schedule-preview" style="margin-top:1rem"></div>
+
+      <h3>How each 1-hour session works</h3>
+      <ol>
+        <li><strong>0–5 min:</strong> Open yesterday’s notes + today’s goal</li>
+        <li><strong>5–45 min:</strong> Main lesson (hands-on or theory as listed)</li>
+        <li><strong>45–55 min:</strong> Practice / fix errors</li>
+        <li><strong>55–60 min:</strong> Write 3 bullet notes + tick checkboxes</li>
+      </ol>
+      <p style="margin-top:0.75rem"><strong style="color:var(--text)">Tutor rule:</strong> Stop at 60 minutes. Tired learning creates frustration. Missed busy nights are OK — micro mode covers them.</p>
+    </section>
+
+    <section class="card">
+      <h2>How to use this with your tutor (me)</h2>
+      <ul>
+        <li>Tell me: <em>“Starting Week X, Day Y”</em></li>
+        <li>I teach that day’s lesson step by step</li>
+        <li>You paste errors / screenshots text — we fix together</li>
+        <li>I check understanding before we move on</li>
+        <li>On busy nights, do only the micro task (or message me the next free evening)</li>
       </ul>
     </section>
 
     <div id="plan-content"></div>
 
-    <section class="intro-card" style="margin-top: 2rem;">
-      <h2>After week 8 — keep going</h2>
+    <section class="card" style="margin-top:2rem">
+      <h2>After week 8</h2>
       <ul>
-        <li>Prepare for CKA (Kubernetes) or AWS Solutions Architect Associate — both valued in Germany.</li>
-        <li>Contribute to open-source DevOps repos on GitHub.</li>
-        <li>Update LinkedIn/XING with your capstone project and link the public repo.</li>
-        <li>Apply to: Mittelstand companies, startups, consultancies (Accenture, Capgemini), and remote EU roles.</li>
-        <li>Join local meetups: DevOps Berlin, Cloud Native Munich, or virtual CNCF meetups.</li>
+        <li>Keep 1 hour/day habit — next target: CKA or AWS Solutions Architect Associate</li>
+        <li>Publish capstone on GitHub + LinkedIn/XING</li>
+        <li>Apply to Junior/Mid DevOps roles in Germany with your portfolio video</li>
       </ul>
     </section>
   </main>
 
   <footer>
-  Progress stored in browser localStorage · Open this file offline anytime · Good luck from your DevOps journey 🇩🇪
+    Progress stored in browser localStorage · Personal machine only · Good luck 🇩🇪
   </footer>
 
   <script>
-    const STORAGE_KEY = "devops-plan-de-v1";
+    const STORAGE_KEY = "devops-plan-de-1h-v2";
+
+    const tagLabels = {
+      theory: "Theory",
+      hands: "Hands-on",
+      read: "Reading",
+      de: "Germany",
+      micro: "Micro"
+    };
 
     const plan = [
       {
         week: 1,
-        title: "Linux Foundations",
-        goal: "Comfortable on the command line — the daily home of every DevOps engineer.",
+        title: "Linux Foundations (1h days)",
+        goal: "Get comfortable on Linux — your future daily workspace.",
         color: "#6366f1",
         days: [
           {
             day: "Mon",
-            label: "Why Linux & setup your lab",
-            time: "~1.5h",
-            tasks: [
-              { id: "w1d1t1", tag: "read", text: "Read: What is DevOps (Phoenix Project summary or \"The DevOps Handbook\" ch.1). Write your definition in 5 sentences." },
-              { id: "w1d1t2", tag: "hands", text: "Install VirtualBox + Ubuntu Server 22.04 LTS VM (or use WSL2 on Windows). Take a screenshot of successful login." },
-              { id: "w1d1t3", tag: "hands", text: "Practice: pwd, ls, cd, whoami, date, clear, history. Navigate /etc, /var, /home." },
-              { id: "w1d1t4", tag: "de", text: "Look up 10 German DevOps job postings on LinkedIn. Note which tools repeat (Docker, K8s, Terraform, Jenkins)." }
+            label: "What is DevOps + lab plan",
+            full: [
+              { id: "w1d1t1", tag: "theory", text: "Read/watch (20 min): What DevOps is. Write your own 5-sentence definition." },
+              { id: "w1d1t2", tag: "hands", text: "Download VirtualBox + Ubuntu Server 22.04 ISO on your PERSONAL PC (not SAP laptop)." },
+              { id: "w1d1t3", tag: "hands", text: "Install VirtualBox. Confirm it opens. Stop at 60 min even if Ubuntu install waits for tomorrow." }
+            ],
+            micro: [
+              { id: "w1d1m1", tag: "micro", text: "Write 5 sentences: What is DevOps? (phone notes OK)" }
             ]
           },
           {
             day: "Tue",
-            label: "Files, permissions & users",
-            time: "~2h",
-            tasks: [
-              { id: "w1d2t1", tag: "theory", text: "Learn: file permissions (rwx), chmod, chown, users/groups. Draw a permission octal chart (644, 755, 600)." },
-              { id: "w1d2t2", tag: "hands", text: "Create users with useradd, set passwords, add to sudo group. Switch users with su/sudo." },
-              { id: "w1d2t3", tag: "hands", text: "Practice: cp, mv, rm, mkdir, touch, cat, less, head, tail, grep on log-like text files." },
-              { id: "w1d2t4", tag: "hands", text: "Lab: Create a \"broken permissions\" scenario and fix it (e.g. web app can't read config file)." }
+            label: "Create Ubuntu VM",
+            full: [
+              { id: "w1d2t1", tag: "hands", text: "Create VM: 2 CPU, 2GB RAM, 25GB disk. Attach Ubuntu ISO." },
+              { id: "w1d2t2", tag: "hands", text: "Install Ubuntu Server. Create user + password. Enable OpenSSH if asked." },
+              { id: "w1d2t3", tag: "hands", text: "First login. Run: whoami, pwd, ls, date. Screenshot or write results in notes." }
+            ],
+            micro: [
+              { id: "w1d2m1", tag: "micro", text: "Watch a 10–15 min video: “Ubuntu Server install VirtualBox” — no installs on work laptop." }
             ]
           },
           {
             day: "Wed",
-            label: "Processes, services & packages",
-            time: "~2h",
-            tasks: [
-              { id: "w1d3t1", tag: "theory", text: "Learn: processes (ps, top/htop), signals (kill), systemd basics (systemctl start/stop/status/enable)." },
-              { id: "w1d3t2", tag: "hands", text: "Install nginx with apt, start it, enable on boot, check status. Curl localhost from the VM." },
-              { id: "w1d3t3", tag: "hands", text: "Find nginx logs in /var/log. Use tail -f to watch live logs (like a support ticket trail)." },
-              { id: "w1d3t4", tag: "hands", text: "Break nginx config on purpose, read the error in journalctl -u nginx, fix and restart." }
+            label: "Navigate the filesystem",
+            full: [
+              { id: "w1d3t1", tag: "theory", text: "Learn: /, /home, /etc, /var, /tmp. Draw a simple folder tree." },
+              { id: "w1d3t2", tag: "hands", text: "Practice: cd, ls -la, pwd, clear, history. Visit /etc and /var/log." },
+              { id: "w1d3t3", tag: "hands", text: "Create folder ~/devops-lab and file notes.txt with nano or vim." }
+            ],
+            micro: [
+              { id: "w1d3m1", tag: "micro", text: "Memorize: pwd, ls, cd, mkdir, clear. Write them on a sticky note." }
             ]
           },
           {
             day: "Thu",
-            label: "Networking on Linux",
-            time: "~2h",
-            tasks: [
-              { id: "w1d4t1", tag: "theory", text: "Learn: IP, port, DNS, TCP/UDP, localhost, 127.0.0.1. Sketch client → DNS → server diagram." },
-              { id: "w1d4t2", tag: "hands", text: "Practice: ip a, ping, traceroute, nslookup/dig, netstat or ss, curl -v, wget." },
-              { id: "w1d4t3", tag: "hands", text: "Configure UFW firewall: allow SSH (22) and HTTP (80), deny others. Test from host machine." },
-              { id: "w1d4t4", tag: "hands", text: "Lab: Diagnose \"can't reach website\" — check service, port, firewall, DNS (support-style runbook)." }
+            label: "Files & permissions basics",
+            full: [
+              { id: "w1d4t1", tag: "theory", text: "Learn rwx permissions and numbers 644 / 755 / 600." },
+              { id: "w1d4t2", tag: "hands", text: "Practice: touch, cp, mv, rm, cat, less, head, tail." },
+              { id: "w1d4t3", tag: "hands", text: "chmod a file to 600 and explain why that is safer for secrets." }
+            ],
+            micro: [
+              { id: "w1d4m1", tag: "micro", text: "Read one short article on Linux file permissions. Note 3 key points." }
             ]
           },
           {
             day: "Fri",
-            label: "Shell scripting intro",
-            time: "~2h",
-            tasks: [
-              { id: "w1d5t1", tag: "theory", text: "Learn bash basics: variables, if/else, for loops, functions, exit codes ($?)." },
-              { id: "w1d5t2", tag: "hands", text: "Write script: disk-usage-alert.sh — warn if disk > 80% (df -h)." },
-              { id: "w1d5t3", tag: "hands", text: "Write script: service-check.sh — check if nginx is running, restart if not." },
-              { id: "w1d5t4", tag: "hands", text: "Add scripts to cron (crontab -e). Run one every 5 minutes, verify in syslog." }
+            label: "Packages & nginx",
+            full: [
+              { id: "w1d5t1", tag: "hands", text: "sudo apt update && sudo apt install nginx -y" },
+              { id: "w1d5t2", tag: "hands", text: "systemctl status/start/enable nginx. curl localhost" },
+              { id: "w1d5t3", tag: "hands", text: "Find logs in /var/log/nginx. Use tail -f for 2 minutes." }
+            ],
+            micro: [
+              { id: "w1d5m1", tag: "micro", text: "Write: What is a package manager? (apt = app store for Linux)" }
             ]
           },
           {
             day: "Sat",
-            label: "Week 1 review & mini-project",
-            time: "~3h",
-            tasks: [
-              { id: "w1d6t1", tag: "hands", text: "Mini-project: Set up a VM that serves a static HTML page via nginx with a custom error page." },
-              { id: "w1d6t2", tag: "hands", text: "Document setup steps in a README.md (practice runbook writing — key DevOps skill)." },
-              { id: "w1d6t3", tag: "read", text: "Self-quiz: Explain to an imaginary user what chmod 755 means and why SSH uses port 22." },
-              { id: "w1d6t4", tag: "de", text: "Watch one German DevOps YouTube video (e.g. \"Was macht ein DevOps Engineer\") and note new vocabulary." }
+            label: "Week 1 review lab",
+            full: [
+              { id: "w1d6t1", tag: "hands", text: "Change nginx default HTML page to “Hello from my DevOps lab”." },
+              { id: "w1d6t2", tag: "hands", text: "Write a 5-line README of what you installed this week." },
+              { id: "w1d6t3", tag: "de", text: "Skim 3 German DevOps job ads. Note repeated tools." }
+            ],
+            micro: [
+              { id: "w1d6m1", tag: "micro", text: "Review your notes from Mon–Fri for 15 minutes." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w1d7t1", tag: "read", text: "Rest / sports. Optional: 10 min flashcards of Linux commands only if you feel like it. No guilt if zero." }
+            ],
+            micro: [
+              { id: "w1d7m1", tag: "micro", text: "Rest. Sports day." }
             ]
           }
         ]
       },
       {
         week: 2,
-        title: "Git, Scripting & Networking Deep Dive",
-        goal: "Version control and automation — bridge from ticketing to infrastructure changes.",
+        title: "Git + Shell + Networking",
+        goal: "Track changes like a pro and automate small tasks.",
         color: "#8b5cf6",
         days: [
           {
             day: "Mon",
-            label: "Git fundamentals",
-            time: "~2h",
-            tasks: [
-              { id: "w2d1t1", tag: "theory", text: "Learn: repos, commits, branches, remotes. Why Git is non-negotiable for DevOps." },
-              { id: "w2d1t2", tag: "hands", text: "Create GitHub account. Install git. Configure user.name and user.email." },
-              { id: "w2d1t3", tag: "hands", text: "Practice: init, add, commit, log, diff, branch, merge, clone, push, pull." },
-              { id: "w2d1t4", tag: "hands", text: "Resolve a deliberate merge conflict in a text file. Document how you fixed it." }
+            label: "Git basics",
+            full: [
+              { id: "w2d1t1", tag: "theory", text: "Learn: repository, commit, branch, remote (GitHub)." },
+              { id: "w2d1t2", tag: "hands", text: "Create GitHub account on personal PC. Install git. Set name/email." },
+              { id: "w2d1t3", tag: "hands", text: "git init a folder, add README, first commit." }
+            ],
+            micro: [
+              { id: "w2d1m1", tag: "micro", text: "Read “What is Git in plain English” (10–15 min)." }
             ]
           },
           {
             day: "Tue",
-            label: "Git workflows & collaboration",
-            time: "~2h",
-            tasks: [
-              { id: "w2d2t1", tag: "theory", text: "Learn: trunk-based vs GitFlow, pull requests, code review culture." },
-              { id: "w2d2t2", tag: "hands", text: "Create repo \"devops-learning\". Add week 1 README. Push to GitHub." },
-              { id: "w2d2t3", tag: "hands", text: "Practice: feature branch → PR → merge. Use meaningful commit messages (conventional commits intro)." },
-              { id: "w2d2t4", tag: "hands", text: "Add .gitignore for OS files. Learn git stash and git reset --soft." }
+            label: "Push to GitHub",
+            full: [
+              { id: "w2d2t1", tag: "hands", text: "Create repo devops-learning. Push your README." },
+              { id: "w2d2t2", tag: "hands", text: "Practice branch → edit → commit → merge." },
+              { id: "w2d2t3", tag: "hands", text: "Create a small merge conflict on purpose and fix it." }
+            ],
+            micro: [
+              { id: "w2d2m1", tag: "micro", text: "Watch a 15-min Git crash course. No coding required tonight." }
             ]
           },
           {
             day: "Wed",
-            label: "Bash scripting — level 2",
-            time: "~2h",
-            tasks: [
-              { id: "w2d3t1", tag: "hands", text: "Write backup.sh: tar.gz a directory with timestamp in filename." },
-              { id: "w2d3t2", tag: "hands", text: "Write log-rotate-simple.sh: keep only last 7 days of app logs." },
-              { id: "w2d3t3", tag: "hands", text: "Add error handling: set -euo pipefail, trap for cleanup." },
-              { id: "w2d3t4", tag: "hands", text: "Push all scripts to GitHub in a scripts/ folder." }
+            label: "Bash scripting intro",
+            full: [
+              { id: "w2d3t1", tag: "theory", text: "Variables, if, for, exit codes ($?)." },
+              { id: "w2d3t2", tag: "hands", text: "Write hello.sh and make it executable (chmod +x)." },
+              { id: "w2d3t3", tag: "hands", text: "Write disk-check.sh using df -h." }
+            ],
+            micro: [
+              { id: "w2d3m1", tag: "micro", text: "Write on paper: what a shell script is (like a batch of support steps)." }
             ]
           },
           {
             day: "Thu",
-            label: "Networking for DevOps",
-            time: "~2h",
-            tasks: [
-              { id: "w2d4t1", tag: "theory", text: "Learn: OSI layers (focus L4/L7), HTTP methods/status codes, TLS/HTTPS handshake overview." },
-              { id: "w2d4t2", tag: "theory", text: "Learn: load balancers, reverse proxies, CDN — draw how nginx sits in front of apps." },
-              { id: "w2d4t3", tag: "hands", text: "Configure nginx as reverse proxy to a second port (e.g. simple Python http.server)." },
-              { id: "w2d4t4", tag: "hands", text: "Use curl to inspect headers, status codes, and response times." }
+            label: "Networking basics",
+            full: [
+              { id: "w2d4t1", tag: "theory", text: "IP, DNS, ports, HTTP status codes (200/404/500)." },
+              { id: "w2d4t2", tag: "hands", text: "Practice: ping, curl -I, ss -tuln, ip a." },
+              { id: "w2d4t3", tag: "hands", text: "Support-style lab: “site down” checklist (service, port, firewall)." }
+            ],
+            micro: [
+              { id: "w2d4m1", tag: "micro", text: "Memorize ports: 22 SSH, 80 HTTP, 443 HTTPS." }
             ]
           },
           {
             day: "Fri",
-            label: "SSH, keys & security basics",
-            time: "~2h",
-            tasks: [
-              { id: "w2d5t1", tag: "theory", text: "Learn: SSH key pairs, authorized_keys, principle of least privilege, secrets vs config." },
-              { id: "w2d5t2", tag: "hands", text: "Generate ed25519 key. Disable password SSH login on your VM (key-only)." },
-              { id: "w2d5t3", tag: "hands", text: "Practice ssh, scp, rsync to copy files to/from VM." },
-              { id: "w2d5t4", tag: "de", text: "Read BSI IT-Grundschutz overview (German) — 1 page summary of security mindset for interviews." }
+            label: "SSH keys",
+            full: [
+              { id: "w2d5t1", tag: "theory", text: "Public vs private key. Never share private key." },
+              { id: "w2d5t2", tag: "hands", text: "Generate ed25519 key. Add public key to GitHub." },
+              { id: "w2d5t3", tag: "hands", text: "Clone your repo with SSH. Push a small change." }
+            ],
+            micro: [
+              { id: "w2d5m1", tag: "micro", text: "Read one page on SSH keys. Write: public = lock, private = key." }
             ]
           },
           {
             day: "Sat",
-            label: "Week 2 capstone: automated deploy script",
-            time: "~3h",
-            tasks: [
-              { id: "w2d6t1", tag: "hands", text: "Build deploy-static-site.sh: rsync HTML to VM, reload nginx, health-check with curl." },
-              { id: "w2d6t2", tag: "hands", text: "Version everything in Git. Tag release v0.1.0." },
-              { id: "w2d6t3", tag: "hands", text: "Write a rollback section in README: how to revert to previous tag." },
-              { id: "w2d6t4", tag: "read", text: "Review: What would you tell a support colleague about Git in one paragraph?" }
+            label: "Week 2 mini project",
+            full: [
+              { id: "w2d6t1", tag: "hands", text: "Script: backup ~/devops-lab to a .tar.gz with date in filename." },
+              { id: "w2d6t2", tag: "hands", text: "Push scripts/ folder to GitHub." },
+              { id: "w2d6t3", tag: "read", text: "Explain Git to an imaginary support colleague in 4 sentences." }
+            ],
+            micro: [
+              { id: "w2d6m1", tag: "micro", text: "Review week 2 notes 15 min." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w2d7t1", tag: "read", text: "Rest / sports. Optional flashcards only." }
+            ],
+            micro: [
+              { id: "w2d7m1", tag: "micro", text: "Rest. Sports day." }
             ]
           }
         ]
       },
       {
         week: 3,
-        title: "Containers with Docker",
-        goal: "Package apps consistently — the foundation of modern DevOps.",
+        title: "Docker Containers",
+        goal: "Package apps so they run the same everywhere.",
         color: "#ec4899",
         days: [
           {
             day: "Mon",
-            label: "Docker concepts",
-            time: "~2h",
-            tasks: [
-              { id: "w3d1t1", tag: "theory", text: "Learn: containers vs VMs, images, layers, registry, Dockerfile. Draw the relationship." },
-              { id: "w3d1t2", tag: "hands", text: "Install Docker Desktop (or Docker Engine on Linux). Run hello-world and docker run -it ubuntu bash." },
-              { id: "w3d1t3", tag: "hands", text: "Practice: docker ps, images, pull, run, stop, rm, logs, exec, inspect." },
-              { id: "w3d1t4", tag: "hands", text: "Run nginx container mapping port 8080:80. Access from browser." }
+            label: "Docker concepts + install",
+            full: [
+              { id: "w3d1t1", tag: "theory", text: "Container vs VM in plain English. Draw both." },
+              { id: "w3d1t2", tag: "hands", text: "Install Docker on personal PC or inside Ubuntu VM (follow official docs)." },
+              { id: "w3d1t3", tag: "hands", text: "docker run hello-world. Confirm success." }
+            ],
+            micro: [
+              { id: "w3d1m1", tag: "micro", text: "Read: container vs virtual machine (15 min)." }
             ]
           },
           {
             day: "Tue",
-            label: "Writing Dockerfiles",
-            time: "~2h",
-            tasks: [
-              { id: "w3d2t1", tag: "theory", text: "Learn Dockerfile instructions: FROM, RUN, COPY, WORKDIR, EXPOSE, CMD, ENTRYPOINT." },
-              { id: "w3d2t2", tag: "hands", text: "Dockerize a simple static HTML site (nginx:alpine base)." },
-              { id: "w3d2t3", tag: "hands", text: "Dockerize a Node.js or Python \"Hello API\" app (choose one language)." },
-              { id: "w3d2t4", tag: "hands", text: "Optimize: use .dockerignore, multi-stage build for smaller image." }
+            label: "Run containers",
+            full: [
+              { id: "w3d2t1", tag: "hands", text: "Practice: docker ps, images, pull, logs, exec, stop, rm." },
+              { id: "w3d2t2", tag: "hands", text: "Run nginx on port 8080:80. Open in browser." },
+              { id: "w3d2t3", tag: "hands", text: "docker exec into the container and list files." }
+            ],
+            micro: [
+              { id: "w3d2m1", tag: "micro", text: "Write definitions: image, container, registry." }
             ]
           },
           {
             day: "Wed",
-            label: "Docker Compose",
-            time: "~2h",
-            tasks: [
-              { id: "w3d3t1", tag: "theory", text: "Learn: docker-compose.yml, services, networks, volumes, depends_on." },
-              { id: "w3d3t2", tag: "hands", text: "Create stack: web + Redis (or PostgreSQL). App reads DB on startup." },
-              { id: "w3d3t3", tag: "hands", text: "Use named volumes for data persistence. Test: restart container, data remains." },
-              { id: "w3d3t4", tag: "hands", text: "Practice: docker compose up -d, down, logs -f, ps." }
+            label: "Your first Dockerfile",
+            full: [
+              { id: "w3d3t1", tag: "theory", text: "FROM, COPY, RUN, EXPOSE, CMD — what each does." },
+              { id: "w3d3t2", tag: "hands", text: "Dockerfile for a tiny static HTML site (nginx:alpine)." },
+              { id: "w3d3t3", tag: "hands", text: "Build and run your image. Push code to GitHub." }
+            ],
+            micro: [
+              { id: "w3d3m1", tag: "micro", text: "Sketch a Dockerfile on paper (5 lines)." }
             ]
           },
           {
             day: "Thu",
-            label: "Container networking & debugging",
-            time: "~2h",
-            tasks: [
-              { id: "w3d4t1", tag: "theory", text: "Learn: bridge networks, container DNS, port mapping vs host network." },
-              { id: "w3d4t2", tag: "hands", text: "Debug: container exits immediately — use logs and docker inspect." },
-              { id: "w3d4t3", tag: "hands", text: "Debug: app can't reach database — verify network, env vars, service name." },
-              { id: "w3d4t4", tag: "hands", text: "Document a \"container troubleshooting runbook\" with 5 common issues." }
+            label: "Docker Compose intro",
+            full: [
+              { id: "w3d4t1", tag: "theory", text: "Why Compose exists (multi-container apps)." },
+              { id: "w3d4t2", tag: "hands", text: "Compose file: web + redis (or postgres)." },
+              { id: "w3d4t3", tag: "hands", text: "up -d, logs, down. Confirm data volume idea." }
+            ],
+            micro: [
+              { id: "w3d4m1", tag: "micro", text: "Watch a 15-min Docker Compose intro." }
             ]
           },
           {
             day: "Fri",
-            label: "Docker Hub & image security",
-            time: "~2h",
-            tasks: [
-              { id: "w3d5t1", tag: "hands", text: "Push your image to Docker Hub (or GitHub Container Registry)." },
-              { id: "w3d5t2", tag: "theory", text: "Learn: image tags (never use :latest in prod), scanning basics, non-root users in containers." },
-              { id: "w3d5t3", tag: "hands", text: "Modify Dockerfile to run as non-root user. Rebuild and verify." },
-              { id: "w3d5t4", tag: "hands", text: "Run docker scout or trivy scan on your image (install if needed)." }
+            label: "Debug containers",
+            full: [
+              { id: "w3d5t1", tag: "hands", text: "Break a container on purpose. Fix using logs + inspect." },
+              { id: "w3d5t2", tag: "hands", text: "Write a 5-issue container troubleshooting checklist." },
+              { id: "w3d5t3", tag: "hands", text: "Add non-root user note to Dockerfile (security)." }
+            ],
+            micro: [
+              { id: "w3d5m1", tag: "micro", text: "List 3 reasons a container might exit immediately." }
             ]
           },
           {
             day: "Sat",
-            label: "Week 3 project: containerized app stack",
-            time: "~3h",
-            tasks: [
-              { id: "w3d6t1", tag: "hands", text: "Build full stack: frontend + API + database with Docker Compose." },
-              { id: "w3d6t2", tag: "hands", text: "Add healthcheck directives in compose file." },
-              { id: "w3d6t3", tag: "hands", text: "Push entire project to GitHub with clear README and architecture diagram (ASCII or draw.io)." },
-              { id: "w3d6t4", tag: "de", text: "Find one German company's tech blog post about Docker/Kubernetes. Summarize in 5 bullets." }
+            label: "Week 3 mini stack",
+            full: [
+              { id: "w3d6t1", tag: "hands", text: "Compose stack: simple app + database. Document in README." },
+              { id: "w3d6t2", tag: "hands", text: "Push to GitHub with architecture notes." },
+              { id: "w3d6t3", tag: "de", text: "Find one German tech blog about Docker. Save 3 vocabulary words." }
+            ],
+            micro: [
+              { id: "w3d6m1", tag: "micro", text: "Review Docker commands flashcards 15 min." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w3d7t1", tag: "read", text: "Rest / sports." }
+            ],
+            micro: [
+              { id: "w3d7m1", tag: "micro", text: "Rest. Sports day." }
             ]
           }
         ]
       },
       {
         week: 4,
-        title: "CI/CD Pipelines",
-        goal: "Automate build, test, and deploy — the heart of DevOps.",
+        title: "CI/CD with GitHub Actions",
+        goal: "Automate build and test like real teams.",
         color: "#f43f5e",
         days: [
           {
             day: "Mon",
             label: "CI/CD concepts",
-            time: "~2h",
-            tasks: [
-              { id: "w4d1t1", tag: "theory", text: "Learn: CI vs CD vs Continuous Deployment, pipeline stages, artifacts, runners." },
-              { id: "w4d1t2", tag: "theory", text: "Study a typical pipeline: commit → lint → test → build image → push → deploy." },
-              { id: "w4d1t3", tag: "read", text: "Read GitHub Actions docs intro. Compare with GitLab CI (popular in German enterprises)." },
-              { id: "w4d1t4", tag: "hands", text: "Sketch your week 3 app pipeline on paper with failure points marked." }
+            full: [
+              { id: "w4d1t1", tag: "theory", text: "CI vs CD in support language: auto-checks before release." },
+              { id: "w4d1t2", tag: "theory", text: "Pipeline stages: lint → test → build → deploy." },
+              { id: "w4d1t3", tag: "hands", text: "Sketch pipeline for your Docker app on paper." }
+            ],
+            micro: [
+              { id: "w4d1m1", tag: "micro", text: "Write: CI = automatic quality checks on every change." }
             ]
           },
           {
             day: "Tue",
-            label: "GitHub Actions — first pipeline",
-            time: "~2h",
-            tasks: [
-              { id: "w4d2t1", tag: "hands", text: "Create .github/workflows/ci.yml: run on push, checkout, echo hello." },
-              { id: "w4d2t2", tag: "hands", text: "Add job: lint Dockerfile with hadolint (or shellcheck for scripts)." },
-              { id: "w4d2t3", tag: "hands", text: "Add job: docker build test (build but don't push)." },
-              { id: "w4d2t4", tag: "hands", text: "Break the build on purpose, fix it, watch the green checkmark return." }
+            label: "First GitHub Action",
+            full: [
+              { id: "w4d2t1", tag: "hands", text: "Create .github/workflows/ci.yml that runs on push." },
+              { id: "w4d2t2", tag: "hands", text: "Job: checkout + echo Hello CI." },
+              { id: "w4d2t3", tag: "hands", text: "Push and watch the green check on GitHub." }
+            ],
+            micro: [
+              { id: "w4d2m1", tag: "micro", text: "Read GitHub Actions “Hello World” docs (15 min)." }
             ]
           },
           {
             day: "Wed",
-            label: "Testing in the pipeline",
-            time: "~2h",
-            tasks: [
-              { id: "w4d3t1", tag: "theory", text: "Learn: unit vs integration tests, test pyramid, failing fast in CI." },
-              { id: "w4d3t2", tag: "hands", text: "Add a simple test to your app (even a smoke test: curl /health returns 200)." },
-              { id: "w4d3t3", tag: "hands", text: "CI runs tests in a service container or docker compose in Actions." },
-              { id: "w4d3t4", tag: "hands", text: "Add status badge to README." }
+            label: "Build in CI",
+            full: [
+              { id: "w4d3t1", tag: "hands", text: "Add docker build step to CI." },
+              { id: "w4d3t2", tag: "hands", text: "Break build on purpose, then fix it." },
+              { id: "w4d3t3", tag: "hands", text: "Add README status badge." }
+            ],
+            micro: [
+              { id: "w4d3m1", tag: "micro", text: "Explain why failing CI is a feature, not a failure." }
             ]
           },
           {
             day: "Thu",
-            label: "Build & push container in CI",
-            time: "~2h",
-            tasks: [
-              { id: "w4d4t1", tag: "hands", text: "Add pipeline step: build and push image to GHCR on main branch." },
-              { id: "w4d4t2", tag: "theory", text: "Learn: GitHub secrets, OIDC, why you never commit credentials." },
-              { id: "w4d4t3", tag: "hands", text: "Tag images with git SHA and semantic version tags." },
-              { id: "w4d4t4", tag: "hands", text: "Verify image appears in registry after successful pipeline." }
+            label: "Tests in pipeline",
+            full: [
+              { id: "w4d4t1", tag: "theory", text: "Smoke test idea: /health returns 200." },
+              { id: "w4d4t2", tag: "hands", text: "Add one automated test or curl health check in CI." },
+              { id: "w4d4t3", tag: "hands", text: "Document what happens when tests fail." }
+            ],
+            micro: [
+              { id: "w4d4m1", tag: "micro", text: "Write 3 test cases for a login page (even if you don’t code them yet)." }
             ]
           },
           {
             day: "Fri",
-            label: "Deploy automation",
-            time: "~2h",
-            tasks: [
-              { id: "w4d5t1", tag: "theory", text: "Learn: deployment strategies — rolling, blue/green, canary (concepts only)." },
-              { id: "w4d5t2", tag: "hands", text: "Add deploy job: SSH to VM, pull new image, docker compose up -d (manual approval gate optional)." },
-              { id: "w4d5t3", tag: "hands", text: "Store SSH key and host as GitHub secrets. Test full pipeline end-to-end." },
-              { id: "w4d5t4", tag: "hands", text: "Write deployment runbook: what happens when pipeline fails at deploy stage." }
+            label: "Secrets & image push",
+            full: [
+              { id: "w4d5t1", tag: "theory", text: "Never commit passwords. Use GitHub Secrets." },
+              { id: "w4d5t2", tag: "hands", text: "Push image to GHCR or Docker Hub from Actions (if time)." },
+              { id: "w4d5t3", tag: "hands", text: "Tag image with git SHA." }
+            ],
+            micro: [
+              { id: "w4d5m1", tag: "micro", text: "Read why secrets must not be in Git." }
             ]
           },
           {
             day: "Sat",
-            label: "Week 4 review: pipeline hardening",
-            time: "~3h",
-            tasks: [
-              { id: "w4d6t1", tag: "hands", text: "Add branch protection: require CI pass before merge to main." },
-              { id: "w4d6t2", tag: "hands", text: "Cache Docker layers in CI for faster builds." },
-              { id: "w4d6t3", tag: "hands", text: "Document entire CI/CD flow in README with Mermaid diagram." },
-              { id: "w4d6t4", tag: "de", text: "Research: Does your target company use Jenkins, GitLab, or Azure DevOps? Note learning path." }
+            label: "Week 4 pipeline review",
+            full: [
+              { id: "w4d6t1", tag: "hands", text: "End-to-end: push code → CI runs → build succeeds." },
+              { id: "w4d6t2", tag: "hands", text: "Draw Mermaid or ASCII pipeline in README." },
+              { id: "w4d6t3", tag: "de", text: "Note whether German jobs mention Jenkins, GitLab CI, or Azure DevOps." }
+            ],
+            micro: [
+              { id: "w4d6m1", tag: "micro", text: "Review CI notes 15 min." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w4d7t1", tag: "read", text: "Rest / sports." }
+            ],
+            micro: [
+              { id: "w4d7m1", tag: "micro", text: "Rest. Sports day." }
             ]
           }
         ]
@@ -697,308 +888,364 @@
       {
         week: 5,
         title: "Cloud Foundations (AWS)",
-        goal: "Run workloads in the cloud — standard for German DevOps roles.",
+        goal: "Run things in the cloud — Frankfurt region for Germany.",
         color: "#f97316",
         days: [
           {
             day: "Mon",
-            label: "Cloud concepts & AWS setup",
-            time: "~2h",
-            tasks: [
-              { id: "w5d1t1", tag: "theory", text: "Learn: IaaS/PaaS/SaaS, regions, AZs, shared responsibility model. Map to AWS services." },
-              { id: "w5d1t2", tag: "hands", text: "Create AWS free tier account. Enable MFA on root. Create IAM admin user, never use root again." },
-              { id: "w5d1t3", tag: "theory", text: "Learn IAM: users, groups, roles, policies. Principle of least privilege." },
-              { id: "w5d1t4", tag: "de", text: "Note: AWS Frankfurt (eu-central-1) is your default region for GDPR data residency practice." }
+            label: "Cloud + AWS account",
+            full: [
+              { id: "w5d1t1", tag: "theory", text: "IaaS/PaaS/SaaS + shared responsibility model." },
+              { id: "w5d1t2", tag: "hands", text: "Create AWS account (personal email). Enable MFA on root." },
+              { id: "w5d1t3", tag: "hands", text: "Create IAM admin user. Set default region eu-central-1." }
+            ],
+            micro: [
+              { id: "w5d1m1", tag: "micro", text: "Read: why Frankfurt (eu-central-1) matters for GDPR practice." }
             ]
           },
           {
             day: "Tue",
-            label: "EC2 & VPC basics",
-            time: "~2h",
-            tasks: [
-              { id: "w5d2t1", tag: "theory", text: "Learn: VPC, subnets, security groups vs NACLs, public/private IPs, Elastic IP." },
-              { id: "w5d2t2", tag: "hands", text: "Launch Ubuntu EC2 t2.micro in eu-central-1. SSH in with key pair." },
-              { id: "w5d2t3", tag: "hands", text: "Install Docker on EC2. Run your container from week 3." },
-              { id: "w5d2t4", tag: "hands", text: "Configure security group: only 22 from your IP, 80 from 0.0.0.0/0. Document why." }
+            label: "EC2 first server",
+            full: [
+              { id: "w5d2t1", tag: "theory", text: "EC2 = virtual server in the cloud." },
+              { id: "w5d2t2", tag: "hands", text: "Launch t2.micro/t3.micro Ubuntu. Download key pair to PERSONAL PC." },
+              { id: "w5d2t3", tag: "hands", text: "SSH in. Run uname -a. Stop instance when done (save money)." }
+            ],
+            micro: [
+              { id: "w5d2m1", tag: "micro", text: "Watch 15-min “What is EC2” video." }
             ]
           },
           {
             day: "Wed",
-            label: "S3 & static hosting",
-            time: "~2h",
-            tasks: [
-              { id: "w5d3t1", tag: "theory", text: "Learn: S3 buckets, objects, versioning, lifecycle, IAM bucket policies." },
-              { id: "w5d3t2", tag: "hands", text: "Create S3 bucket, upload files, enable versioning." },
-              { id: "w5d3t3", tag: "hands", text: "Enable static website hosting on S3 (or use S3 + CloudFront conceptually)." },
-              { id: "w5d3t4", tag: "hands", text: "Use AWS CLI: aws s3 ls, cp, sync. Configure aws configure." }
+            label: "Security groups & networking",
+            full: [
+              { id: "w5d3t1", tag: "theory", text: "Security group = cloud firewall." },
+              { id: "w5d3t2", tag: "hands", text: "Allow SSH only from your IP. Understand why 0.0.0.0/0 on SSH is dangerous." },
+              { id: "w5d3t3", tag: "hands", text: "Install Docker on EC2 and run nginx briefly." }
+            ],
+            micro: [
+              { id: "w5d3m1", tag: "micro", text: "Write: security group vs Windows firewall (similar idea)." }
             ]
           },
           {
             day: "Thu",
-            label: "RDS & managed databases",
-            time: "~2h",
-            tasks: [
-              { id: "w5d4t1", tag: "theory", text: "Learn: managed vs self-hosted DB, backups, Multi-AZ concept, connection strings." },
-              { id: "w5d4t2", tag: "hands", text: "Launch RDS PostgreSQL (free tier) in private subnet concept — or SQLite on EC2 for cost saving." },
-              { id: "w5d4t3", tag: "hands", text: "Connect app container to database. Store credentials in environment variables (not in code)." },
-              { id: "w5d4t4", tag: "theory", text: "Learn why production uses Secrets Manager — read docs, don't need full setup yet." }
+            label: "S3 storage",
+            full: [
+              { id: "w5d4t1", tag: "theory", text: "S3 = object storage (files in the cloud)." },
+              { id: "w5d4t2", tag: "hands", text: "Create bucket in eu-central-1. Upload a file. Enable versioning." },
+              { id: "w5d4t3", tag: "hands", text: "Install AWS CLI on personal PC. aws s3 ls" }
+            ],
+            micro: [
+              { id: "w5d4m1", tag: "micro", text: "Read S3 basics page. Note 3 use cases." }
             ]
           },
           {
             day: "Fri",
-            label: "Load balancing & DNS",
-            time: "~2h",
-            tasks: [
-              { id: "w5d5t1", tag: "theory", text: "Learn: ALB, target groups, health checks, Route 53 basics." },
-              { id: "w5d5t2", tag: "hands", text: "Put ALB in front of EC2 (or study architecture if free tier limits hit)." },
-              { id: "w5d5t3", tag: "hands", text: "Register domain optional — or use ALB DNS name. Test health check endpoint." },
-              { id: "w5d5t4", tag: "hands", text: "Draw architecture diagram: User → Route53 → ALB → EC2 → RDS." }
+            label: "Billing safety + architecture",
+            full: [
+              { id: "w5d5t1", tag: "hands", text: "Create AWS Budget alert at €5." },
+              { id: "w5d5t2", tag: "hands", text: "Terminate/stop unused resources. Verify console is clean." },
+              { id: "w5d5t3", tag: "hands", text: "Draw: User → EC2 → App → (future DB)." }
+            ],
+            micro: [
+              { id: "w5d5m1", tag: "micro", text: "Check AWS billing console on phone if MFA allows — 5 min safety habit." }
             ]
           },
           {
             day: "Sat",
-            label: "Week 5 lab: migrate to AWS",
-            time: "~3h",
-            tasks: [
-              { id: "w5d6t1", tag: "hands", text: "Deploy week 3 app stack on EC2 with Docker Compose (production-like single node)." },
-              { id: "w5d6t2", tag: "hands", text: "Update CI/CD pipeline to deploy to AWS instead of local VM." },
-              { id: "w5d6t3", tag: "hands", text: "Set billing alarm in AWS Budgets (€5 alert). Always clean up unused resources!" },
-              { id: "w5d6t4", tag: "read", text: "Optional: skim Azure or Google Cloud equivalent services for comparison (interview prep)." }
+            label: "Week 5 deploy lab",
+            full: [
+              { id: "w5d6t1", tag: "hands", text: "Deploy your Docker app on EC2 with Compose (single node)." },
+              { id: "w5d6t2", tag: "hands", text: "Document SSH + deploy steps in README." },
+              { id: "w5d6t3", tag: "hands", text: "Stop/terminate resources after demo to avoid charges." }
+            ],
+            micro: [
+              { id: "w5d6m1", tag: "micro", text: "Review AWS notes 15 min." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w5d7t1", tag: "read", text: "Rest / sports." }
+            ],
+            micro: [
+              { id: "w5d7m1", tag: "micro", text: "Rest. Sports day." }
             ]
           }
         ]
       },
       {
         week: 6,
-        title: "Infrastructure as Code & Observability",
-        goal: "Reproducible infrastructure and knowing when things break.",
+        title: "Terraform + Monitoring",
+        goal: "Infrastructure as code + knowing when systems break.",
         color: "#eab308",
         days: [
           {
             day: "Mon",
-            label: "Terraform fundamentals",
-            time: "~2h",
-            tasks: [
-              { id: "w6d1t1", tag: "theory", text: "Learn: IaC benefits, Terraform workflow (init/plan/apply/destroy), state file, providers." },
-              { id: "w6d1t2", tag: "hands", text: "Install Terraform. Write main.tf: AWS provider, S3 bucket resource." },
-              { id: "w6d1t3", tag: "hands", text: "Run terraform init, plan, apply. Inspect AWS console. Run destroy." },
-              { id: "w6d1t4", tag: "hands", text: "Add variables.tf and outputs.tf. Use terraform.tfvars." }
+            label: "Terraform intro",
+            full: [
+              { id: "w6d1t1", tag: "theory", text: "IaC = describe infrastructure in files (repeatable)." },
+              { id: "w6d1t2", tag: "hands", text: "Install Terraform. Write S3 bucket resource." },
+              { id: "w6d1t3", tag: "hands", text: "init → plan → apply → destroy." }
+            ],
+            micro: [
+              { id: "w6d1m1", tag: "micro", text: "Read Terraform workflow overview (15 min)." }
             ]
           },
           {
             day: "Tue",
-            label: "Terraform — EC2 & networking",
-            time: "~2h",
-            tasks: [
-              { id: "w6d2t1", tag: "hands", text: "Terraform: VPC, subnet, security group, EC2 instance with user_data script." },
-              { id: "w6d2t2", tag: "hands", text: "Use terraform fmt and validate. Add README for Terraform usage." },
-              { id: "w6d2t3", tag: "theory", text: "Learn: remote state (S3 backend concept), why teams don't commit state to Git." },
-              { id: "w6d2t4", tag: "hands", text: "Import an existing resource OR refactor into modules/ folder structure." }
+            label: "Terraform EC2",
+            full: [
+              { id: "w6d2t1", tag: "hands", text: "Terraform: security group + EC2 (small instance)." },
+              { id: "w6d2t2", tag: "hands", text: "Use variables.tf and outputs.tf." },
+              { id: "w6d2t3", tag: "hands", text: "Destroy when finished. Confirm AWS console empty." }
+            ],
+            micro: [
+              { id: "w6d2m1", tag: "micro", text: "Write: plan = preview, apply = create, destroy = delete." }
             ]
           },
           {
             day: "Wed",
             label: "Ansible basics",
-            time: "~2h",
-            tasks: [
-              { id: "w6d3t1", tag: "theory", text: "Learn: Ansible vs Terraform (config vs provisioning), inventory, playbooks, idempotency." },
-              { id: "w6d3t2", tag: "hands", text: "Install Ansible. Write inventory.ini and ping all hosts." },
-              { id: "w6d3t3", tag: "hands", text: "Playbook: install Docker, copy compose file, start services on EC2." },
-              { id: "w6d3t4", tag: "hands", text: "Run playbook twice — verify second run shows \"changed=0\" (idempotent)." }
+            full: [
+              { id: "w6d3t1", tag: "theory", text: "Terraform builds servers; Ansible configures them." },
+              { id: "w6d3t2", tag: "hands", text: "Install Ansible. Inventory + ping module." },
+              { id: "w6d3t3", tag: "hands", text: "Playbook: install nginx or docker on a target." }
+            ],
+            micro: [
+              { id: "w6d3m1", tag: "micro", text: "Compare Terraform vs Ansible in 4 bullet points." }
             ]
           },
           {
             day: "Thu",
-            label: "Monitoring & logging",
-            time: "~2h",
-            tasks: [
-              { id: "w6d4t1", tag: "theory", text: "Learn: metrics vs logs vs traces, SLI/SLO/SLA basics, alerting fatigue." },
-              { id: "w6d4t2", tag: "hands", text: "Set up Prometheus + Grafana with Docker Compose (or CloudWatch on AWS)." },
-              { id: "w6d4t3", tag: "hands", text: "Create dashboard: CPU, memory, HTTP request rate for your app." },
-              { id: "w6d4t4", tag: "hands", text: "Configure one alert rule (e.g. service down > 2 min)." }
+            label: "Monitoring basics",
+            full: [
+              { id: "w6d4t1", tag: "theory", text: "Metrics vs logs. Alerting without noise." },
+              { id: "w6d4t2", tag: "hands", text: "Run Prometheus + Grafana via Compose (local)." },
+              { id: "w6d4t3", tag: "hands", text: "Open Grafana. Find CPU or container metric." }
+            ],
+            micro: [
+              { id: "w6d4m1", tag: "micro", text: "Relate monitoring to IT support tickets: detect before users call." }
             ]
           },
           {
             day: "Fri",
-            label: "Logging & incident response",
-            time: "~2h",
-            tasks: [
-              { id: "w6d5t1", tag: "theory", text: "Learn: centralized logging (ELK/ Loki / CloudWatch Logs), structured JSON logs." },
-              { id: "w6d5t2", tag: "hands", text: "Add JSON logging to your app. Ship logs to a file or Loki container." },
-              { id: "w6d5t3", tag: "hands", text: "Write an incident runbook template: detect → triage → mitigate → postmortem." },
-              { id: "w6d5t4", tag: "hands", text: "Simulate outage: stop container, follow runbook, measure MTTR." }
+            label: "Incident runbook",
+            full: [
+              { id: "w6d5t1", tag: "hands", text: "Write RUNBOOK.md: detect → triage → fix → postmortem." },
+              { id: "w6d5t2", tag: "hands", text: "Simulate outage: stop container, follow your runbook." },
+              { id: "w6d5t3", tag: "de", text: "Note 2 GDPR implications of storing logs." }
+            ],
+            micro: [
+              { id: "w6d5m1", tag: "micro", text: "Draft a 5-line outage checklist on your phone." }
             ]
           },
           {
             day: "Sat",
-            label: "Week 6 integration",
-            time: "~3h",
-            tasks: [
-              { id: "w6d6t1", tag: "hands", text: "Combine: Terraform provisions EC2 → Ansible configures → app deploys via CI." },
-              { id: "w6d6t2", tag: "hands", text: "Add monitoring stack to Terraform or Ansible." },
-              { id: "w6d6t3", tag: "de", text: "Read GDPR Art. 32 (security of processing) — 3 implications for logging/monitoring." },
-              { id: "w6d6t4", tag: "read", text: "Prep capstone: write 1-page project spec (next 2 weeks)." }
+            label: "Week 6 integration + capstone prep",
+            full: [
+              { id: "w6d6t1", tag: "hands", text: "One flow: Terraform create → Ansible configure → app runs." },
+              { id: "w6d6t2", tag: "hands", text: "Write 1-page capstone plan for weeks 7–8." },
+              { id: "w6d6t3", tag: "hands", text: "Clean up ALL cloud resources + confirm billing." }
+            ],
+            micro: [
+              { id: "w6d6m1", tag: "micro", text: "Review week 6 notes 15 min." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w6d7t1", tag: "read", text: "Rest / sports." }
+            ],
+            micro: [
+              { id: "w6d7m1", tag: "micro", text: "Rest. Sports day." }
             ]
           }
         ]
       },
       {
         week: 7,
-        title: "Capstone Project — Build",
-        goal: "Build a production-ready system: containerized app, IaC, CI/CD, monitoring.",
+        title: "Capstone Build (1h slices)",
+        goal: "Build TaskFlow in daily 1-hour pieces — production path starts.",
         color: "#10b981",
         days: [
           {
             day: "Mon",
-            label: "Project design & architecture",
-            time: "~2h",
-            tasks: [
-              { id: "w7d1t1", tag: "theory", text: "Define capstone: \"TaskFlow\" — team task API + web UI (or portfolio tracker). Write requirements." },
-              { id: "w7d1t2", tag: "hands", text: "Draw architecture: GitHub → CI → Container Registry → AWS → ALB → ECS/EC2 → RDS." },
-              { id: "w7d1t3", tag: "hands", text: "Create GitHub repo taskflow-devops-capstone. Add PROJECT.md with scope and non-goals." },
-              { id: "w7d1t4", tag: "hands", text: "Define environments: dev, staging, prod (can be namespaces or separate Terraform workspaces)." }
+            label: "Design the system",
+            full: [
+              { id: "w7d1t1", tag: "theory", text: "Define TaskFlow: simple task API + web UI requirements." },
+              { id: "w7d1t2", tag: "hands", text: "Draw architecture on paper: GitHub → CI → AWS → App → DB." },
+              { id: "w7d1t3", tag: "hands", text: "Create GitHub repo + PROJECT.md (scope & non-goals)." }
+            ],
+            micro: [
+              { id: "w7d1m1", tag: "micro", text: "List 5 features TaskFlow must have (keep tiny)." }
             ]
           },
           {
             day: "Tue",
-            label: "Application development",
-            time: "~2h",
-            tasks: [
-              { id: "w7d2t1", tag: "hands", text: "Build minimal API: CRUD tasks, /health, /metrics endpoint. Use Python FastAPI or Node Express." },
-              { id: "w7d2t2", tag: "hands", text: "Build simple frontend (React/Vue/plain HTML) that calls API." },
-              { id: "w7d2t3", tag: "hands", text: "Add Dockerfile for API and frontend. Docker Compose for local dev." },
-              { id: "w7d2t4", tag: "hands", text: "Write API tests (pytest or jest). Minimum 5 tests." }
+            label: "API skeleton",
+            full: [
+              { id: "w7d2t1", tag: "hands", text: "Create minimal API with /health (FastAPI or Express)." },
+              { id: "w7d2t2", tag: "hands", text: "Dockerfile for API. Run locally." },
+              { id: "w7d2t3", tag: "hands", text: "Commit + push. CI should at least checkout." }
+            ],
+            micro: [
+              { id: "w7d2m1", tag: "micro", text: "Read FastAPI or Express “hello world” tutorial overview." }
             ]
           },
           {
             day: "Wed",
-            label: "Database & secrets",
-            time: "~2h",
-            tasks: [
-              { id: "w7d3t1", tag: "hands", text: "Add PostgreSQL to compose. Run DB migrations (Alembic, Prisma, or raw SQL scripts)." },
-              { id: "w7d3t2", tag: "hands", text: "Use environment variables for DB URL. Create .env.example (never commit .env)." },
-              { id: "w7d3t3", tag: "hands", text: "Terraform: RDS instance with security group allowing only app subnet." },
-              { id: "w7d3t4", tag: "theory", text: "Document secrets strategy: AWS Secrets Manager or SSM Parameter Store for prod." }
+            label: "Database + CRUD",
+            full: [
+              { id: "w7d3t1", tag: "hands", text: "Add Postgres in Compose. Connect API." },
+              { id: "w7d3t2", tag: "hands", text: "Implement create/list tasks endpoints." },
+              { id: "w7d3t3", tag: "hands", text: "Add .env.example. Never commit real secrets." }
+            ],
+            micro: [
+              { id: "w7d3m1", tag: "micro", text: "Write: what is CRUD? (Create Read Update Delete)" }
             ]
           },
           {
             day: "Thu",
-            label: "Infrastructure as Code — full stack",
-            time: "~2h",
-            tasks: [
-              { id: "w7d4t1", tag: "hands", text: "Terraform modules: network, compute, database, alb. Use eu-central-1." },
-              { id: "w7d4t2", tag: "hands", text: "Provision staging environment with terraform apply. SSH/workflow to deploy containers." },
-              { id: "w7d4t3", tag: "hands", text: "Ansible playbook OR EC2 user_data to install Docker and pull images." },
-              { id: "w7d4t4", tag: "hands", text: "Verify staging URL loads app and API returns data." }
+            label: "Simple frontend",
+            full: [
+              { id: "w7d4t1", tag: "hands", text: "Minimal HTML/JS or simple React/Vue page listing tasks." },
+              { id: "w7d4t2", tag: "hands", text: "Dockerize frontend. Compose up full stack." },
+              { id: "w7d4t3", tag: "hands", text: "Add 3 automated tests or smoke script." }
+            ],
+            micro: [
+              { id: "w7d4m1", tag: "micro", text: "Sketch UI on paper: list + add button." }
             ]
           },
           {
             day: "Fri",
-            label: "CI/CD pipeline — complete",
-            time: "~2h",
-            tasks: [
-              { id: "w7d5t1", tag: "hands", text: "Pipeline on PR: lint → test → build images → security scan." },
-              { id: "w7d5t2", tag: "hands", text: "Pipeline on merge to main: push images → deploy to staging automatically." },
-              { id: "w7d5t3", tag: "hands", text: "Manual approval gate before production deploy." },
-              { id: "w7d5t4", tag: "hands", text: "Add smoke test after deploy: curl /health must return 200 within 60s." }
+            label: "CI for capstone",
+            full: [
+              { id: "w7d5t1", tag: "hands", text: "Pipeline: lint/test/build images on PR." },
+              { id: "w7d5t2", tag: "hands", text: "On main: push images to registry." },
+              { id: "w7d5t3", tag: "hands", text: "Fix any CI failures before ending session." }
+            ],
+            micro: [
+              { id: "w7d5m1", tag: "micro", text: "Check last CI run status on phone. Note failures." }
             ]
           },
           {
             day: "Sat",
-            label: "Monitoring & observability",
-            time: "~3h",
-            tasks: [
-              { id: "w7d6t1", tag: "hands", text: "Deploy Prometheus + Grafana (container or AWS). Scrape app /metrics." },
-              { id: "w7d6t2", tag: "hands", text: "Dashboard: request latency, error rate, CPU, DB connections." },
-              { id: "w7d6t3", tag: "hands", text: "Set alerts: high error rate, service down. Test by killing container." },
-              { id: "w7d6t4", tag: "hands", text: "Centralize logs: CloudWatch or Loki. Verify you can search by request ID." }
+            label: "Infra start (Terraform)",
+            full: [
+              { id: "w7d6t1", tag: "hands", text: "Terraform module start: VPC/SG/EC2 or simplest working host in eu-central-1." },
+              { id: "w7d6t2", tag: "hands", text: "Deploy containers to staging host." },
+              { id: "w7d6t3", tag: "hands", text: "Verify /health from browser. Set €5 budget alarm." }
+            ],
+            micro: [
+              { id: "w7d6m1", tag: "micro", text: "Review architecture drawing 15 min." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w7d7t1", tag: "read", text: "Rest / sports. Capstone continues next week." }
+            ],
+            micro: [
+              { id: "w7d7m1", tag: "micro", text: "Rest. Sports day." }
             ]
           }
         ]
       },
       {
         week: 8,
-        title: "Capstone Project — Production Hardening",
-        goal: "Make it interview-ready: security, reliability, docs, and demo.",
+        title: "Production Hardening + Portfolio",
+        goal: "Make TaskFlow interview-ready: secure, documented, demoable.",
         color: "#06b6d4",
         days: [
           {
             day: "Mon",
-            label: "Security hardening",
-            time: "~2h",
-            tasks: [
-              { id: "w8d1t1", tag: "theory", text: "Review OWASP Top 10 summary. Check your app for injection, broken auth basics." },
-              { id: "w8d1t2", tag: "hands", text: "HTTPS: attach ACM certificate to ALB (or use Caddy/nginx TLS)." },
-              { id: "w8d1t3", tag: "hands", text: "Security groups: DB not public. SSH only from your IP. Minimal open ports." },
-              { id: "w8d1t4", tag: "de", text: "Write GDPR section in docs: what personal data you store, retention, encryption at rest/transit." }
+            label: "Monitoring for TaskFlow",
+            full: [
+              { id: "w8d1t1", tag: "hands", text: "Add /metrics or basic logging. Hook Prometheus/Grafana or CloudWatch." },
+              { id: "w8d1t2", tag: "hands", text: "One dashboard: up/down + error-ish signal." },
+              { id: "w8d1t3", tag: "hands", text: "One alert rule. Test by stopping app." }
+            ],
+            micro: [
+              { id: "w8d1m1", tag: "micro", text: "Write 3 things you would alert on in production." }
             ]
           },
           {
             day: "Tue",
-            label: "Reliability & backups",
-            time: "~2h",
-            tasks: [
-              { id: "w8d2t1", tag: "hands", text: "Enable RDS automated backups. Document RPO/RTO for your project." },
-              { id: "w8d2t2", tag: "hands", text: "Add restart policies and healthchecks in Docker Compose / ECS task definition." },
-              { id: "w8d2t3", tag: "hands", text: "Test disaster recovery: restore DB snapshot to new instance, reconnect app." },
-              { id: "w8d2t4", tag: "hands", text: "Load test lightly with k6 or ab — 50 concurrent users. Note bottlenecks." }
+            label: "Security basics",
+            full: [
+              { id: "w8d2t1", tag: "hands", text: "Lock security groups: DB not public, SSH only your IP." },
+              { id: "w8d2t2", tag: "hands", text: "HTTPS plan: ALB+ACM or Caddy/nginx TLS (do what fits in 1h)." },
+              { id: "w8d2t3", tag: "de", text: "Add short GDPR note: what data TaskFlow stores." }
+            ],
+            micro: [
+              { id: "w8d2m1", tag: "micro", text: "List 5 security mistakes beginners make." }
             ]
           },
           {
             day: "Wed",
-            label: "Kubernetes intro (stretch)",
-            time: "~2h",
-            tasks: [
-              { id: "w8d3t1", tag: "theory", text: "Learn: pods, deployments, services, ingress — why Germany loves Kubernetes." },
-              { id: "w8d3t2", tag: "hands", text: "Install minikube or kind locally. kubectl run nginx, expose, port-forward." },
-              { id: "w8d3t3", tag: "hands", text: "Deploy your API as a Deployment + Service YAML. Scale to 3 replicas." },
-              { id: "w8d3t4", tag: "read", text: "Optional: migrate capstone to EKS — or document \"Phase 2\" in README for interviews." }
+            label: "Backups + reliability",
+            full: [
+              { id: "w8d3t1", tag: "hands", text: "Enable DB backup (or dump script). Document RPO/RTO simply." },
+              { id: "w8d3t2", tag: "hands", text: "Healthchecks + restart policy on containers." },
+              { id: "w8d3t3", tag: "hands", text: "Rollback steps in RUNBOOK.md." }
+            ],
+            micro: [
+              { id: "w8d3m1", tag: "micro", text: "Write: backup vs high availability in one sentence each." }
             ]
           },
           {
             day: "Thu",
-            label: "Documentation & runbooks",
-            time: "~2h",
-            tasks: [
-              { id: "w8d4t1", tag: "hands", text: "README: architecture diagram, prerequisites, local dev, deploy steps, teardown." },
-              { id: "w8d4t2", tag: "hands", text: "RUNBOOK.md: deploy, rollback, incident response, on-call checklist." },
-              { id: "w8d4t3", tag: "hands", text: "ADR (Architecture Decision Record): why Docker Compose on EC2 vs EKS for v1." },
-              { id: "w8d4t4", tag: "hands", text: "Record 5-min Loom/video: demo deploy from git push to live URL (great for job apps)." }
+            label: "Kubernetes taste (stretch)",
+            full: [
+              { id: "w8d4t1", tag: "theory", text: "Pods, Deployments, Services — why DE companies love K8s." },
+              { id: "w8d4t2", tag: "hands", text: "kind/minikube: deploy nginx, scale to 3." },
+              { id: "w8d4t3", tag: "read", text: "Optional: note “Phase 2 = EKS” in README for interviews." }
+            ],
+            micro: [
+              { id: "w8d4m1", tag: "micro", text: "Watch a 15-min Kubernetes explained video." }
             ]
           },
           {
             day: "Fri",
-            label: "Production deploy & validation",
-            time: "~2h",
-            tasks: [
-              { id: "w8d5t1", tag: "hands", text: "Deploy to production environment. Tag release v1.0.0." },
-              { id: "w8d5t2", tag: "hands", text: "Validation checklist: HTTPS works, health OK, monitoring green, logs flowing, backup verified." },
-              { id: "w8d5t3", tag: "hands", text: "Chaos test: kill one component, verify auto-recovery or alert fires." },
-              { id: "w8d5t4", tag: "hands", text: "Clean up unused AWS resources. Confirm billing alarm is active." }
+            label: "Documentation",
+            full: [
+              { id: "w8d5t1", tag: "hands", text: "README: architecture, local run, deploy, teardown." },
+              { id: "w8d5t2", tag: "hands", text: "RUNBOOK.md complete." },
+              { id: "w8d5t3", tag: "hands", text: "Record 5-min demo video (phone is fine)." }
+            ],
+            micro: [
+              { id: "w8d5m1", tag: "micro", text: "Outline README sections on paper." }
             ]
           },
           {
             day: "Sat",
-            label: "Interview prep & portfolio",
-            time: "~4h",
-            tasks: [
-              { id: "w8d6t1", tag: "hands", text: "Update CV: add DevOps projects, tools list (Linux, Docker, Terraform, AWS, CI/CD, monitoring)." },
-              { id: "w8d6t2", tag: "hands", text: "LinkedIn/XING post: \"I built X\" with architecture screenshot and GitHub link." },
-              { id: "w8d6t3", tag: "read", text: "Practice 10 interview questions: CI/CD failure, production outage, Terraform state conflict, Docker vs VM." },
-              { id: "w8d6t4", tag: "de", text: "Apply to 5 Junior/Mid DevOps roles in Germany. Customize cover letter mentioning capstone." },
-              { id: "w8d6t5", tag: "hands", text: "Celebrate — you built a production-ready system. Screenshot the green pipeline and live app." }
+            label: "Portfolio + job prep",
+            full: [
+              { id: "w8d6t1", tag: "hands", text: "Tag release v1.0.0. Final validation checklist." },
+              { id: "w8d6t2", tag: "hands", text: "Update CV + LinkedIn/XING with tools + project link." },
+              { id: "w8d6t3", tag: "de", text: "Apply to 3–5 Junior/Mid DevOps roles in Germany. Clean up AWS resources after demo." }
+            ],
+            micro: [
+              { id: "w8d6m1", tag: "micro", text: "Practice one interview answer: “Tell me about your project.”" }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — celebrate",
+            full: [
+              { id: "w8d7t1", tag: "read", text: "Sports + rest. You completed an 8-week intermediate track on a working-adult schedule. Optional: light flashcards only." }
+            ],
+            micro: [
+              { id: "w8d7m1", tag: "micro", text: "Rest. Celebrate. Sports day." }
             ]
           }
         ]
       }
     ];
-
-    const tagLabels = {
-      theory: "Theory",
-      hands: "Hands-on",
-      read: "Reading",
-      de: "Germany"
-    };
 
     function getState() {
       try {
@@ -1013,6 +1260,50 @@
       const note = document.getElementById("save-note");
       note.classList.add("visible");
       setTimeout(() => note.classList.remove("visible"), 1500);
+    }
+
+    function getBusyDays() {
+      const state = getState();
+      if (Array.isArray(state.busyDays) && state.busyDays.length) return state.busyDays;
+      return ["Tue", "Thu"];
+    }
+
+    function setBusyDays(days) {
+      const state = getState();
+      state.busyDays = days;
+      saveState(state);
+    }
+
+    function modeFor(dayName) {
+      if (dayName === "Sun") return "rest";
+      if (getBusyDays().includes(dayName)) return "micro";
+      return "full";
+    }
+
+    function updateSchedulePreview() {
+      const busy = getBusyDays();
+      const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      const labels = {
+        Mon: "After 17:00",
+        Tue: "After 17:00",
+        Wed: "After 17:00",
+        Thu: "After 17:00",
+        Fri: "After 17:00",
+        Sat: "Flexible 1h",
+        Sun: "Sports"
+      };
+      const el = document.getElementById("schedule-preview");
+      el.innerHTML = days.map((d) => {
+        const mode = modeFor(d);
+        const cls = mode === "rest" ? "rest" : mode === "micro" ? "busy" : "study";
+        const text = mode === "rest" ? "Rest" : mode === "micro" ? "15 min micro" : "1 hour study";
+        return `<div class="day-chip ${cls}"><strong>${d}</strong>${labels[d]}<br>${text}</div>`;
+      }).join("");
+
+      // sync checkboxes
+      document.querySelectorAll("#busy-picker input[type=checkbox]:not(:disabled)").forEach((cb) => {
+        cb.checked = busy.includes(cb.value);
+      });
     }
 
     function renderPlan() {
@@ -1031,26 +1322,24 @@
         section.className = "week-section";
         section.id = `week-${week.week}`;
 
-        const isProjectWeek = week.week >= 7;
         let projectHtml = "";
         if (week.week === 7) {
           projectHtml = `
             <div class="project-box">
-              <h3>Capstone: TaskFlow — Production-Ready Task Manager</h3>
-              <p>You will build and deploy a full system that demonstrates skills employers expect at intermediate level:</p>
+              <h3>Capstone: TaskFlow (built in 1-hour slices)</h3>
+              <p>Same production goal, paced for your work schedule:</p>
               <ul>
                 <li>Containerized API + frontend + PostgreSQL</li>
-                <li>Terraform (AWS eu-central-1) + Ansible configuration</li>
-                <li>GitHub Actions CI/CD with staging → prod promotion</li>
-                <li>HTTPS, secrets management, backups, monitoring & alerting</li>
-                <li>Complete documentation and incident runbooks</li>
+                <li>Terraform on AWS eu-central-1 + CI/CD</li>
+                <li>Monitoring, security basics, runbooks, demo video</li>
+                <li>Busy nights stay micro — deep work on free evenings + Saturday</li>
               </ul>
             </div>`;
         }
 
         section.innerHTML = `
           <div class="week-header">
-            <div class="week-num" style="background: ${week.color}22; color: ${week.color}">W${week.week}</div>
+            <div class="week-num" style="background:${week.color}22;color:${week.color}">W${week.week}</div>
             <div>
               <div class="week-title">${week.title}</div>
               <div class="week-goal">${week.goal}</div>
@@ -1064,12 +1353,18 @@
         const daysEl = section.querySelector(".days");
 
         week.days.forEach((day, dayIdx) => {
+          const mode = modeFor(day.day);
+          const tasks = mode === "micro" || mode === "rest" ? day.micro : day.full;
+          const modeLabel = mode === "full" ? "1 hour" : mode === "micro" ? "15 min" : "Rest";
+          const modeClass = mode === "full" ? "mode-full" : mode === "micro" ? "mode-micro" : "mode-rest";
+          const cardClass = mode === "micro" ? "busy-day" : mode === "rest" ? "rest-day" : "";
+
           const card = document.createElement("div");
-          card.className = "day-card";
+          card.className = `day-card ${cardClass}`;
           card.dataset.week = week.week;
           card.dataset.day = dayIdx;
 
-          const tasksHtml = day.tasks.map((t) => `
+          const tasksHtml = tasks.map((t) => `
             <li class="task-item" data-id="${t.id}">
               <input type="checkbox" id="${t.id}" data-id="${t.id}" />
               <label for="${t.id}">
@@ -1080,9 +1375,10 @@
           `).join("");
 
           card.innerHTML = `
-            <div class="day-header" role="button" tabindex="0" aria-expanded="true">
+            <div class="day-header" role="button" tabindex="0">
               <span class="day-label">${day.day} — ${day.label}</span>
-              <span class="day-time">${day.time}</span>
+              <span class="mode-badge ${modeClass}">${modeLabel}</span>
+              <span class="day-time">${mode === "full" ? "~60 min" : mode === "micro" ? "~15 min" : "off"}</span>
               <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
             <ul class="task-list">${tasksHtml}</ul>
@@ -1090,6 +1386,11 @@
 
           card.querySelector(".day-header").addEventListener("click", () => {
             card.classList.toggle("collapsed");
+            const state = getState();
+            state._collapsed = state._collapsed || {};
+            const key = `w${card.dataset.week}d${card.dataset.day}`;
+            state._collapsed[key] = card.classList.contains("collapsed");
+            saveState(state);
           });
 
           daysEl.appendChild(card);
@@ -1123,7 +1424,6 @@
         cb.checked = checked;
         cb.closest(".task-item").classList.toggle("done", checked);
       });
-
       const collapsed = state._collapsed || {};
       document.querySelectorAll(".day-card").forEach((card) => {
         const key = `w${card.dataset.week}d${card.dataset.day}`;
@@ -1136,18 +1436,32 @@
       const done = [...all].filter((cb) => cb.checked).length;
       const total = all.length;
       const pct = total ? Math.round((done / total) * 100) : 0;
-
       document.getElementById("progress-fill").style.width = pct + "%";
       document.getElementById("progress-text").textContent = `${done} / ${total} tasks (${pct}%)`;
 
       plan.forEach((week) => {
-        const weekTasks = document.querySelectorAll(`.task-item input[data-id^="w${week.week}"]`);
-        const weekDone = [...weekTasks].filter((cb) => cb.checked).length;
+        const weekTasks = [...document.querySelectorAll(`#week-${week.week} input[data-id]`)];
+        const weekDone = weekTasks.filter((cb) => cb.checked).length;
         const weekPct = weekTasks.length ? Math.round((weekDone / weekTasks.length) * 100) : 0;
         const el = document.querySelector(`.week-progress[data-week="${week.week}"]`);
         if (el) el.textContent = `${weekPct}%`;
       });
     }
+
+    document.getElementById("busy-picker").addEventListener("change", (e) => {
+      if (e.target.type !== "checkbox" || e.target.disabled) return;
+      const selected = [...document.querySelectorAll("#busy-picker input[type=checkbox]:not(:disabled):checked")]
+        .map((cb) => cb.value);
+      // keep max 2 busy nights to protect the plan
+      if (selected.length > 2) {
+        e.target.checked = false;
+        alert("Pick only 2 second-job nights. That keeps enough 1-hour study days.");
+        return;
+      }
+      setBusyDays(selected);
+      updateSchedulePreview();
+      renderPlan();
+    });
 
     document.getElementById("expand-all").addEventListener("click", () => {
       document.querySelectorAll(".day-card").forEach((c) => c.classList.remove("collapsed"));
@@ -1161,32 +1475,22 @@
       state._collapsed = state._collapsed || {};
       document.querySelectorAll(".day-card").forEach((card) => {
         card.classList.add("collapsed");
-        const key = `w${card.dataset.week}d${card.dataset.day}`;
-        state._collapsed[key] = true;
+        state._collapsed[`w${card.dataset.week}d${card.dataset.day}`] = true;
       });
       saveState(state);
     });
 
-    document.querySelectorAll(".day-card .day-header").forEach(() => {});
-
     document.getElementById("reset-progress").addEventListener("click", () => {
-      if (confirm("Reset all checkboxes? This cannot be undone.")) {
+      if (confirm("Reset all checkboxes? Busy-night settings will be kept.")) {
+        const busy = getBusyDays();
         localStorage.removeItem(STORAGE_KEY);
+        setBusyDays(busy);
+        updateSchedulePreview();
         renderPlan();
       }
     });
 
-    document.addEventListener("click", (e) => {
-      const header = e.target.closest(".day-header");
-      if (!header) return;
-      const card = header.closest(".day-card");
-      const state = getState();
-      state._collapsed = state._collapsed || {};
-      const key = `w${card.dataset.week}d${card.dataset.day}`;
-      state._collapsed[key] = card.classList.contains("collapsed");
-      saveState(state);
-    });
-
+    updateSchedulePreview();
     renderPlan();
   </script>
 </body>
