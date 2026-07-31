@@ -176,29 +176,197 @@
     .card li { margin-bottom: 0.4rem; }
     .card p { color: var(--muted); font-size: 0.9375rem; margin-bottom: 0.5rem; }
 
-    .warning-box {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.35);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
+    .dashboard {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.35rem 1.5rem 1.5rem;
       margin-bottom: 1.25rem;
     }
 
-    .warning-box h2 { color: #fca5a5; font-size: 1.125rem; margin-bottom: 0.5rem; }
-    .warning-box p, .warning-box li { color: #fecaca; font-size: 0.9rem; }
-    .warning-box ul { margin: 0.5rem 0 0 1.25rem; }
+    .dashboard-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
 
-    .ok-box {
+    .dashboard h2 {
+      font-size: 1.125rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .dashboard-sub {
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+
+    .now-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent-soft);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      color: #93c5fd;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .now-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .stat-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+    }
+
+    .stat-card .stat-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-card .stat-value {
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .stat-card .stat-hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .lab-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .lab-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
       background: rgba(34, 197, 94, 0.1);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 1.25rem;
+      border: 1px solid rgba(34, 197, 94, 0.28);
+      color: #bbf7d0;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
     }
 
-    .ok-box h2 { color: #86efac; font-size: 1.125rem; margin-bottom: 0.5rem; }
-    .ok-box p, .ok-box li { color: #bbf7d0; font-size: 0.9rem; }
-    .ok-box ul { margin: 0.5rem 0 0 1.25rem; }
+    .lab-chip::before {
+      content: "✓";
+      color: #86efac;
+      font-size: 0.7rem;
+    }
+
+    .week-track {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.65rem;
+    }
+
+    .week-tile {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 0.8rem;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+
+    .week-tile:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .week-tile.current {
+      border-color: rgba(59, 130, 246, 0.55);
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .week-tile.done {
+      border-color: rgba(34, 197, 94, 0.4);
+      background: rgba(34, 197, 94, 0.08);
+    }
+
+    .week-tile-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+
+    .week-tile-num {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+
+    .week-tile.current .week-tile-num { color: #93c5fd; }
+    .week-tile.done .week-tile-num { color: #86efac; }
+
+    .week-tile-pct {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .week-tile-title {
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.3;
+      min-height: 2.1em;
+      margin-bottom: 0.55rem;
+    }
+
+    .week-tile-bar {
+      height: 5px;
+      background: rgba(15, 20, 25, 0.55);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .week-tile-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+      transition: width 0.35s ease;
+    }
+
+    @media (max-width: 720px) {
+      .stat-row { grid-template-columns: 1fr; }
+      .week-track { grid-template-columns: repeat(2, 1fr); }
+    }
 
     .schedule-grid {
       display: grid;
@@ -437,28 +605,46 @@
   </nav>
 
   <main>
-    <section class="warning-box">
-      <h2>Do NOT set up your DevOps lab on the SAP work laptop</h2>
-      <p><strong>Short answer: No — it is not safe / not allowed for this.</strong></p>
-      <ul>
-        <li>It is a <strong>company device</strong> for SAP / work. Installing VirtualBox, Docker, Kubernetes tools, or random software can break policy and get you in trouble.</li>
-        <li>You may not have admin rights — and asking IT for them for private learning is usually the wrong path.</li>
-        <li>Mixing personal learning with company data (SAP, tickets, emails) is a <strong>security + GDPR risk</strong> in Germany.</li>
-        <li>If something goes wrong (malware, disk full, broken VPN), it can affect your job.</li>
-      </ul>
-      <p style="margin-top:0.75rem"><strong>What to do instead:</strong> use a <em>personal</em> computer (laptop/desktop), or a cheap used laptop only for learning. Cloud free tiers (AWS/GitHub) for later weeks. Never put company SAP data into your learning projects.</p>
-    </section>
+    <section class="dashboard" id="progress-dashboard">
+      <div class="dashboard-top">
+        <div>
+          <h2>Your progress</h2>
+          <p class="dashboard-sub">Tick tasks below — this board updates automatically.</p>
+        </div>
+        <div class="now-pill" id="now-pill">
+          <span class="now-dot"></span>
+          <span id="now-text">Finding your place…</span>
+        </div>
+      </div>
 
-    <section class="ok-box">
-      <h2>Your lab status (confirmed)</h2>
-      <ul>
-        <li><strong>Personal Windows laptop</strong> — yes (learning machine)</li>
-        <li><strong>Ubuntu installed locally</strong> — yes (WSL, dual-boot, or VM — we verify on Day 1)</li>
-        <li><strong>AWS Free Tier</strong> — yes (we use later; keep MFA on)</li>
-        <li><strong>VS / VS Code</strong> — yes (we use VS Code for files + terminal)</li>
-        <li><strong>Official start:</strong> Thursday (Week 1, Day 1) — Tue/Wed before start = light prep only</li>
-        <li><strong>Still no:</strong> SAP work laptop for installs</li>
-      </ul>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-label">Overall</div>
+          <div class="stat-value" id="stat-overall">0%</div>
+          <div class="stat-hint" id="stat-overall-hint">0 / 0 tasks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Weeks done</div>
+          <div class="stat-value" id="stat-weeks">0 / 8</div>
+          <div class="stat-hint">100% of week tasks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Current week</div>
+          <div class="stat-value" id="stat-current-week">W1</div>
+          <div class="stat-hint" id="stat-current-hint">Linux Foundations</div>
+        </div>
+      </div>
+
+      <div class="lab-chips" aria-label="Lab ready">
+        <span class="lab-chip">Windows laptop</span>
+        <span class="lab-chip">Ubuntu 22.04 WSL2</span>
+        <span class="lab-chip">VS Code + WSL</span>
+        <span class="lab-chip">Docker Desktop</span>
+        <span class="lab-chip">GitHub Desktop</span>
+        <span class="lab-chip">AWS Free Tier</span>
+      </div>
+
+      <div class="week-track" id="week-track"></div>
     </section>
 
     <section class="card">
@@ -1433,6 +1619,10 @@
       });
     }
 
+    function shortWeekTitle(title) {
+      return title.replace(/\s*\(1h[^)]*\)/i, "").replace(/\s*—.*$/, "").trim();
+    }
+
     function updateProgress() {
       const all = document.querySelectorAll('input[type="checkbox"][data-id]');
       const done = [...all].filter((cb) => cb.checked).length;
@@ -1441,13 +1631,75 @@
       document.getElementById("progress-fill").style.width = pct + "%";
       document.getElementById("progress-text").textContent = `${done} / ${total} tasks (${pct}%)`;
 
+      const overallEl = document.getElementById("stat-overall");
+      const overallHint = document.getElementById("stat-overall-hint");
+      if (overallEl) overallEl.textContent = pct + "%";
+      if (overallHint) overallHint.textContent = `${done} / ${total} tasks`;
+
+      const weekStats = [];
+      let weeksDone = 0;
+      let currentWeek = plan[0];
+      let foundCurrent = false;
+
       plan.forEach((week) => {
         const weekTasks = [...document.querySelectorAll(`#week-${week.week} input[data-id]`)];
         const weekDone = weekTasks.filter((cb) => cb.checked).length;
-        const weekPct = weekTasks.length ? Math.round((weekDone / weekTasks.length) * 100) : 0;
+        const weekTotal = weekTasks.length;
+        const weekPct = weekTotal ? Math.round((weekDone / weekTotal) * 100) : 0;
         const el = document.querySelector(`.week-progress[data-week="${week.week}"]`);
         if (el) el.textContent = `${weekPct}%`;
+
+        if (weekPct === 100 && weekTotal > 0) weeksDone += 1;
+        weekStats.push({ week, weekDone, weekTotal, weekPct });
+
+        if (!foundCurrent && weekPct < 100) {
+          currentWeek = week;
+          foundCurrent = true;
+        }
       });
+
+      if (!foundCurrent && weekStats.length) {
+        currentWeek = plan[plan.length - 1];
+      }
+
+      const weeksDoneEl = document.getElementById("stat-weeks");
+      if (weeksDoneEl) weeksDoneEl.textContent = `${weeksDone} / 8`;
+
+      const currentWeekEl = document.getElementById("stat-current-week");
+      const currentHint = document.getElementById("stat-current-hint");
+      if (currentWeekEl) currentWeekEl.textContent = `W${currentWeek.week}`;
+      if (currentHint) currentHint.textContent = shortWeekTitle(currentWeek.title);
+
+      const nowText = document.getElementById("now-text");
+      if (nowText) {
+        const cur = weekStats.find((w) => w.week.week === currentWeek.week);
+        if (pct === 100) {
+          nowText.textContent = "Plan complete — ship the portfolio";
+        } else if (cur && cur.weekDone === 0 && currentWeek.week === 1) {
+          nowText.textContent = "Now: Week 1 · start Day 1";
+        } else {
+          nowText.textContent = `Now: Week ${currentWeek.week} · ${cur ? cur.weekPct : 0}% done`;
+        }
+      }
+
+      const track = document.getElementById("week-track");
+      if (track) {
+        track.innerHTML = weekStats.map(({ week, weekPct }) => {
+          const isDone = weekPct === 100;
+          const isCurrent = !isDone && week.week === currentWeek.week;
+          const cls = isDone ? "done" : isCurrent ? "current" : "";
+          return `
+            <a class="week-tile ${cls}" href="#week-${week.week}">
+              <div class="week-tile-top">
+                <span class="week-tile-num">WEEK ${week.week}${isCurrent ? " · NOW" : isDone ? " · DONE" : ""}</span>
+                <span class="week-tile-pct">${weekPct}%</span>
+              </div>
+              <div class="week-tile-title">${shortWeekTitle(week.title)}</div>
+              <div class="week-tile-bar"><div class="week-tile-fill" style="width:${weekPct}%;background:${week.color}"></div></div>
+            </a>
+          `;
+        }).join("");
+      }
     }
 
     document.getElementById("busy-picker").addEventListener("change", (e) => {
