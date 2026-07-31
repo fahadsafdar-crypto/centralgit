@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>8-Week DevOps Plan — 1 Hour/Day · Germany</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --surface2: #243044;
+      --border: #2d3a4f;
+      --text: #e8edf4;
+      --muted: #8b9cb3;
+      --accent: #3b82f6;
+      --accent-soft: rgba(59, 130, 246, 0.15);
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f1419 60%);
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 1.5rem 2rem;
+    }
+
+    .hero-inner { max-width: 960px; margin: 0 auto; }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: #93c5fd;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 { font-size: clamp(1.5rem, 4vw, 2.25rem); font-weight: 700; margin-bottom: 0.5rem; }
+    .subtitle { color: var(--muted); font-size: 1rem; max-width: 720px; }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.25rem;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .meta-row span::before { content: "• "; color: var(--accent); }
+
+    .progress-bar-wrap {
+      max-width: 960px;
+      margin: 1.5rem auto 0;
+      padding: 0 1.5rem;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-track {
+      height: 10px;
+      background: var(--surface2);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+      border-radius: 999px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .controls {
+      max-width: 960px;
+      margin: 1rem auto 0;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 0.8125rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    button:hover { background: var(--surface2); border-color: var(--accent); }
+    button.danger:hover { border-color: #ef4444; color: #fca5a5; }
+
+    .save-note {
+      font-size: 0.75rem;
+      color: var(--success);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .save-note.visible { opacity: 1; }
+
+    .nav-weeks {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(15, 20, 25, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.5rem;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .nav-weeks-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .nav-weeks a {
+      font-size: 0.8125rem;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+    }
+
+    .nav-weeks a:hover { color: var(--text); background: var(--surface); }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card h2 { font-size: 1.125rem; margin-bottom: 0.75rem; }
+    .card h3 { font-size: 1rem; margin: 1rem 0 0.5rem; color: #93c5fd; }
+    .card ul, .card ol { margin-left: 1.25rem; color: var(--muted); font-size: 0.9375rem; }
+    .card li { margin-bottom: 0.4rem; }
+    .card p { color: var(--muted); font-size: 0.9375rem; margin-bottom: 0.5rem; }
+
+    .dashboard {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.35rem 1.5rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .dashboard-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .dashboard h2 {
+      font-size: 1.125rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .dashboard-sub {
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+
+    .now-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent-soft);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      color: #93c5fd;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .now-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .stat-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+    }
+
+    .stat-card .stat-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-card .stat-value {
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .stat-card .stat-hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .lab-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .lab-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.28);
+      color: #bbf7d0;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+    }
+
+    .lab-chip::before {
+      content: "✓";
+      color: #86efac;
+      font-size: 0.7rem;
+    }
+
+    .week-track {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.65rem;
+    }
+
+    .week-tile {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 0.8rem;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+
+    .week-tile:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .week-tile.current {
+      border-color: rgba(59, 130, 246, 0.55);
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .week-tile.done {
+      border-color: rgba(34, 197, 94, 0.4);
+      background: rgba(34, 197, 94, 0.08);
+    }
+
+    .week-tile-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+
+    .week-tile-num {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+
+    .week-tile.current .week-tile-num { color: #93c5fd; }
+    .week-tile.done .week-tile-num { color: #86efac; }
+
+    .week-tile-pct {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .week-tile-title {
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.3;
+      min-height: 2.1em;
+      margin-bottom: 0.55rem;
+    }
+
+    .week-tile-bar {
+      height: 5px;
+      background: rgba(15, 20, 25, 0.55);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .week-tile-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+      transition: width 0.35s ease;
+    }
+
+    @media (max-width: 720px) {
+      .stat-row { grid-template-columns: 1fr; }
+      .week-track { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .day-chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      text-align: center;
+      font-size: 0.8125rem;
+    }
+
+    .day-chip strong { display: block; color: var(--text); margin-bottom: 0.25rem; }
+    .day-chip.busy { border-color: rgba(245, 158, 11, 0.5); background: rgba(245, 158, 11, 0.1); }
+    .day-chip.rest { border-color: rgba(139, 156, 179, 0.4); opacity: 0.75; }
+    .day-chip.study { border-color: rgba(34, 197, 94, 0.4); background: rgba(34, 197, 94, 0.08); }
+
+    .busy-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .busy-picker label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .busy-picker input { accent-color: var(--warning); }
+
+    .week-section {
+      margin-bottom: 2.5rem;
+      scroll-margin-top: 1rem;
+    }
+
+    .week-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .week-num {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.125rem;
+    }
+
+    .week-title { font-size: 1.25rem; font-weight: 600; }
+    .week-goal { font-size: 0.875rem; color: var(--muted); margin-top: 0.25rem; }
+    .week-progress {
+      margin-left: auto;
+      text-align: right;
+      font-size: 0.8125rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .day-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+    }
+
+    .day-card.busy-day { border-color: rgba(245, 158, 11, 0.35); }
+    .day-card.rest-day { border-color: rgba(139, 156, 179, 0.25); opacity: 0.85; }
+
+    .day-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1rem;
+      background: var(--surface2);
+      cursor: pointer;
+      user-select: none;
+      flex-wrap: wrap;
+    }
+
+    .day-header:hover { background: #2a3850; }
+    .day-label { font-weight: 600; font-size: 0.9375rem; flex: 1; min-width: 180px; }
+    .day-time { font-size: 0.75rem; color: var(--muted); }
+    .mode-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+    }
+    .mode-full { background: rgba(34, 197, 94, 0.2); color: #86efac; }
+    .mode-micro { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+    .mode-rest { background: rgba(139, 156, 179, 0.2); color: #cbd5e1; }
+
+    .chevron {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.2s;
+      color: var(--muted);
+    }
+
+    .day-card.collapsed .chevron { transform: rotate(-90deg); }
+    .day-card.collapsed .task-list { display: none; }
+
+    .task-list { padding: 0.5rem 1rem 1rem; list-style: none; }
+
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(45, 58, 79, 0.5);
+      font-size: 0.9rem;
+    }
+
+    .task-item:last-child { border-bottom: none; }
+
+    .task-item input[type="checkbox"] {
+      margin-top: 0.2rem;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--success);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .task-item label { cursor: pointer; flex: 1; }
+    .task-item.done label { color: var(--muted); text-decoration: line-through; }
+
+    .task-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      margin-right: 0.35rem;
+      vertical-align: middle;
+    }
+
+    .tag-theory { background: rgba(99, 102, 241, 0.2); color: #a5b4fc; }
+    .tag-hands { background: rgba(34, 197, 94, 0.2); color: #86efac; }
+    .tag-read { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+    .tag-de { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
+    .tag-micro { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+
+    .project-box {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.08));
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 0 0 1rem;
+    }
+
+    .project-box h3 { color: #6ee7b7; font-size: 1rem; margin-bottom: 0.75rem; }
+    .project-box p, .project-box li { font-size: 0.9rem; color: var(--muted); }
+    .project-box ul { margin: 0.5rem 0 0 1.25rem; }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.8125rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      .week-header { flex-wrap: wrap; }
+      .week-progress { margin-left: 0; width: 100%; text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="badge">1 Hour / Day · Working Professional · Germany</div>
+      <h1>8-Week DevOps Learning Plan</h1>
+      <p class="subtitle">
+        Built for your real life: full-time IT support (08:00–17:00), second job twice a week (17:00–22:30),
+        and Sunday sports. Each study day is exactly <strong style="color:#e8edf4">1 hour</strong>.
+        Progress saves in your browser.
+      </p>
+      <div class="meta-row">
+        <span>~6 focused hours / week</span>
+        <span>Busy nights = 15 min micro mode</span>
+        <span>Sunday = rest / sports</span>
+        <span>Capstone: weeks 7–8</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span>Overall progress</span>
+      <span id="progress-text">0 / 0 tasks</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button type="button" id="expand-all">Expand all days</button>
+    <button type="button" id="collapse-all">Collapse all days</button>
+    <button type="button" class="danger" id="reset-progress">Reset all checkboxes</button>
+    <span class="save-note" id="save-note">✓ Saved</span>
+  </div>
+
+  <nav class="nav-weeks">
+    <div class="nav-weeks-inner" id="week-nav"></div>
+  </nav>
+
+  <main>
+    <section class="dashboard" id="progress-dashboard">
+      <div class="dashboard-top">
+        <div>
+          <h2>Your progress</h2>
+          <p class="dashboard-sub">Tick tasks below — this board updates automatically.</p>
+        </div>
+        <div class="now-pill" id="now-pill">
+          <span class="now-dot"></span>
+          <span id="now-text">Finding your place…</span>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-label">Overall</div>
+          <div class="stat-value" id="stat-overall">0%</div>
+          <div class="stat-hint" id="stat-overall-hint">0 / 0 tasks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Weeks done</div>
+          <div class="stat-value" id="stat-weeks">0 / 8</div>
+          <div class="stat-hint">100% of week tasks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Current week</div>
+          <div class="stat-value" id="stat-current-week">W1</div>
+          <div class="stat-hint" id="stat-current-hint">Linux Foundations</div>
+        </div>
+      </div>
+
+      <div class="lab-chips" aria-label="Lab ready">
+        <span class="lab-chip">Windows laptop</span>
+        <span class="lab-chip">Ubuntu 22.04 WSL2</span>
+        <span class="lab-chip">VS Code + WSL</span>
+        <span class="lab-chip">Docker Desktop</span>
+        <span class="lab-chip">GitHub Desktop</span>
+        <span class="lab-chip">AWS Free Tier</span>
+      </div>
+
+      <div class="week-track" id="week-track"></div>
+    </section>
+
+    <section class="card">
+      <h2>Your weekly timetable (tutor version)</h2>
+      <p>Main job: <strong style="color:var(--text)">08:00–17:00</strong>. Second job nights: <strong style="color:var(--text)">17:00–22:30</strong> → after that you are tired. Sunday = sports.</p>
+      <p>Mark which two weekdays are your second-job nights. Those days switch to <strong style="color:var(--text)">15-minute micro mode</strong> (theory only). All other study days are a full <strong style="color:var(--text)">1-hour lesson</strong>. Sunday stays rest.</p>
+
+      <div class="busy-picker" id="busy-picker">
+        <label><input type="checkbox" value="Mon" /> Mon busy night</label>
+        <label><input type="checkbox" value="Tue" checked /> Tue busy night</label>
+        <label><input type="checkbox" value="Wed" /> Wed busy night</label>
+        <label><input type="checkbox" value="Thu" /> Thu busy night</label>
+        <label><input type="checkbox" value="Fri" checked /> Fri busy night</label>
+        <label><input type="checkbox" value="Sat" disabled /> Sat = full study</label>
+        <label><input type="checkbox" value="Sun" disabled /> Sun = sports / rest</label>
+      </div>
+
+      <div class="schedule-grid" id="schedule-preview" style="margin-top:1rem"></div>
+
+      <h3>How each 1-hour session works</h3>
+      <ol>
+        <li><strong>0–5 min:</strong> Open yesterday’s notes + today’s goal</li>
+        <li><strong>5–45 min:</strong> Main lesson (hands-on or theory as listed)</li>
+        <li><strong>45–55 min:</strong> Practice / fix errors</li>
+        <li><strong>55–60 min:</strong> Write 3 bullet notes + tick checkboxes</li>
+      </ol>
+      <p style="margin-top:0.75rem"><strong style="color:var(--text)">Tutor rule:</strong> Stop at 60 minutes. Tired learning creates frustration. Missed busy nights are OK — micro mode covers them.</p>
+    </section>
+
+    <section class="card">
+      <h2>How to use this with your tutor (me)</h2>
+      <ul>
+        <li>Tell me: <em>“Starting Week X, Day Y”</em></li>
+        <li>I teach that day’s lesson step by step</li>
+        <li>You paste errors / screenshots text — we fix together</li>
+        <li>I check understanding before we move on</li>
+        <li>On busy nights, do only the micro task (or message me the next free evening)</li>
+      </ul>
+    </section>
+
+    <div id="plan-content"></div>
+
+    <section class="card" style="margin-top:2rem">
+      <h2>After week 8</h2>
+      <ul>
+        <li>Keep 1 hour/day habit — next target: CKA or AWS Solutions Architect Associate</li>
+        <li>Publish capstone on GitHub + LinkedIn/XING</li>
+        <li>Apply to Junior/Mid DevOps roles in Germany with your portfolio video</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    Progress stored in browser localStorage · Personal machine only · Good luck 🇩🇪
+  </footer>
+
+  <script>
+    const STORAGE_KEY = "devops-plan-de-1h-v2";
+
+    const tagLabels = {
+      theory: "Theory",
+      hands: "Hands-on",
+      read: "Reading",
+      de: "Germany",
+      micro: "Micro"
+    };
+
+    const plan = [
+      {
+        week: 1,
+        title: "Linux Foundations (1h days)",
+        goal: "Get comfortable on Linux — your future daily workspace.",
+        color: "#6366f1",
+        days: [
+          {
+            day: "Mon",
+            label: "What is DevOps + verify your lab",
+            full: [
+              { id: "w1d1t1", tag: "theory", text: "Read/watch (15–20 min): What DevOps is. Write your own 5-sentence definition." },
+              { id: "w1d1t2", tag: "hands", text: "Open Ubuntu on your Windows laptop. Tell tutor how you open it (WSL / dual-boot / VirtualBox)." },
+              { id: "w1d1t3", tag: "hands", text: "In Ubuntu + VS Code terminal run: whoami, pwd, uname -a, lsb_release -a. Save outputs in a notes file." }
+            ],
+            micro: [
+              { id: "w1d1m1", tag: "micro", text: "Write 5 sentences: What is DevOps? (phone notes OK)" }
+            ]
+          },
+          {
+            day: "Tue",
+            label: "Linux navigation day",
+            full: [
+              { id: "w1d2t1", tag: "theory", text: "Learn folders: /, /home, /etc, /var, /tmp. Draw a simple tree." },
+              { id: "w1d2t2", tag: "hands", text: "Practice: cd, ls -la, pwd, clear, history. Visit /etc and /var/log." },
+              { id: "w1d2t3", tag: "hands", text: "Create ~/devops-lab and notes.txt. Open the folder in VS Code." }
+            ],
+            micro: [
+              { id: "w1d2m1", tag: "micro", text: "Memorize: pwd, ls, cd, mkdir, clear. Sticky note is fine." }
+            ]
+          },
+          {
+            day: "Wed",
+            label: "Navigate the filesystem",
+            full: [
+              { id: "w1d3t1", tag: "theory", text: "Learn: /, /home, /etc, /var, /tmp. Draw a simple folder tree." },
+              { id: "w1d3t2", tag: "hands", text: "Practice: cd, ls -la, pwd, clear, history. Visit /etc and /var/log." },
+              { id: "w1d3t3", tag: "hands", text: "Create folder ~/devops-lab and file notes.txt with nano or vim." }
+            ],
+            micro: [
+              { id: "w1d3m1", tag: "micro", text: "Memorize: pwd, ls, cd, mkdir, clear. Write them on a sticky note." }
+            ]
+          },
+          {
+            day: "Thu",
+            label: "Files & permissions basics",
+            full: [
+              { id: "w1d4t1", tag: "theory", text: "Learn rwx permissions and numbers 644 / 755 / 600." },
+              { id: "w1d4t2", tag: "hands", text: "Practice: touch, cp, mv, rm, cat, less, head, tail." },
+              { id: "w1d4t3", tag: "hands", text: "chmod a file to 600 and explain why that is safer for secrets." }
+            ],
+            micro: [
+              { id: "w1d4m1", tag: "micro", text: "Read one short article on Linux file permissions. Note 3 key points." }
+            ]
+          },
+          {
+            day: "Fri",
+            label: "Packages & nginx",
+            full: [
+              { id: "w1d5t1", tag: "hands", text: "sudo apt update && sudo apt install nginx -y" },
+              { id: "w1d5t2", tag: "hands", text: "systemctl status/start/enable nginx. curl localhost" },
+              { id: "w1d5t3", tag: "hands", text: "Find logs in /var/log/nginx. Use tail -f for 2 minutes." }
+            ],
+            micro: [
+              { id: "w1d5m1", tag: "micro", text: "Write: What is a package manager? (apt = app store for Linux)" }
+            ]
+          },
+          {
+            day: "Sat",
+            label: "Week 1 review lab",
+            full: [
+              { id: "w1d6t1", tag: "hands", text: "Change nginx default HTML page to “Hello from my DevOps lab”." },
+              { id: "w1d6t2", tag: "hands", text: "Write a 5-line README of what you installed this week." },
+              { id: "w1d6t3", tag: "de", text: "Skim 3 German DevOps job ads. Note repeated tools." }
+            ],
+            micro: [
+              { id: "w1d6m1", tag: "micro", text: "Review your notes from Mon–Fri for 15 minutes." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w1d7t1", tag: "read", text: "Rest / sports. Optional: 10 min flashcards of Linux commands only if you feel like it. No guilt if zero." }
+            ],
+            micro: [
+              { id: "w1d7m1", tag: "micro", text: "Rest. Sports day." }
+            ]
+          }
+        ]
+      },
+      {
+        week: 2,
+        title: "Git + Shell + Networking",
+        goal: "Track changes like a pro and automate small tasks.",
+        color: "#8b5cf6",
+        days: [
+          {
+            day: "Mon",
+            label: "Git basics",
+            full: [
+              { id: "w2d1t1", tag: "theory", text: "Learn: repository, commit, branch, remote (GitHub)." },
+              { id: "w2d1t2", tag: "hands", text: "Create GitHub account on personal PC. Install git. Set name/email." },
+              { id: "w2d1t3", tag: "hands", text: "git init a folder, add README, first commit." }
+            ],
+            micro: [
+              { id: "w2d1m1", tag: "micro", text: "Read “What is Git in plain English” (10–15 min)." }
+            ]
+          },
+          {
+            day: "Tue",
+            label: "Push to GitHub",
+            full: [
+              { id: "w2d2t1", tag: "hands", text: "Create repo devops-learning. Push your README." },
+              { id: "w2d2t2", tag: "hands", text: "Practice branch → edit → commit → merge." },
+              { id: "w2d2t3", tag: "hands", text: "Create a small merge conflict on purpose and fix it." }
+            ],
+            micro: [
+              { id: "w2d2m1", tag: "micro", text: "Watch a 15-min Git crash course. No coding required tonight." }
+            ]
+          },
+          {
+            day: "Wed",
+            label: "Bash scripting intro",
+            full: [
+              { id: "w2d3t1", tag: "theory", text: "Variables, if, for, exit codes ($?)." },
+              { id: "w2d3t2", tag: "hands", text: "Write hello.sh and make it executable (chmod +x)." },
+              { id: "w2d3t3", tag: "hands", text: "Write disk-check.sh using df -h." }
+            ],
+            micro: [
+              { id: "w2d3m1", tag: "micro", text: "Write on paper: what a shell script is (like a batch of support steps)." }
+            ]
+          },
+          {
+            day: "Thu",
+            label: "Networking basics",
+            full: [
+              { id: "w2d4t1", tag: "theory", text: "IP, DNS, ports, HTTP status codes (200/404/500)." },
+              { id: "w2d4t2", tag: "hands", text: "Practice: ping, curl -I, ss -tuln, ip a." },
+              { id: "w2d4t3", tag: "hands", text: "Support-style lab: “site down” checklist (service, port, firewall)." }
+            ],
+            micro: [
+              { id: "w2d4m1", tag: "micro", text: "Memorize ports: 22 SSH, 80 HTTP, 443 HTTPS." }
+            ]
+          },
+          {
+            day: "Fri",
+            label: "SSH keys",
+            full: [
+              { id: "w2d5t1", tag: "theory", text: "Public vs private key. Never share private key." },
+              { id: "w2d5t2", tag: "hands", text: "Generate ed25519 key. Add public key to GitHub." },
+              { id: "w2d5t3", tag: "hands", text: "Clone your repo with SSH. Push a small change." }
+            ],
+            micro: [
+              { id: "w2d5m1", tag: "micro", text: "Read one page on SSH keys. Write: public = lock, private = key." }
+            ]
+          },
+          {
+            day: "Sat",
+            label: "Week 2 mini project",
+            full: [
+              { id: "w2d6t1", tag: "hands", text: "Script: backup ~/devops-lab to a .tar.gz with date in filename." },
+              { id: "w2d6t2", tag: "hands", text: "Push scripts/ folder to GitHub." },
+              { id: "w2d6t3", tag: "read", text: "Explain Git to an imaginary support colleague in 4 sentences." }
+            ],
+            micro: [
+              { id: "w2d6m1", tag: "micro", text: "Review week 2 notes 15 min." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w2d7t1", tag: "read", text: "Rest / sports. Optional flashcards only." }
+            ],
+            micro: [
+              { id: "w2d7m1", tag: "micro", text: "Rest. Sports day." }
+            ]
+          }
+        ]
+      },
+      {
+        week: 3,
+        title: "Docker Containers",
+        goal: "Package apps so they run the same everywhere.",
+        color: "#ec4899",
+        days: [
+          {
+            day: "Mon",
+            label: "Docker concepts + install",
+            full: [
+              { id: "w3d1t1", tag: "theory", text: "Container vs VM in plain English. Draw both." },
+              { id: "w3d1t2", tag: "hands", text: "Install Docker on personal PC or inside Ubuntu VM (follow official docs)." },
+              { id: "w3d1t3", tag: "hands", text: "docker run hello-world. Confirm success." }
+            ],
+            micro: [
+              { id: "w3d1m1", tag: "micro", text: "Read: container vs virtual machine (15 min)." }
+            ]
+          },
+          {
+            day: "Tue",
+            label: "Run containers",
+            full: [
+              { id: "w3d2t1", tag: "hands", text: "Practice: docker ps, images, pull, logs, exec, stop, rm." },
+              { id: "w3d2t2", tag: "hands", text: "Run nginx on port 8080:80. Open in browser." },
+              { id: "w3d2t3", tag: "hands", text: "docker exec into the container and list files." }
+            ],
+            micro: [
+              { id: "w3d2m1", tag: "micro", text: "Write definitions: image, container, registry." }
+            ]
+          },
+          {
+            day: "Wed",
+            label: "Your first Dockerfile",
+            full: [
+              { id: "w3d3t1", tag: "theory", text: "FROM, COPY, RUN, EXPOSE, CMD — what each does." },
+              { id: "w3d3t2", tag: "hands", text: "Dockerfile for a tiny static HTML site (nginx:alpine)." },
+              { id: "w3d3t3", tag: "hands", text: "Build and run your image. Push code to GitHub." }
+            ],
+            micro: [
+              { id: "w3d3m1", tag: "micro", text: "Sketch a Dockerfile on paper (5 lines)." }
+            ]
+          },
+          {
+            day: "Thu",
+            label: "Docker Compose intro",
+            full: [
+              { id: "w3d4t1", tag: "theory", text: "Why Compose exists (multi-container apps)." },
+              { id: "w3d4t2", tag: "hands", text: "Compose file: web + redis (or postgres)." },
+              { id: "w3d4t3", tag: "hands", text: "up -d, logs, down. Confirm data volume idea." }
+            ],
+            micro: [
+              { id: "w3d4m1", tag: "micro", text: "Watch a 15-min Docker Compose intro." }
+            ]
+          },
+          {
+            day: "Fri",
+            label: "Debug containers",
+            full: [
+              { id: "w3d5t1", tag: "hands", text: "Break a container on purpose. Fix using logs + inspect." },
+              { id: "w3d5t2", tag: "hands", text: "Write a 5-issue container troubleshooting checklist." },
+              { id: "w3d5t3", tag: "hands", text: "Add non-root user note to Dockerfile (security)." }
+            ],
+            micro: [
+              { id: "w3d5m1", tag: "micro", text: "List 3 reasons a container might exit immediately." }
+            ]
+          },
+          {
+            day: "Sat",
+            label: "Week 3 mini stack",
+            full: [
+              { id: "w3d6t1", tag: "hands", text: "Compose stack: simple app + database. Document in README." },
+              { id: "w3d6t2", tag: "hands", text: "Push to GitHub with architecture notes." },
+              { id: "w3d6t3", tag: "de", text: "Find one German tech blog about Docker. Save 3 vocabulary words." }
+            ],
+            micro: [
+              { id: "w3d6m1", tag: "micro", text: "Review Docker commands flashcards 15 min." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w3d7t1", tag: "read", text: "Rest / sports." }
+            ],
+            micro: [
+              { id: "w3d7m1", tag: "micro", text: "Rest. Sports day." }
+            ]
+          }
+        ]
+      },
+      {
+        week: 4,
+        title: "CI/CD with GitHub Actions",
+        goal: "Automate build and test like real teams.",
+        color: "#f43f5e",
+        days: [
+          {
+            day: "Mon",
+            label: "CI/CD concepts",
+            full: [
+              { id: "w4d1t1", tag: "theory", text: "CI vs CD in support language: auto-checks before release." },
+              { id: "w4d1t2", tag: "theory", text: "Pipeline stages: lint → test → build → deploy." },
+              { id: "w4d1t3", tag: "hands", text: "Sketch pipeline for your Docker app on paper." }
+            ],
+            micro: [
+              { id: "w4d1m1", tag: "micro", text: "Write: CI = automatic quality checks on every change." }
+            ]
+          },
+          {
+            day: "Tue",
+            label: "First GitHub Action",
+            full: [
+              { id: "w4d2t1", tag: "hands", text: "Create .github/workflows/ci.yml that runs on push." },
+              { id: "w4d2t2", tag: "hands", text: "Job: checkout + echo Hello CI." },
+              { id: "w4d2t3", tag: "hands", text: "Push and watch the green check on GitHub." }
+            ],
+            micro: [
+              { id: "w4d2m1", tag: "micro", text: "Read GitHub Actions “Hello World” docs (15 min)." }
+            ]
+          },
+          {
+            day: "Wed",
+            label: "Build in CI",
+            full: [
+              { id: "w4d3t1", tag: "hands", text: "Add docker build step to CI." },
+              { id: "w4d3t2", tag: "hands", text: "Break build on purpose, then fix it." },
+              { id: "w4d3t3", tag: "hands", text: "Add README status badge." }
+            ],
+            micro: [
+              { id: "w4d3m1", tag: "micro", text: "Explain why failing CI is a feature, not a failure." }
+            ]
+          },
+          {
+            day: "Thu",
+            label: "Tests in pipeline",
+            full: [
+              { id: "w4d4t1", tag: "theory", text: "Smoke test idea: /health returns 200." },
+              { id: "w4d4t2", tag: "hands", text: "Add one automated test or curl health check in CI." },
+              { id: "w4d4t3", tag: "hands", text: "Document what happens when tests fail." }
+            ],
+            micro: [
+              { id: "w4d4m1", tag: "micro", text: "Write 3 test cases for a login page (even if you don’t code them yet)." }
+            ]
+          },
+          {
+            day: "Fri",
+            label: "Secrets & image push",
+            full: [
+              { id: "w4d5t1", tag: "theory", text: "Never commit passwords. Use GitHub Secrets." },
+              { id: "w4d5t2", tag: "hands", text: "Push image to GHCR or Docker Hub from Actions (if time)." },
+              { id: "w4d5t3", tag: "hands", text: "Tag image with git SHA." }
+            ],
+            micro: [
+              { id: "w4d5m1", tag: "micro", text: "Read why secrets must not be in Git." }
+            ]
+          },
+          {
+            day: "Sat",
+            label: "Week 4 pipeline review",
+            full: [
+              { id: "w4d6t1", tag: "hands", text: "End-to-end: push code → CI runs → build succeeds." },
+              { id: "w4d6t2", tag: "hands", text: "Draw Mermaid or ASCII pipeline in README." },
+              { id: "w4d6t3", tag: "de", text: "Note whether German jobs mention Jenkins, GitLab CI, or Azure DevOps." }
+            ],
+            micro: [
+              { id: "w4d6m1", tag: "micro", text: "Review CI notes 15 min." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w4d7t1", tag: "read", text: "Rest / sports." }
+            ],
+            micro: [
+              { id: "w4d7m1", tag: "micro", text: "Rest. Sports day." }
+            ]
+          }
+        ]
+      },
+      {
+        week: 5,
+        title: "Cloud Foundations (AWS)",
+        goal: "Run things in the cloud — Frankfurt region for Germany.",
+        color: "#f97316",
+        days: [
+          {
+            day: "Mon",
+            label: "Cloud + AWS account",
+            full: [
+              { id: "w5d1t1", tag: "theory", text: "IaaS/PaaS/SaaS + shared responsibility model." },
+              { id: "w5d1t2", tag: "hands", text: "Create AWS account (personal email). Enable MFA on root." },
+              { id: "w5d1t3", tag: "hands", text: "Create IAM admin user. Set default region eu-central-1." }
+            ],
+            micro: [
+              { id: "w5d1m1", tag: "micro", text: "Read: why Frankfurt (eu-central-1) matters for GDPR practice." }
+            ]
+          },
+          {
+            day: "Tue",
+            label: "EC2 first server",
+            full: [
+              { id: "w5d2t1", tag: "theory", text: "EC2 = virtual server in the cloud." },
+              { id: "w5d2t2", tag: "hands", text: "Launch t2.micro/t3.micro Ubuntu. Download key pair to PERSONAL PC." },
+              { id: "w5d2t3", tag: "hands", text: "SSH in. Run uname -a. Stop instance when done (save money)." }
+            ],
+            micro: [
+              { id: "w5d2m1", tag: "micro", text: "Watch 15-min “What is EC2” video." }
+            ]
+          },
+          {
+            day: "Wed",
+            label: "Security groups & networking",
+            full: [
+              { id: "w5d3t1", tag: "theory", text: "Security group = cloud firewall." },
+              { id: "w5d3t2", tag: "hands", text: "Allow SSH only from your IP. Understand why 0.0.0.0/0 on SSH is dangerous." },
+              { id: "w5d3t3", tag: "hands", text: "Install Docker on EC2 and run nginx briefly." }
+            ],
+            micro: [
+              { id: "w5d3m1", tag: "micro", text: "Write: security group vs Windows firewall (similar idea)." }
+            ]
+          },
+          {
+            day: "Thu",
+            label: "S3 storage",
+            full: [
+              { id: "w5d4t1", tag: "theory", text: "S3 = object storage (files in the cloud)." },
+              { id: "w5d4t2", tag: "hands", text: "Create bucket in eu-central-1. Upload a file. Enable versioning." },
+              { id: "w5d4t3", tag: "hands", text: "Install AWS CLI on personal PC. aws s3 ls" }
+            ],
+            micro: [
+              { id: "w5d4m1", tag: "micro", text: "Read S3 basics page. Note 3 use cases." }
+            ]
+          },
+          {
+            day: "Fri",
+            label: "Billing safety + architecture",
+            full: [
+              { id: "w5d5t1", tag: "hands", text: "Create AWS Budget alert at €5." },
+              { id: "w5d5t2", tag: "hands", text: "Terminate/stop unused resources. Verify console is clean." },
+              { id: "w5d5t3", tag: "hands", text: "Draw: User → EC2 → App → (future DB)." }
+            ],
+            micro: [
+              { id: "w5d5m1", tag: "micro", text: "Check AWS billing console on phone if MFA allows — 5 min safety habit." }
+            ]
+          },
+          {
+            day: "Sat",
+            label: "Week 5 deploy lab",
+            full: [
+              { id: "w5d6t1", tag: "hands", text: "Deploy your Docker app on EC2 with Compose (single node)." },
+              { id: "w5d6t2", tag: "hands", text: "Document SSH + deploy steps in README." },
+              { id: "w5d6t3", tag: "hands", text: "Stop/terminate resources after demo to avoid charges." }
+            ],
+            micro: [
+              { id: "w5d6m1", tag: "micro", text: "Review AWS notes 15 min." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w5d7t1", tag: "read", text: "Rest / sports." }
+            ],
+            micro: [
+              { id: "w5d7m1", tag: "micro", text: "Rest. Sports day." }
+            ]
+          }
+        ]
+      },
+      {
+        week: 6,
+        title: "Terraform + Monitoring",
+        goal: "Infrastructure as code + knowing when systems break.",
+        color: "#eab308",
+        days: [
+          {
+            day: "Mon",
+            label: "Terraform intro",
+            full: [
+              { id: "w6d1t1", tag: "theory", text: "IaC = describe infrastructure in files (repeatable)." },
+              { id: "w6d1t2", tag: "hands", text: "Install Terraform. Write S3 bucket resource." },
+              { id: "w6d1t3", tag: "hands", text: "init → plan → apply → destroy." }
+            ],
+            micro: [
+              { id: "w6d1m1", tag: "micro", text: "Read Terraform workflow overview (15 min)." }
+            ]
+          },
+          {
+            day: "Tue",
+            label: "Terraform EC2",
+            full: [
+              { id: "w6d2t1", tag: "hands", text: "Terraform: security group + EC2 (small instance)." },
+              { id: "w6d2t2", tag: "hands", text: "Use variables.tf and outputs.tf." },
+              { id: "w6d2t3", tag: "hands", text: "Destroy when finished. Confirm AWS console empty." }
+            ],
+            micro: [
+              { id: "w6d2m1", tag: "micro", text: "Write: plan = preview, apply = create, destroy = delete." }
+            ]
+          },
+          {
+            day: "Wed",
+            label: "Ansible basics",
+            full: [
+              { id: "w6d3t1", tag: "theory", text: "Terraform builds servers; Ansible configures them." },
+              { id: "w6d3t2", tag: "hands", text: "Install Ansible. Inventory + ping module." },
+              { id: "w6d3t3", tag: "hands", text: "Playbook: install nginx or docker on a target." }
+            ],
+            micro: [
+              { id: "w6d3m1", tag: "micro", text: "Compare Terraform vs Ansible in 4 bullet points." }
+            ]
+          },
+          {
+            day: "Thu",
+            label: "Monitoring basics",
+            full: [
+              { id: "w6d4t1", tag: "theory", text: "Metrics vs logs. Alerting without noise." },
+              { id: "w6d4t2", tag: "hands", text: "Run Prometheus + Grafana via Compose (local)." },
+              { id: "w6d4t3", tag: "hands", text: "Open Grafana. Find CPU or container metric." }
+            ],
+            micro: [
+              { id: "w6d4m1", tag: "micro", text: "Relate monitoring to IT support tickets: detect before users call." }
+            ]
+          },
+          {
+            day: "Fri",
+            label: "Incident runbook",
+            full: [
+              { id: "w6d5t1", tag: "hands", text: "Write RUNBOOK.md: detect → triage → fix → postmortem." },
+              { id: "w6d5t2", tag: "hands", text: "Simulate outage: stop container, follow your runbook." },
+              { id: "w6d5t3", tag: "de", text: "Note 2 GDPR implications of storing logs." }
+            ],
+            micro: [
+              { id: "w6d5m1", tag: "micro", text: "Draft a 5-line outage checklist on your phone." }
+            ]
+          },
+          {
+            day: "Sat",
+            label: "Week 6 integration + capstone prep",
+            full: [
+              { id: "w6d6t1", tag: "hands", text: "One flow: Terraform create → Ansible configure → app runs." },
+              { id: "w6d6t2", tag: "hands", text: "Write 1-page capstone plan for weeks 7–8." },
+              { id: "w6d6t3", tag: "hands", text: "Clean up ALL cloud resources + confirm billing." }
+            ],
+            micro: [
+              { id: "w6d6m1", tag: "micro", text: "Review week 6 notes 15 min." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w6d7t1", tag: "read", text: "Rest / sports." }
+            ],
+            micro: [
+              { id: "w6d7m1", tag: "micro", text: "Rest. Sports day." }
+            ]
+          }
+        ]
+      },
+      {
+        week: 7,
+        title: "Capstone Build (1h slices)",
+        goal: "Build TaskFlow in daily 1-hour pieces — production path starts.",
+        color: "#10b981",
+        days: [
+          {
+            day: "Mon",
+            label: "Design the system",
+            full: [
+              { id: "w7d1t1", tag: "theory", text: "Define TaskFlow: simple task API + web UI requirements." },
+              { id: "w7d1t2", tag: "hands", text: "Draw architecture on paper: GitHub → CI → AWS → App → DB." },
+              { id: "w7d1t3", tag: "hands", text: "Create GitHub repo + PROJECT.md (scope & non-goals)." }
+            ],
+            micro: [
+              { id: "w7d1m1", tag: "micro", text: "List 5 features TaskFlow must have (keep tiny)." }
+            ]
+          },
+          {
+            day: "Tue",
+            label: "API skeleton",
+            full: [
+              { id: "w7d2t1", tag: "hands", text: "Create minimal API with /health (FastAPI or Express)." },
+              { id: "w7d2t2", tag: "hands", text: "Dockerfile for API. Run locally." },
+              { id: "w7d2t3", tag: "hands", text: "Commit + push. CI should at least checkout." }
+            ],
+            micro: [
+              { id: "w7d2m1", tag: "micro", text: "Read FastAPI or Express “hello world” tutorial overview." }
+            ]
+          },
+          {
+            day: "Wed",
+            label: "Database + CRUD",
+            full: [
+              { id: "w7d3t1", tag: "hands", text: "Add Postgres in Compose. Connect API." },
+              { id: "w7d3t2", tag: "hands", text: "Implement create/list tasks endpoints." },
+              { id: "w7d3t3", tag: "hands", text: "Add .env.example. Never commit real secrets." }
+            ],
+            micro: [
+              { id: "w7d3m1", tag: "micro", text: "Write: what is CRUD? (Create Read Update Delete)" }
+            ]
+          },
+          {
+            day: "Thu",
+            label: "Simple frontend",
+            full: [
+              { id: "w7d4t1", tag: "hands", text: "Minimal HTML/JS or simple React/Vue page listing tasks." },
+              { id: "w7d4t2", tag: "hands", text: "Dockerize frontend. Compose up full stack." },
+              { id: "w7d4t3", tag: "hands", text: "Add 3 automated tests or smoke script." }
+            ],
+            micro: [
+              { id: "w7d4m1", tag: "micro", text: "Sketch UI on paper: list + add button." }
+            ]
+          },
+          {
+            day: "Fri",
+            label: "CI for capstone",
+            full: [
+              { id: "w7d5t1", tag: "hands", text: "Pipeline: lint/test/build images on PR." },
+              { id: "w7d5t2", tag: "hands", text: "On main: push images to registry." },
+              { id: "w7d5t3", tag: "hands", text: "Fix any CI failures before ending session." }
+            ],
+            micro: [
+              { id: "w7d5m1", tag: "micro", text: "Check last CI run status on phone. Note failures." }
+            ]
+          },
+          {
+            day: "Sat",
+            label: "Infra start (Terraform)",
+            full: [
+              { id: "w7d6t1", tag: "hands", text: "Terraform module start: VPC/SG/EC2 or simplest working host in eu-central-1." },
+              { id: "w7d6t2", tag: "hands", text: "Deploy containers to staging host." },
+              { id: "w7d6t3", tag: "hands", text: "Verify /health from browser. Set €5 budget alarm." }
+            ],
+            micro: [
+              { id: "w7d6m1", tag: "micro", text: "Review architecture drawing 15 min." }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w7d7t1", tag: "read", text: "Rest / sports. Capstone continues next week." }
+            ],
+            micro: [
+              { id: "w7d7m1", tag: "micro", text: "Rest. Sports day." }
+            ]
+          }
+        ]
+      },
+      {
+        week: 8,
+        title: "Production Hardening + Portfolio",
+        goal: "Make TaskFlow interview-ready: secure, documented, demoable.",
+        color: "#06b6d4",
+        days: [
+          {
+            day: "Mon",
+            label: "Monitoring for TaskFlow",
+            full: [
+              { id: "w8d1t1", tag: "hands", text: "Add /metrics or basic logging. Hook Prometheus/Grafana or CloudWatch." },
+              { id: "w8d1t2", tag: "hands", text: "One dashboard: up/down + error-ish signal." },
+              { id: "w8d1t3", tag: "hands", text: "One alert rule. Test by stopping app." }
+            ],
+            micro: [
+              { id: "w8d1m1", tag: "micro", text: "Write 3 things you would alert on in production." }
+            ]
+          },
+          {
+            day: "Tue",
+            label: "Security basics",
+            full: [
+              { id: "w8d2t1", tag: "hands", text: "Lock security groups: DB not public, SSH only your IP." },
+              { id: "w8d2t2", tag: "hands", text: "HTTPS plan: ALB+ACM or Caddy/nginx TLS (do what fits in 1h)." },
+              { id: "w8d2t3", tag: "de", text: "Add short GDPR note: what data TaskFlow stores." }
+            ],
+            micro: [
+              { id: "w8d2m1", tag: "micro", text: "List 5 security mistakes beginners make." }
+            ]
+          },
+          {
+            day: "Wed",
+            label: "Backups + reliability",
+            full: [
+              { id: "w8d3t1", tag: "hands", text: "Enable DB backup (or dump script). Document RPO/RTO simply." },
+              { id: "w8d3t2", tag: "hands", text: "Healthchecks + restart policy on containers." },
+              { id: "w8d3t3", tag: "hands", text: "Rollback steps in RUNBOOK.md." }
+            ],
+            micro: [
+              { id: "w8d3m1", tag: "micro", text: "Write: backup vs high availability in one sentence each." }
+            ]
+          },
+          {
+            day: "Thu",
+            label: "Kubernetes taste (stretch)",
+            full: [
+              { id: "w8d4t1", tag: "theory", text: "Pods, Deployments, Services — why DE companies love K8s." },
+              { id: "w8d4t2", tag: "hands", text: "kind/minikube: deploy nginx, scale to 3." },
+              { id: "w8d4t3", tag: "read", text: "Optional: note “Phase 2 = EKS” in README for interviews." }
+            ],
+            micro: [
+              { id: "w8d4m1", tag: "micro", text: "Watch a 15-min Kubernetes explained video." }
+            ]
+          },
+          {
+            day: "Fri",
+            label: "Documentation",
+            full: [
+              { id: "w8d5t1", tag: "hands", text: "README: architecture, local run, deploy, teardown." },
+              { id: "w8d5t2", tag: "hands", text: "RUNBOOK.md complete." },
+              { id: "w8d5t3", tag: "hands", text: "Record 5-min demo video (phone is fine)." }
+            ],
+            micro: [
+              { id: "w8d5m1", tag: "micro", text: "Outline README sections on paper." }
+            ]
+          },
+          {
+            day: "Sat",
+            label: "Portfolio + job prep",
+            full: [
+              { id: "w8d6t1", tag: "hands", text: "Tag release v1.0.0. Final validation checklist." },
+              { id: "w8d6t2", tag: "hands", text: "Update CV + LinkedIn/XING with tools + project link." },
+              { id: "w8d6t3", tag: "de", text: "Apply to 3–5 Junior/Mid DevOps roles in Germany. Clean up AWS resources after demo." }
+            ],
+            micro: [
+              { id: "w8d6m1", tag: "micro", text: "Practice one interview answer: “Tell me about your project.”" }
+            ]
+          },
+          {
+            day: "Sun",
+            label: "Sports day — celebrate",
+            full: [
+              { id: "w8d7t1", tag: "read", text: "Sports + rest. You completed an 8-week intermediate track on a working-adult schedule. Optional: light flashcards only." }
+            ],
+            micro: [
+              { id: "w8d7m1", tag: "micro", text: "Rest. Celebrate. Sports day." }
+            ]
+          }
+        ]
+      }
+    ];
+
+    function getState() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      } catch {
+        return {};
+      }
+    }
+
+    function saveState(state) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      const note = document.getElementById("save-note");
+      note.classList.add("visible");
+      setTimeout(() => note.classList.remove("visible"), 1500);
+    }
+
+    function getBusyDays() {
+      const state = getState();
+      if (Array.isArray(state.busyDays) && state.busyDays.length) return state.busyDays;
+      return ["Tue", "Fri"];
+    }
+
+    function setBusyDays(days) {
+      const state = getState();
+      state.busyDays = days;
+      saveState(state);
+    }
+
+    function modeFor(dayName) {
+      if (dayName === "Sun") return "rest";
+      if (getBusyDays().includes(dayName)) return "micro";
+      return "full";
+    }
+
+    function updateSchedulePreview() {
+      const busy = getBusyDays();
+      const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      const labels = {
+        Mon: "After 17:00",
+        Tue: "After 17:00",
+        Wed: "After 17:00",
+        Thu: "After 17:00",
+        Fri: "After 17:00",
+        Sat: "Flexible 1h",
+        Sun: "Sports"
+      };
+      const el = document.getElementById("schedule-preview");
+      el.innerHTML = days.map((d) => {
+        const mode = modeFor(d);
+        const cls = mode === "rest" ? "rest" : mode === "micro" ? "busy" : "study";
+        const text = mode === "rest" ? "Rest" : mode === "micro" ? "15 min micro" : "1 hour study";
+        return `<div class="day-chip ${cls}"><strong>${d}</strong>${labels[d]}<br>${text}</div>`;
+      }).join("");
+
+      // sync checkboxes
+      document.querySelectorAll("#busy-picker input[type=checkbox]:not(:disabled)").forEach((cb) => {
+        cb.checked = busy.includes(cb.value);
+      });
+    }
+
+    function renderPlan() {
+      const container = document.getElementById("plan-content");
+      const nav = document.getElementById("week-nav");
+      container.innerHTML = "";
+      nav.innerHTML = "";
+
+      plan.forEach((week) => {
+        const navLink = document.createElement("a");
+        navLink.href = `#week-${week.week}`;
+        navLink.textContent = `W${week.week}`;
+        nav.appendChild(navLink);
+
+        const section = document.createElement("section");
+        section.className = "week-section";
+        section.id = `week-${week.week}`;
+
+        let projectHtml = "";
+        if (week.week === 7) {
+          projectHtml = `
+            <div class="project-box">
+              <h3>Capstone: TaskFlow (built in 1-hour slices)</h3>
+              <p>Same production goal, paced for your work schedule:</p>
+              <ul>
+                <li>Containerized API + frontend + PostgreSQL</li>
+                <li>Terraform on AWS eu-central-1 + CI/CD</li>
+                <li>Monitoring, security basics, runbooks, demo video</li>
+                <li>Busy nights stay micro — deep work on free evenings + Saturday</li>
+              </ul>
+            </div>`;
+        }
+
+        section.innerHTML = `
+          <div class="week-header">
+            <div class="week-num" style="background:${week.color}22;color:${week.color}">W${week.week}</div>
+            <div>
+              <div class="week-title">${week.title}</div>
+              <div class="week-goal">${week.goal}</div>
+            </div>
+            <div class="week-progress" data-week="${week.week}">0%</div>
+          </div>
+          ${projectHtml}
+          <div class="days" data-week="${week.week}"></div>
+        `;
+
+        const daysEl = section.querySelector(".days");
+
+        week.days.forEach((day, dayIdx) => {
+          const mode = modeFor(day.day);
+          const tasks = mode === "micro" || mode === "rest" ? day.micro : day.full;
+          const modeLabel = mode === "full" ? "1 hour" : mode === "micro" ? "15 min" : "Rest";
+          const modeClass = mode === "full" ? "mode-full" : mode === "micro" ? "mode-micro" : "mode-rest";
+          const cardClass = mode === "micro" ? "busy-day" : mode === "rest" ? "rest-day" : "";
+
+          const card = document.createElement("div");
+          card.className = `day-card ${cardClass}`;
+          card.dataset.week = week.week;
+          card.dataset.day = dayIdx;
+
+          const tasksHtml = tasks.map((t) => `
+            <li class="task-item" data-id="${t.id}">
+              <input type="checkbox" id="${t.id}" data-id="${t.id}" />
+              <label for="${t.id}">
+                <span class="task-tag tag-${t.tag}">${tagLabels[t.tag] || t.tag}</span>
+                ${t.text}
+              </label>
+            </li>
+          `).join("");
+
+          card.innerHTML = `
+            <div class="day-header" role="button" tabindex="0">
+              <span class="day-label">${day.day} — ${day.label}</span>
+              <span class="mode-badge ${modeClass}">${modeLabel}</span>
+              <span class="day-time">${mode === "full" ? "~60 min" : mode === "micro" ? "~15 min" : "off"}</span>
+              <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+            <ul class="task-list">${tasksHtml}</ul>
+          `;
+
+          card.querySelector(".day-header").addEventListener("click", () => {
+            card.classList.toggle("collapsed");
+            const state = getState();
+            state._collapsed = state._collapsed || {};
+            const key = `w${card.dataset.week}d${card.dataset.day}`;
+            state._collapsed[key] = card.classList.contains("collapsed");
+            saveState(state);
+          });
+
+          daysEl.appendChild(card);
+        });
+
+        container.appendChild(section);
+      });
+
+      bindCheckboxes();
+      restoreState();
+      updateProgress();
+    }
+
+    function bindCheckboxes() {
+      document.querySelectorAll('input[type="checkbox"][data-id]').forEach((cb) => {
+        cb.addEventListener("change", (e) => {
+          const id = e.target.dataset.id;
+          const state = getState();
+          state[id] = e.target.checked;
+          saveState(state);
+          e.target.closest(".task-item").classList.toggle("done", e.target.checked);
+          updateProgress();
+        });
+      });
+    }
+
+    function restoreState() {
+      const state = getState();
+      document.querySelectorAll('input[type="checkbox"][data-id]').forEach((cb) => {
+        const checked = !!state[cb.dataset.id];
+        cb.checked = checked;
+        cb.closest(".task-item").classList.toggle("done", checked);
+      });
+      const collapsed = state._collapsed || {};
+      document.querySelectorAll(".day-card").forEach((card) => {
+        const key = `w${card.dataset.week}d${card.dataset.day}`;
+        if (collapsed[key]) card.classList.add("collapsed");
+      });
+    }
+
+    function shortWeekTitle(title) {
+      return title.replace(/\s*\(1h[^)]*\)/i, "").replace(/\s*—.*$/, "").trim();
+    }
+
+    function updateProgress() {
+      const all = document.querySelectorAll('input[type="checkbox"][data-id]');
+      const done = [...all].filter((cb) => cb.checked).length;
+      const total = all.length;
+      const pct = total ? Math.round((done / total) * 100) : 0;
+      document.getElementById("progress-fill").style.width = pct + "%";
+      document.getElementById("progress-text").textContent = `${done} / ${total} tasks (${pct}%)`;
+
+      const overallEl = document.getElementById("stat-overall");
+      const overallHint = document.getElementById("stat-overall-hint");
+      if (overallEl) overallEl.textContent = pct + "%";
+      if (overallHint) overallHint.textContent = `${done} / ${total} tasks`;
+
+      const weekStats = [];
+      let weeksDone = 0;
+      let currentWeek = plan[0];
+      let foundCurrent = false;
+
+      plan.forEach((week) => {
+        const weekTasks = [...document.querySelectorAll(`#week-${week.week} input[data-id]`)];
+        const weekDone = weekTasks.filter((cb) => cb.checked).length;
+        const weekTotal = weekTasks.length;
+        const weekPct = weekTotal ? Math.round((weekDone / weekTotal) * 100) : 0;
+        const el = document.querySelector(`.week-progress[data-week="${week.week}"]`);
+        if (el) el.textContent = `${weekPct}%`;
+
+        if (weekPct === 100 && weekTotal > 0) weeksDone += 1;
+        weekStats.push({ week, weekDone, weekTotal, weekPct });
+
+        if (!foundCurrent && weekPct < 100) {
+          currentWeek = week;
+          foundCurrent = true;
+        }
+      });
+
+      if (!foundCurrent && weekStats.length) {
+        currentWeek = plan[plan.length - 1];
+      }
+
+      const weeksDoneEl = document.getElementById("stat-weeks");
+      if (weeksDoneEl) weeksDoneEl.textContent = `${weeksDone} / 8`;
+
+      const currentWeekEl = document.getElementById("stat-current-week");
+      const currentHint = document.getElementById("stat-current-hint");
+      if (currentWeekEl) currentWeekEl.textContent = `W${currentWeek.week}`;
+      if (currentHint) currentHint.textContent = shortWeekTitle(currentWeek.title);
+
+      const nowText = document.getElementById("now-text");
+      if (nowText) {
+        const cur = weekStats.find((w) => w.week.week === currentWeek.week);
+        if (pct === 100) {
+          nowText.textContent = "Plan complete — ship the portfolio";
+        } else if (cur && cur.weekDone === 0 && currentWeek.week === 1) {
+          nowText.textContent = "Now: Week 1 · start Day 1";
+        } else {
+          nowText.textContent = `Now: Week ${currentWeek.week} · ${cur ? cur.weekPct : 0}% done`;
+        }
+      }
+
+      const track = document.getElementById("week-track");
+      if (track) {
+        track.innerHTML = weekStats.map(({ week, weekPct }) => {
+          const isDone = weekPct === 100;
+          const isCurrent = !isDone && week.week === currentWeek.week;
+          const cls = isDone ? "done" : isCurrent ? "current" : "";
+          return `
+            <a class="week-tile ${cls}" href="#week-${week.week}">
+              <div class="week-tile-top">
+                <span class="week-tile-num">WEEK ${week.week}${isCurrent ? " · NOW" : isDone ? " · DONE" : ""}</span>
+                <span class="week-tile-pct">${weekPct}%</span>
+              </div>
+              <div class="week-tile-title">${shortWeekTitle(week.title)}</div>
+              <div class="week-tile-bar"><div class="week-tile-fill" style="width:${weekPct}%;background:${week.color}"></div></div>
+            </a>
+          `;
+        }).join("");
+      }
+    }
+
+    document.getElementById("busy-picker").addEventListener("change", (e) => {
+      if (e.target.type !== "checkbox" || e.target.disabled) return;
+      const selected = [...document.querySelectorAll("#busy-picker input[type=checkbox]:not(:disabled):checked")]
+        .map((cb) => cb.value);
+      // keep max 2 busy nights to protect the plan
+      if (selected.length > 2) {
+        e.target.checked = false;
+        alert("Pick only 2 second-job nights. That keeps enough 1-hour study days.");
+        return;
+      }
+      setBusyDays(selected);
+      updateSchedulePreview();
+      renderPlan();
+    });
+
+    document.getElementById("expand-all").addEventListener("click", () => {
+      document.querySelectorAll(".day-card").forEach((c) => c.classList.remove("collapsed"));
+      const state = getState();
+      state._collapsed = {};
+      saveState(state);
+    });
+
+    document.getElementById("collapse-all").addEventListener("click", () => {
+      const state = getState();
+      state._collapsed = state._collapsed || {};
+      document.querySelectorAll(".day-card").forEach((card) => {
+        card.classList.add("collapsed");
+        state._collapsed[`w${card.dataset.week}d${card.dataset.day}`] = true;
+      });
+      saveState(state);
+    });
+
+    document.getElementById("reset-progress").addEventListener("click", () => {
+      if (confirm("Reset all checkboxes? Busy-night settings will be kept.")) {
+        const busy = getBusyDays();
+        localStorage.removeItem(STORAGE_KEY);
+        setBusyDays(busy);
+        updateSchedulePreview();
+        renderPlan();
+      }
+    });
+
+    updateSchedulePreview();
+    renderPlan();
+  </script>
+</body>
+</html>
