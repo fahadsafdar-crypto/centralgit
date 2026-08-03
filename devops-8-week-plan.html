@@ -570,13 +570,14 @@
       <div class="badge">1 Hour / Day · Working Professional · Germany</div>
       <h1>8-Week DevOps Learning Plan</h1>
       <p class="subtitle">
-        Built for your real life: full-time IT support (08:00–17:00), second job twice a week (17:00–22:30),
-        and Sunday sports. Each study day is exactly <strong style="color:#e8edf4">1 hour</strong>.
+        Built for your real life: full-time IT support (08:00–17:00), second job on changing nights,
+        and Sunday sports. <strong style="color:#e8edf4">Week 1 started Wednesday 29 Jul 2026</strong>
+        (Wed→Tue cycle). Each full study day is <strong style="color:#e8edf4">1 hour</strong>.
         Progress saves in your browser.
       </p>
       <div class="meta-row">
-        <span>~6 focused hours / week</span>
-        <span>Busy nights = 15 min micro mode</span>
+        <span>Week 1 = Wed → Tue</span>
+        <span>Busy nights = 15–30 min</span>
         <span>Sunday = rest / sports</span>
         <span>Capstone: weeks 7–8</span>
       </div>
@@ -650,15 +651,15 @@
     <section class="card">
       <h2>Your weekly timetable (tutor version)</h2>
       <p>Main job: <strong style="color:var(--text)">08:00–17:00</strong>. Second job nights: <strong style="color:var(--text)">17:00–22:30</strong> → after that you are tired. Sunday = sports.</p>
-      <p>Mark which two weekdays are your second-job nights. Those days switch to <strong style="color:var(--text)">15-minute micro mode</strong> (theory only). All other study days are a full <strong style="color:var(--text)">1-hour lesson</strong>. Sunday stays rest.</p>
+      <p>Mark which weekdays are your second-job nights. Those days switch to <strong style="color:var(--text)">15–30 min micro mode</strong>. Other study days are a full <strong style="color:var(--text)">1-hour lesson</strong>. Sunday stays rest. <strong style="color:var(--text)">Plan weeks run Wed→Tue</strong> (Week 1 started Wed 29 Jul 2026).</p>
 
       <div class="busy-picker" id="busy-picker">
-        <label><input type="checkbox" value="Mon" /> Mon busy night</label>
-        <label><input type="checkbox" value="Tue" checked /> Tue busy night</label>
+        <label><input type="checkbox" value="Mon" checked /> Mon busy night</label>
+        <label><input type="checkbox" value="Tue" /> Tue busy night</label>
         <label><input type="checkbox" value="Wed" /> Wed busy night</label>
-        <label><input type="checkbox" value="Thu" /> Thu busy night</label>
-        <label><input type="checkbox" value="Fri" checked /> Fri busy night</label>
-        <label><input type="checkbox" value="Sat" disabled /> Sat = full study</label>
+        <label><input type="checkbox" value="Thu" checked /> Thu busy night</label>
+        <label><input type="checkbox" value="Fri" /> Fri busy night</label>
+        <label><input type="checkbox" value="Sat" /> Sat busy (study morning if shift starts later)</label>
         <label><input type="checkbox" value="Sun" disabled /> Sun = sports / rest</label>
       </div>
 
@@ -702,7 +703,7 @@
   </footer>
 
   <script>
-    const STORAGE_KEY = "devops-plan-de-1h-v2";
+    const STORAGE_KEY = "devops-plan-de-1h-v3-wed";
 
     const tagLabels = {
       theory: "Theory",
@@ -712,93 +713,94 @@
       micro: "Micro"
     };
 
+    // Week 1 is Wed→Tue because official start was Wednesday 29 Jul 2026.
     const plan = [
       {
         week: 1,
-        title: "Linux Foundations (1h days)",
-        goal: "Get comfortable on Linux — your future daily workspace.",
+        title: "Linux Foundations (Wed→Tue)",
+        goal: "Get comfortable on Linux — your future daily workspace. Started Wed 29 Jul 2026.",
         color: "#6366f1",
         days: [
           {
-            day: "Mon",
-            label: "What is DevOps + verify your lab",
-            full: [
-              { id: "w1d1t1", tag: "theory", text: "Read/watch (15–20 min): What DevOps is. Write your own 5-sentence definition." },
-              { id: "w1d1t2", tag: "hands", text: "Open Ubuntu on your Windows laptop. Tell tutor how you open it (WSL / dual-boot / VirtualBox)." },
-              { id: "w1d1t3", tag: "hands", text: "In Ubuntu + VS Code terminal run: whoami, pwd, uname -a, lsb_release -a. Save outputs in a notes file." }
-            ],
-            micro: [
-              { id: "w1d1m1", tag: "micro", text: "Write 5 sentences: What is DevOps? (phone notes OK)" }
-            ]
-          },
-          {
-            day: "Tue",
-            label: "Linux navigation day",
-            full: [
-              { id: "w1d2t1", tag: "theory", text: "Learn folders: /, /home, /etc, /var, /tmp. Draw a simple tree." },
-              { id: "w1d2t2", tag: "hands", text: "Practice: cd, ls -la, pwd, clear, history. Visit /etc and /var/log." },
-              { id: "w1d2t3", tag: "hands", text: "Create ~/devops-lab and notes.txt. Open the folder in VS Code." }
-            ],
-            micro: [
-              { id: "w1d2m1", tag: "micro", text: "Memorize: pwd, ls, cd, mkdir, clear. Sticky note is fine." }
-            ]
-          },
-          {
             day: "Wed",
-            label: "Navigate the filesystem",
+            label: "Day 1 — What is DevOps + verify lab",
             full: [
-              { id: "w1d3t1", tag: "theory", text: "Learn: /, /home, /etc, /var, /tmp. Draw a simple folder tree." },
-              { id: "w1d3t2", tag: "hands", text: "Practice: cd, ls -la, pwd, clear, history. Visit /etc and /var/log." },
-              { id: "w1d3t3", tag: "hands", text: "Create folder ~/devops-lab and file notes.txt with nano or vim." }
+              { id: "w1wed1", tag: "theory", text: "Write your own DevOps definition (how it differs from IT support)." },
+              { id: "w1wed2", tag: "hands", text: "Verify lab: Ubuntu WSL + VS Code. Run whoami, pwd, uname -a, lsb_release -a." },
+              { id: "w1wed3", tag: "hands", text: "Create ~/devops-lab + notes.txt. Open with code ." }
             ],
             micro: [
-              { id: "w1d3m1", tag: "micro", text: "Memorize: pwd, ls, cd, mkdir, clear. Write them on a sticky note." }
+              { id: "w1wedm1", tag: "micro", text: "Write 5 sentences: What is DevOps? (phone notes OK)" }
             ]
           },
           {
             day: "Thu",
-            label: "Files & permissions basics",
+            label: "Day 2 — Filesystem architecture",
             full: [
-              { id: "w1d4t1", tag: "theory", text: "Learn rwx permissions and numbers 644 / 755 / 600." },
-              { id: "w1d4t2", tag: "hands", text: "Practice: touch, cp, mv, rm, cat, less, head, tail." },
-              { id: "w1d4t3", tag: "hands", text: "chmod a file to 600 and explain why that is safer for secrets." }
+              { id: "w1thu1", tag: "theory", text: "Learn tree: /, /home, /root, /etc, /var/log, /tmp, /usr. Why each matters in DevOps." },
+              { id: "w1thu2", tag: "hands", text: "Practice: cd, ls -la, pwd, clear, history. Visit /etc and /var/log." },
+              { id: "w1thu3", tag: "hands", text: "Inspect syslog, auth.log, dmesg — know what each is for." }
             ],
             micro: [
-              { id: "w1d4m1", tag: "micro", text: "Read one short article on Linux file permissions. Note 3 key points." }
+              { id: "w1thum1", tag: "micro", text: "Memorize: pwd, ls, cd, mkdir, clear." }
             ]
           },
           {
             day: "Fri",
-            label: "Packages & nginx",
+            label: "Day 3 — Permissions theory (busy night OK)",
             full: [
-              { id: "w1d5t1", tag: "hands", text: "sudo apt update && sudo apt install nginx -y" },
-              { id: "w1d5t2", tag: "hands", text: "systemctl status/start/enable nginx. curl localhost" },
-              { id: "w1d5t3", tag: "hands", text: "Find logs in /var/log/nginx. Use tail -f for 2 minutes." }
+              { id: "w1fri1", tag: "theory", text: "Learn rwx and numbers: 644 / 755 / 600 / 700. Owner vs group vs others." },
+              { id: "w1fri2", tag: "hands", text: "Decode ls -la on /etc/passwd and /etc/shadow." },
+              { id: "w1fri3", tag: "hands", text: "Create secret.txt and chmod 600. Explain why not 700 for a text secret." }
             ],
             micro: [
-              { id: "w1d5m1", tag: "micro", text: "Write: What is a package manager? (apt = app store for Linux)" }
+              { id: "w1frim1", tag: "micro", text: "Write: 600 vs 644 vs 755 in one line each." }
             ]
           },
           {
             day: "Sat",
-            label: "Week 1 review lab",
+            label: "Day 4 — chmod practice + nginx",
             full: [
-              { id: "w1d6t1", tag: "hands", text: "Change nginx default HTML page to “Hello from my DevOps lab”." },
-              { id: "w1d6t2", tag: "hands", text: "Write a 5-line README of what you installed this week." },
-              { id: "w1d6t3", tag: "de", text: "Skim 3 German DevOps job ads. Note repeated tools." }
+              { id: "w1sat1", tag: "hands", text: "Create public.txt / private.txt / runme.sh and set 644 / 600 / 755." },
+              { id: "w1sat2", tag: "hands", text: "Install nginx: apt update/install, systemctl status, curl -I localhost." },
+              { id: "w1sat3", tag: "hands", text: "Customize /var/www/html page. Know /etc/nginx and /var/log/nginx. Reverse-proxy concept." }
             ],
             micro: [
-              { id: "w1d6m1", tag: "micro", text: "Review your notes from Mon–Fri for 15 minutes." }
+              { id: "w1satm1", tag: "micro", text: "Review nginx paths: config, logs, web root." }
             ]
           },
           {
             day: "Sun",
             label: "Sports day — rest",
             full: [
-              { id: "w1d7t1", tag: "read", text: "Rest / sports. Optional: 10 min flashcards of Linux commands only if you feel like it. No guilt if zero." }
+              { id: "w1sun1", tag: "read", text: "Rest / sports. Optional flashcards only if you feel like it." }
             ],
             micro: [
-              { id: "w1d7m1", tag: "micro", text: "Rest. Sports day." }
+              { id: "w1sunm1", tag: "micro", text: "Rest. Sports day." }
+            ]
+          },
+          {
+            day: "Mon",
+            label: "Day 5 — Week 1 service drill (busy night OK)",
+            full: [
+              { id: "w1mon1", tag: "hands", text: "Recite from memory: /etc, /var/log, 600, nginx role + three nginx paths." },
+              { id: "w1mon2", tag: "hands", text: "Break/fix drill: systemctl stop/start nginx, verify with curl -I, check access.log." },
+              { id: "w1mon3", tag: "hands", text: "Confirm systemctl is-enabled nginx." }
+            ],
+            micro: [
+              { id: "w1monm1", tag: "micro", text: "Review: /etc, /var/log, 600, nginx paths (15–30 min)." }
+            ]
+          },
+          {
+            day: "Tue",
+            label: "Day 6 — File commands catch-up + Week 1 close",
+            full: [
+              { id: "w1tue1", tag: "hands", text: "MUST COVER (was missed earlier): practice touch, cp, mv, rm, cat, less, head, tail inside ~/devops-lab." },
+              { id: "w1tue2", tag: "hands", text: "Write ~/devops-lab/README.md (5 lines): what you installed/learned in Week 1." },
+              { id: "w1tue3", tag: "de", text: "Skim 3 German DevOps job ads. Note repeated tools (Docker, K8s, Terraform, etc.)." }
+            ],
+            micro: [
+              { id: "w1tuem1", tag: "micro", text: "Memorize: cp = copy, mv = move/rename, rm = delete, cat/less/head/tail = read files." }
             ]
           }
         ]
@@ -1435,6 +1437,30 @@
       }
     ];
 
+    function remapToWedStart(days) {
+      // Original plan content is Mon→Sun. Our calendar weeks run Wed→Tue.
+      const byDay = Object.fromEntries(days.map((d) => [d.day, d]));
+      const order = [
+        ["Wed", "Mon"],
+        ["Thu", "Tue"],
+        ["Fri", "Wed"],
+        ["Sat", "Thu"],
+        ["Sun", "Sun"],
+        ["Mon", "Fri"],
+        ["Tue", "Sat"]
+      ];
+      return order.map(([newDay, oldDay]) => ({
+        ...byDay[oldDay],
+        day: newDay
+      }));
+    }
+
+    function daysForWeek(week) {
+      // Week 1 is already authored as Wed→Tue in the data.
+      if (week.week === 1) return week.days;
+      return remapToWedStart(week.days);
+    }
+
     function getState() {
       try {
         return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
@@ -1453,7 +1479,7 @@
     function getBusyDays() {
       const state = getState();
       if (Array.isArray(state.busyDays) && state.busyDays.length) return state.busyDays;
-      return ["Tue", "Fri"];
+      return ["Mon", "Thu"];
     }
 
     function setBusyDays(days) {
@@ -1540,7 +1566,8 @@
 
         const daysEl = section.querySelector(".days");
 
-        week.days.forEach((day, dayIdx) => {
+        const weekDays = daysForWeek(week);
+        weekDays.forEach((day, dayIdx) => {
           const mode = modeFor(day.day);
           const tasks = mode === "micro" || mode === "rest" ? day.micro : day.full;
           const modeLabel = mode === "full" ? "1 hour" : mode === "micro" ? "15 min" : "Rest";
@@ -1706,10 +1733,10 @@
       if (e.target.type !== "checkbox" || e.target.disabled) return;
       const selected = [...document.querySelectorAll("#busy-picker input[type=checkbox]:not(:disabled):checked")]
         .map((cb) => cb.value);
-      // keep max 2 busy nights to protect the plan
-      if (selected.length > 2) {
+      // keep max 3 busy nights so enough 1-hour days remain
+      if (selected.length > 3) {
         e.target.checked = false;
-        alert("Pick only 2 second-job nights. That keeps enough 1-hour study days.");
+        alert("Pick at most 3 busy nights. That keeps enough 1-hour study days.");
         return;
       }
       setBusyDays(selected);
