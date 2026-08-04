@@ -16,4 +16,4 @@ Then open `http://localhost:8080/devops-8-week-plan.html`.
 
 ### Lint / test / build
 
-There is no lint, automated test, or build tooling in this repo. "Testing" is manual: open the page, toggle task checkboxes / busy-night selection, and confirm progress persists across a reload (via `localStorage`).
+There is no lint, automated test, or build tooling in this repo. "Testing" is manual: open the page, toggle task checkboxes, and confirm progress persists across a reload (via `localStorage`). Schedule rule: Mon–Sat = full 1-hour lessons; Sunday = rest (no micro/15-min mode).

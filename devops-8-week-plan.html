@@ -570,14 +570,14 @@
       <div class="badge">1 Hour / Day · Working Professional · Germany</div>
       <h1>8-Week DevOps Learning Plan</h1>
       <p class="subtitle">
-        Built for your real life: full-time IT support (08:00–17:00), second job on changing nights,
+        Built for your real life: full-time IT support (08:00–17:00), second job on some nights,
         and Sunday sports. <strong style="color:#e8edf4">Week 1 started Wednesday 29 Jul 2026</strong>
-        (Wed→Tue cycle). Each full study day is <strong style="color:#e8edf4">1 hour</strong>.
-        Progress saves in your browser.
+        (Wed→Tue cycle). <strong style="color:#e8edf4">Mon–Sat = full 1 hour every day</strong>
+        (including second-job nights). Sunday stays free. Progress saves in your browser.
       </p>
       <div class="meta-row">
         <span>Week 1 = Wed → Tue</span>
-        <span>Busy nights = 15–30 min</span>
+        <span>Mon–Sat = 1 hour</span>
         <span>Sunday = rest / sports</span>
         <span>Capstone: weeks 7–8</span>
       </div>
@@ -650,18 +650,8 @@
 
     <section class="card">
       <h2>Your weekly timetable (tutor version)</h2>
-      <p>Main job: <strong style="color:var(--text)">08:00–17:00</strong>. Second job nights: <strong style="color:var(--text)">17:00–22:30</strong> → after that you are tired. Sunday = sports.</p>
-      <p>Mark which weekdays are your second-job nights. Those days switch to <strong style="color:var(--text)">15–30 min micro mode</strong>. Other study days are a full <strong style="color:var(--text)">1-hour lesson</strong>. Sunday stays rest. <strong style="color:var(--text)">Plan weeks run Wed→Tue</strong> (Week 1 started Wed 29 Jul 2026).</p>
-
-      <div class="busy-picker" id="busy-picker">
-        <label><input type="checkbox" value="Mon" checked /> Mon busy night</label>
-        <label><input type="checkbox" value="Tue" /> Tue busy night</label>
-        <label><input type="checkbox" value="Wed" /> Wed busy night</label>
-        <label><input type="checkbox" value="Thu" checked /> Thu busy night</label>
-        <label><input type="checkbox" value="Fri" /> Fri busy night</label>
-        <label><input type="checkbox" value="Sat" /> Sat busy (study morning if shift starts later)</label>
-        <label><input type="checkbox" value="Sun" disabled /> Sun = sports / rest</label>
-      </div>
+      <p>Main job: <strong style="color:var(--text)">08:00–17:00</strong>. Second job nights: <strong style="color:var(--text)">17:00–22:30</strong> — still do the full hour after (or before if that works better). Sunday = sports / free.</p>
+      <p><strong style="color:var(--text)">Updated rule (Aug 2026):</strong> no more 15-min micro days. <strong style="color:var(--text)">Mon–Sat = full 1-hour lesson every day</strong>, including second-job nights. Only Sunday is rest. <strong style="color:var(--text)">Plan weeks run Wed→Tue</strong> (Week 1 started Wed 29 Jul 2026).</p>
 
       <div class="schedule-grid" id="schedule-preview" style="margin-top:1rem"></div>
 
@@ -672,7 +662,7 @@
         <li><strong>45–55 min:</strong> Practice / fix errors</li>
         <li><strong>55–60 min:</strong> Write 3 bullet notes + tick checkboxes</li>
       </ol>
-      <p style="margin-top:0.75rem"><strong style="color:var(--text)">Tutor rule:</strong> Stop at 60 minutes. Tired learning creates frustration. Missed busy nights are OK — micro mode covers them.</p>
+      <p style="margin-top:0.75rem"><strong style="color:var(--text)">Tutor rule:</strong> Stop at 60 minutes. Protect the full hour even on tired nights — shorter “micro” days are no longer part of this plan.</p>
     </section>
 
     <section class="card">
@@ -682,7 +672,7 @@
         <li>I teach that day’s lesson step by step</li>
         <li>You paste errors / screenshots text — we fix together</li>
         <li>I check understanding before we move on</li>
-        <li>On busy nights, do only the micro task (or message me the next free evening)</li>
+        <li>Every study day is the full 1-hour lesson — including second-job nights</li>
       </ul>
     </section>
 
@@ -747,7 +737,7 @@
           },
           {
             day: "Fri",
-            label: "Day 3 — Permissions theory (busy night OK)",
+            label: "Day 3 — Permissions theory",
             full: [
               { id: "w1fri1", tag: "theory", text: "Learn rwx and numbers: 644 / 755 / 600 / 700. Owner vs group vs others." },
               { id: "w1fri2", tag: "hands", text: "Decode ls -la on /etc/passwd and /etc/shadow." },
@@ -781,7 +771,7 @@
           },
           {
             day: "Mon",
-            label: "Day 5 — Week 1 service drill (busy night OK)",
+            label: "Day 5 — Week 1 service drill",
             full: [
               { id: "w1mon1", tag: "hands", text: "Recite from memory: /etc, /var/log, 600, nginx role + three nginx paths." },
               { id: "w1mon2", tag: "hands", text: "Break/fix drill: systemctl stop/start nginx, verify with curl -I, check access.log." },
@@ -1476,48 +1466,29 @@
       setTimeout(() => note.classList.remove("visible"), 1500);
     }
 
-    function getBusyDays() {
-      const state = getState();
-      if (Array.isArray(state.busyDays) && state.busyDays.length) return state.busyDays;
-      return ["Mon", "Thu"];
-    }
-
-    function setBusyDays(days) {
-      const state = getState();
-      state.busyDays = days;
-      saveState(state);
-    }
-
     function modeFor(dayName) {
       if (dayName === "Sun") return "rest";
-      if (getBusyDays().includes(dayName)) return "micro";
       return "full";
     }
 
     function updateSchedulePreview() {
-      const busy = getBusyDays();
       const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
       const labels = {
-        Mon: "After 17:00",
-        Tue: "After 17:00",
-        Wed: "After 17:00",
-        Thu: "After 17:00",
-        Fri: "After 17:00",
-        Sat: "Flexible 1h",
-        Sun: "Sports"
+        Mon: "Full 1h",
+        Tue: "Full 1h",
+        Wed: "Full 1h",
+        Thu: "Full 1h",
+        Fri: "Full 1h",
+        Sat: "Full 1h",
+        Sun: "Sports / free"
       };
       const el = document.getElementById("schedule-preview");
       el.innerHTML = days.map((d) => {
         const mode = modeFor(d);
-        const cls = mode === "rest" ? "rest" : mode === "micro" ? "busy" : "study";
-        const text = mode === "rest" ? "Rest" : mode === "micro" ? "15 min micro" : "1 hour study";
+        const cls = mode === "rest" ? "rest" : "study";
+        const text = mode === "rest" ? "Rest" : "1 hour study";
         return `<div class="day-chip ${cls}"><strong>${d}</strong>${labels[d]}<br>${text}</div>`;
       }).join("");
-
-      // sync checkboxes
-      document.querySelectorAll("#busy-picker input[type=checkbox]:not(:disabled)").forEach((cb) => {
-        cb.checked = busy.includes(cb.value);
-      });
     }
 
     function renderPlan() {
@@ -1546,7 +1517,7 @@
                 <li>Containerized API + frontend + PostgreSQL</li>
                 <li>Terraform on AWS eu-central-1 + CI/CD</li>
                 <li>Monitoring, security basics, runbooks, demo video</li>
-                <li>Busy nights stay micro — deep work on free evenings + Saturday</li>
+                <li>Full 1-hour slices Mon–Sat — including second-job nights</li>
               </ul>
             </div>`;
         }
@@ -1569,10 +1540,10 @@
         const weekDays = daysForWeek(week);
         weekDays.forEach((day, dayIdx) => {
           const mode = modeFor(day.day);
-          const tasks = mode === "micro" || mode === "rest" ? day.micro : day.full;
-          const modeLabel = mode === "full" ? "1 hour" : mode === "micro" ? "15 min" : "Rest";
-          const modeClass = mode === "full" ? "mode-full" : mode === "micro" ? "mode-micro" : "mode-rest";
-          const cardClass = mode === "micro" ? "busy-day" : mode === "rest" ? "rest-day" : "";
+          const tasks = mode === "rest" ? day.micro : day.full;
+          const modeLabel = mode === "full" ? "1 hour" : "Rest";
+          const modeClass = mode === "full" ? "mode-full" : "mode-rest";
+          const cardClass = mode === "rest" ? "rest-day" : "";
 
           const card = document.createElement("div");
           card.className = `day-card ${cardClass}`;
@@ -1593,7 +1564,7 @@
             <div class="day-header" role="button" tabindex="0">
               <span class="day-label">${day.day} — ${day.label}</span>
               <span class="mode-badge ${modeClass}">${modeLabel}</span>
-              <span class="day-time">${mode === "full" ? "~60 min" : mode === "micro" ? "~15 min" : "off"}</span>
+              <span class="day-time">${mode === "full" ? "~60 min" : "off"}</span>
               <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </div>
             <ul class="task-list">${tasksHtml}</ul>
@@ -1729,21 +1700,6 @@
       }
     }
 
-    document.getElementById("busy-picker").addEventListener("change", (e) => {
-      if (e.target.type !== "checkbox" || e.target.disabled) return;
-      const selected = [...document.querySelectorAll("#busy-picker input[type=checkbox]:not(:disabled):checked")]
-        .map((cb) => cb.value);
-      // keep max 3 busy nights so enough 1-hour days remain
-      if (selected.length > 3) {
-        e.target.checked = false;
-        alert("Pick at most 3 busy nights. That keeps enough 1-hour study days.");
-        return;
-      }
-      setBusyDays(selected);
-      updateSchedulePreview();
-      renderPlan();
-    });
-
     document.getElementById("expand-all").addEventListener("click", () => {
       document.querySelectorAll(".day-card").forEach((c) => c.classList.remove("collapsed"));
       const state = getState();
@@ -1762,10 +1718,8 @@
     });
 
     document.getElementById("reset-progress").addEventListener("click", () => {
-      if (confirm("Reset all checkboxes? Busy-night settings will be kept.")) {
-        const busy = getBusyDays();
+      if (confirm("Reset all checkboxes?")) {
         localStorage.removeItem(STORAGE_KEY);
-        setBusyDays(busy);
         updateSchedulePreview();
         renderPlan();
       }
