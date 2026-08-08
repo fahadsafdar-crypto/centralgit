@@ -572,12 +572,12 @@
       <p class="subtitle">
         Built for your real life: full-time IT support (08:00–17:00), second job on changing nights,
         and Sunday sports. <strong style="color:#e8edf4">Week 1 started Wednesday 29 Jul 2026</strong>
-        (Wed→Tue cycle). Each full study day is <strong style="color:#e8edf4">1 hour</strong>.
-        Progress saves in your browser.
+        (Wed→Tue cycle). <strong style="color:#e8edf4">Every study day = 1 full hour</strong>.
+        Sunday = rest. Progress saves in your browser.
       </p>
       <div class="meta-row">
         <span>Week 1 = Wed → Tue</span>
-        <span>Busy nights = 15–30 min</span>
+        <span>Rule: 1 hour every study day</span>
         <span>Sunday = rest / sports</span>
         <span>Capstone: weeks 7–8</span>
       </div>
@@ -606,6 +606,30 @@
   </nav>
 
   <main>
+    <section class="dashboard" id="rules-dashboard" style="margin-bottom:1.25rem">
+      <div class="dashboard-top">
+        <div>
+          <h2>Standing rules (tutor must follow)</h2>
+          <p class="dashboard-sub">User changes override old plan text. Keep this section updated.</p>
+        </div>
+      </div>
+      <ul style="margin:0 0 1rem 1.1rem;color:var(--muted);font-size:0.9rem">
+        <li><strong style="color:var(--text)">1 hour every study day</strong> (Mon–Sat). No default “micro/busy night” mode.</li>
+        <li><strong style="color:var(--text)">Sunday = rest</strong>.</li>
+        <li><strong style="color:var(--text)">Week calendar = Wed→Tue</strong> (Week 1 started Wed 29 Jul 2026).</li>
+        <li><strong style="color:var(--text)">Teach first, then task</strong> — explain architecture/commands before asking to run them.</li>
+        <li><strong style="color:var(--text)">Do not test untaught topics</strong> in revision.</li>
+        <li><strong style="color:var(--text)">Any user plan change must be applied to this HTML the same day</strong> and recorded below.</li>
+      </ul>
+      <h3 style="color:#93c5fd;font-size:0.95rem;margin-bottom:0.5rem">Change log</h3>
+      <ol style="margin:0 0 0 1.1rem;color:var(--muted);font-size:0.875rem">
+        <li>2026-07-29 — Start Week 1 on Wednesday; personal WSL lab.</li>
+        <li>2026-08-03 — Align Week 1 HTML to Wed→Tue; restore missed cp/mv/rm/cat/less/head/tail.</li>
+        <li>2026-08-05 — Teaching rule: explain before tasks; no surprise untaught quiz items.</li>
+        <li>2026-08-08 — <strong style="color:var(--text)">Cancel default busy-night micro mode. Study 1 hour every day to finish in 8 weeks.</strong></li>
+      </ol>
+    </section>
+
     <section class="dashboard" id="progress-dashboard">
       <div class="dashboard-top">
         <div>
@@ -650,16 +674,17 @@
 
     <section class="card">
       <h2>Your weekly timetable (tutor version)</h2>
-      <p>Main job: <strong style="color:var(--text)">08:00–17:00</strong>. Second job nights: <strong style="color:var(--text)">17:00–22:30</strong> → after that you are tired. Sunday = sports.</p>
-      <p>Mark which weekdays are your second-job nights. Those days switch to <strong style="color:var(--text)">15–30 min micro mode</strong>. Other study days are a full <strong style="color:var(--text)">1-hour lesson</strong>. Sunday stays rest. <strong style="color:var(--text)">Plan weeks run Wed→Tue</strong> (Week 1 started Wed 29 Jul 2026).</p>
+      <p>Main job: <strong style="color:var(--text)">08:00–17:00</strong>. Second job may exist some evenings — <strong style="color:var(--text)">study still stays 1 full hour</strong> unless you explicitly say that day is shorter.</p>
+      <p><strong style="color:var(--text)">Default:</strong> Mon–Sat = 1-hour lesson. Sunday = rest. Plan weeks run <strong style="color:var(--text)">Wed→Tue</strong>.</p>
+      <p style="margin-top:0.5rem;color:var(--muted);font-size:0.875rem">Optional: mark a day only if <em>you</em> request a shorter session that day. Tutor must not assume micro mode.</p>
 
       <div class="busy-picker" id="busy-picker">
-        <label><input type="checkbox" value="Mon" checked /> Mon busy night</label>
-        <label><input type="checkbox" value="Tue" /> Tue busy night</label>
-        <label><input type="checkbox" value="Wed" /> Wed busy night</label>
-        <label><input type="checkbox" value="Thu" checked /> Thu busy night</label>
-        <label><input type="checkbox" value="Fri" /> Fri busy night</label>
-        <label><input type="checkbox" value="Sat" /> Sat busy (study morning if shift starts later)</label>
+        <label><input type="checkbox" value="Mon" /> Mon shorter (only if I say so)</label>
+        <label><input type="checkbox" value="Tue" /> Tue shorter (only if I say so)</label>
+        <label><input type="checkbox" value="Wed" /> Wed shorter (only if I say so)</label>
+        <label><input type="checkbox" value="Thu" /> Thu shorter (only if I say so)</label>
+        <label><input type="checkbox" value="Fri" /> Fri shorter (only if I say so)</label>
+        <label><input type="checkbox" value="Sat" /> Sat shorter (only if I say so)</label>
         <label><input type="checkbox" value="Sun" disabled /> Sun = sports / rest</label>
       </div>
 
@@ -668,21 +693,21 @@
       <h3>How each 1-hour session works</h3>
       <ol>
         <li><strong>0–5 min:</strong> Open yesterday’s notes + today’s goal</li>
-        <li><strong>5–45 min:</strong> Main lesson (hands-on or theory as listed)</li>
-        <li><strong>45–55 min:</strong> Practice / fix errors</li>
-        <li><strong>55–60 min:</strong> Write 3 bullet notes + tick checkboxes</li>
+        <li><strong>5–15 min:</strong> Architecture / explain commands (before running)</li>
+        <li><strong>15–50 min:</strong> Hands-on lab</li>
+        <li><strong>50–60 min:</strong> You explain in your words + notes + tick checkboxes</li>
       </ol>
-      <p style="margin-top:0.75rem"><strong style="color:var(--text)">Tutor rule:</strong> Stop at 60 minutes. Tired learning creates frustration. Missed busy nights are OK — micro mode covers them.</p>
+      <p style="margin-top:0.75rem"><strong style="color:var(--text)">Tutor rule:</strong> Default is 60 minutes every study day. Shorter only if student explicitly requests it for that day.</p>
     </section>
 
     <section class="card">
       <h2>How to use this with your tutor (me)</h2>
       <ul>
         <li>Tell me: <em>“Starting Week X, Day Y”</em></li>
-        <li>I teach that day’s lesson step by step</li>
-        <li>You paste errors / screenshots text — we fix together</li>
+        <li>I teach that day’s lesson step by step (explain first)</li>
+        <li>You paste errors / outputs — we fix together</li>
         <li>I check understanding before we move on</li>
-        <li>On busy nights, do only the micro task (or message me the next free evening)</li>
+        <li>If you change the plan, I update this HTML + change log the same day</li>
       </ul>
     </section>
 
@@ -703,7 +728,7 @@
   </footer>
 
   <script>
-    const STORAGE_KEY = "devops-plan-de-1h-v3-wed";
+    const STORAGE_KEY = "devops-plan-de-1h-v4-daily";
 
     const tagLabels = {
       theory: "Theory",
@@ -1478,8 +1503,9 @@
 
     function getBusyDays() {
       const state = getState();
-      if (Array.isArray(state.busyDays) && state.busyDays.length) return state.busyDays;
-      return ["Mon", "Thu"];
+      // Default: NO shorter days. Only days the student explicitly marked.
+      if (Array.isArray(state.busyDays)) return state.busyDays;
+      return [];
     }
 
     function setBusyDays(days) {
@@ -1490,6 +1516,8 @@
 
     function modeFor(dayName) {
       if (dayName === "Sun") return "rest";
+      // Standing rule (2026-08-08): 1 hour every study day by default.
+      // Shorter/micro only if student explicitly marked that day.
       if (getBusyDays().includes(dayName)) return "micro";
       return "full";
     }
@@ -1510,7 +1538,7 @@
       el.innerHTML = days.map((d) => {
         const mode = modeFor(d);
         const cls = mode === "rest" ? "rest" : mode === "micro" ? "busy" : "study";
-        const text = mode === "rest" ? "Rest" : mode === "micro" ? "15 min micro" : "1 hour study";
+        const text = mode === "rest" ? "Rest" : mode === "micro" ? "Shorter (you requested)" : "1 hour study";
         return `<div class="day-chip ${cls}"><strong>${d}</strong>${labels[d]}<br>${text}</div>`;
       }).join("");
 
@@ -1733,10 +1761,9 @@
       if (e.target.type !== "checkbox" || e.target.disabled) return;
       const selected = [...document.querySelectorAll("#busy-picker input[type=checkbox]:not(:disabled):checked")]
         .map((cb) => cb.value);
-      // keep max 3 busy nights so enough 1-hour days remain
-      if (selected.length > 3) {
+      // optional shorter days — student-controlled only
+      if (selected.length > 6) {
         e.target.checked = false;
-        alert("Pick at most 3 busy nights. That keeps enough 1-hour study days.");
         return;
       }
       setBusyDays(selected);
