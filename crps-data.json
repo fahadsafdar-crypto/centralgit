@@ -1,0 +1,360 @@
+{
+  "meta": {
+    "title": "Complex Regional Pain Syndrome (CRPS) — disease data",
+    "version": "1.0.0",
+    "compiled": "2026-08-17",
+    "disclaimer": "Educational reference compiled from published medical sources. Not a diagnosis, treatment plan, or substitute for a clinician. CRPS is diagnosed clinically; there is no gold-standard laboratory test.",
+    "primary_sources": [
+      "StatPearls / NCBI Bookshelf — Complex Regional Pain Syndrome (updated 2025-05-04)",
+      "Ferraro et al. Lancet Neurology 2024 — epidemiology, pathophysiology, diagnosis, treatment",
+      "Harden et al. Pain 2010 — Budapest criteria validation",
+      "Goebel et al. Pain 2021 — Valencia consensus adaptations of IASP criteria",
+      "UK Royal College of Physicians — CRPS in adults, 2nd edition guideline",
+      "ICD-11 MMS — MG30.04 Complex regional pain syndrome",
+      "Goebel A. NEJM 2025 — Clinical Practice: Complex Regional Pain Syndrome"
+    ]
+  },
+  "identity": {
+    "name": "Complex regional pain syndrome",
+    "abbreviation": "CRPS",
+    "who_icd11": {
+      "code": "MG30.04",
+      "parent": "Chronic primary pain",
+      "secondary_parent": "Chronic postsurgical or post-traumatic pain (MG30.2)"
+    },
+    "icd10_gm_germany": {
+      "type_1": "G90.5 (CRPS Typ I / sympathische Reflexdystrophie / Morbus Sudeck)",
+      "type_2": "G90.6 (CRPS Typ II / Kausalgie)",
+      "note": "Exact 5-character ICD-10-GM codes vary by limb and laterality; coding practice should follow current DIMDI/BfArM tables."
+    },
+    "mesh": "D020918",
+    "orphanet": "ORPHA:83450 (rare / orphan disease designation in EU and US)",
+    "former_names": [
+      "Reflex sympathetic dystrophy (RSD) — now CRPS type I",
+      "Causalgia — now CRPS type II",
+      "Sudeck atrophy / Morbus Sudeck / algoneurodystrophy",
+      "Shoulder-hand syndrome / Steinbrocker syndrome"
+    ],
+    "definition": "A rare chronic pain condition, usually in a distal limb after trauma or surgery, with continuing regional pain that is disproportionate in intensity or duration to the expected course of the injury, plus sensory, vasomotor, sudomotor/edema, and motor/trophic abnormalities. Pain is regional and does not follow a single nerve or dermatome."
+  },
+  "classification": {
+    "iasp_pain_class": "Chronic primary pain; IASP has also proposed that many patients meet nociplastic pain descriptors",
+    "subtypes": [
+      {
+        "id": "type_1",
+        "name": "CRPS type I",
+        "former_name": "Reflex sympathetic dystrophy",
+        "nerve_injury": false,
+        "note": "No identifiable major peripheral nerve lesion. Far more common than type II. Clinical features are otherwise the same as type II."
+      },
+      {
+        "id": "type_2",
+        "name": "CRPS type II",
+        "former_name": "Causalgia",
+        "nerve_injury": true,
+        "note": "Documented peripheral nerve injury is present. Distinguished from ordinary neuropathic pain by obligatory autonomic signs and spread beyond the injured nerve territory."
+      },
+      {
+        "id": "partial_remission",
+        "name": "CRPS in partial remission",
+        "nerve_injury": null,
+        "note": "Valencia 2021 subtype: previously met full Budapest criteria but no longer does, while residual signs/symptoms remain. Pain may still be disabling."
+      },
+      {
+        "id": "nos",
+        "name": "CRPS-NOS (not otherwise specified)",
+        "nerve_injury": null,
+        "note": "Some CRPS-like features without ever meeting full Budapest criteria, and no better alternative diagnosis."
+      }
+    ],
+    "phenotypes_informal": [
+      {
+        "id": "warm",
+        "name": "Warm CRPS",
+        "features": "Increased temperature, redness, vasodilation; more typical of early/inflammatory presentations"
+      },
+      {
+        "id": "cold",
+        "name": "Cold CRPS",
+        "features": "Cooler limb, pallor/cyanosis, vasoconstriction; associated with more chronic courses in some series"
+      }
+    ],
+    "note_on_staging": "Bonica's historic 3-stage model (acute / dystrophic / atrophic) is not supported as a reliable timeline. Symptom clusters do not map cleanly onto duration."
+  },
+  "epidemiology": {
+    "rarity": {
+      "ema_fda": "Meets orphan/rare-disease thresholds (EU: ≤5/10,000; US: <200,000 people).",
+      "us_5yr_incidence_estimate": "About 0.07% over 5 years in one US database analysis (ICD-9 based; may be inflated)."
+    },
+    "incidence_per_100000_person_years": [
+      {
+        "study": "Sandroni et al. 2003 — Olmsted County, Minnesota",
+        "type_1": 5.46,
+        "type_2": 0.82,
+        "combined": 6.28,
+        "notes": "Population-based; older IASP criteria; female:male ≈ 4:1; median onset age 46."
+      },
+      {
+        "study": "de Mos et al. 2007 — Netherlands",
+        "type_1": null,
+        "type_2": null,
+        "combined": 26.2,
+        "notes": "Population-based; older IASP criteria; female:male ≈ 3:1; peak age 61–70."
+      }
+    ],
+    "prevalence_examples": [
+      {
+        "study": "South Korea electronic health data (Bang / Kim series; ICD-9 era)",
+        "value": "About 26 per 100,000 (prevalence estimate; coding may inflate)."
+      }
+    ],
+    "sex": "Women are affected about 3–4 times more often than men.",
+    "age": "Incidence rises with age; highest between about 50 and 80 years. Also occurs in children (outside most adult reviews).",
+    "limb": "Upper limb (hand/arm) more often than lower limb in several Western series; some East Asian coding studies report more lower-limb involvement.",
+    "inciting_events": {
+      "most_common": "Fracture (about 44–46% of cases in classic population studies)",
+      "other": [
+        "Surgery (fracture fixation, carpal tunnel release ~2–5%, foot/ankle surgery ~4%, Dupuytren surgery 4.5–40% in older series)",
+        "Sprain, contusion, crush injury",
+        "Cast/splint immobilisation (systematic-review signal for increased risk)",
+        "Minor procedures (e.g. IV cannulation) in some reports",
+        "Rare spontaneous onset without identified trauma"
+      ],
+      "post_injury_rates": [
+        { "context": "Wrist / distal radius fracture", "reported_range": "about 2–25% depending on criteria and follow-up" },
+        { "context": "Traumatic hand injury", "reported_range": "about 26% in one series" },
+        { "context": "Total knee arthroplasty", "reported_range": "up to ~13% in some older series; near 0% when Budapest criteria applied strictly in one 100-patient study" },
+        { "context": "Foot/ankle surgery", "reported_range": "4.36% in one retrospective series" }
+      ]
+    },
+    "risk_factors": [
+      { "factor": "High pain intensity in the first week after injury (e.g. NRS 7–8/10 after wrist fracture)", "evidence": "Strongest consistent prospective predictor" },
+      { "factor": "Female sex", "evidence": "Consistent across population studies" },
+      { "factor": "Older adult age (peak 50–80)", "evidence": "Consistent" },
+      { "factor": "Immobilisation of the injured limb", "evidence": "Systematic review signal" },
+      { "factor": "Open fracture / crush injury vs simple fracture", "evidence": "Higher reported risk" },
+      { "factor": "Pre-existing chronic pain (RA, migraine, widespread pain)", "evidence": "Observational" },
+      { "factor": "Asthma", "evidence": "Case-control OR ~3.0" },
+      { "factor": "ACE-inhibitor use", "evidence": "Case-control OR ~2.7" },
+      { "factor": "Diabetes mellitus", "evidence": "Prospective cohort OR ~3.2" },
+      { "factor": "Menopause, osteoporosis, migraine, smoking", "evidence": "Reported associations" },
+      { "factor": "Anxiety, depression, catastrophising after injury", "evidence": "Associated with onset/persistence in unadjusted prospective analyses; not a personality-type disease" }
+    ]
+  },
+  "pathophysiology": {
+    "summary": "Multifactorial. No single mechanism. Involves neurogenic inflammation, immune/autoimmune signals, peripheral and central sensitisation, autonomic dysregulation, and cortical reorganisation. Psychological distress can amplify symptoms but CRPS is not a conversion or 'psychogenic' diagnosis.",
+    "mechanisms": [
+      {
+        "id": "inflammation",
+        "name": "Neurogenic / immune inflammation",
+        "detail": "Elevated TNF-α, IL-1β, IL-2, IL-6; neuropeptides (CGRP, bradykinin, substance P) causing vasodilation and plasma extravasation. Acute CRPS skin shows up-regulated TNF-α and IL-6 vs the unaffected limb."
+      },
+      {
+        "id": "autoimmune",
+        "name": "Autoimmune contribution",
+        "detail": "Autoantibodies to β2-adrenergic, α1a-adrenergic, and muscarinic M2 receptors reported. Passive transfer of IgM/IgG can induce CRPS-like features in animal models. Some patients improve with IVIG in selected studies."
+      },
+      {
+        "id": "peripheral",
+        "name": "Peripheral sensitisation",
+        "detail": "Inflammatory mediators lower nociceptor thresholds → hyperalgesia. Catecholamine sensitivity of peripheral fibres."
+      },
+      {
+        "id": "central",
+        "name": "Central sensitisation and cortical change",
+        "detail": "Dorsal-horn wind-up, NMDA involvement, allodynia. Reduced somatosensory cortical representation of the affected limb; body-perception disturbance (limb feels larger/foreign)."
+      },
+      {
+        "id": "autonomic",
+        "name": "Autonomic / sympathetic coupling",
+        "detail": "Upregulated adrenoreceptors on nociceptors; colour, temperature, and sweating asymmetry. Sympathetic blocks have not shown clear RCT benefit despite historical use."
+      },
+      {
+        "id": "genetic",
+        "name": "Genetic / epigenetic",
+        "detail": "Possible HLA and TNF-α associations. 2023 exome work suggested heritability in a subset (more in males) with SNPs in ANO10, P2RX7, PRKAG1, SLC12A9."
+      }
+    ]
+  },
+  "clinical_features": {
+    "core": "Continuing regional pain, usually distal limb, disproportionate to the injury, plus mixed sensory/autonomic/motor/trophic signs that fluctuate.",
+    "onset": "Typically days to weeks after trauma; often within 8 weeks of a noxious event.",
+    "laterality": "Usually unilateral. Bilateral onset should prompt alternative diagnoses.",
+    "categories": [
+      {
+        "id": "sensory",
+        "name": "Sensory",
+        "symptoms_and_signs": [
+          "Hyperalgesia (exaggerated pain to pinprick or other noxious stimuli)",
+          "Allodynia (pain from light touch, clothing, deep pressure, or joint movement)",
+          "Hyperesthesia"
+        ]
+      },
+      {
+        "id": "vasomotor",
+        "name": "Vasomotor",
+        "symptoms_and_signs": [
+          "Skin colour change or colour asymmetry (red, mottled, pale, cyanotic)",
+          "Temperature asymmetry (sign threshold often cited as >1 °C)"
+        ]
+      },
+      {
+        "id": "sudomotor_edema",
+        "name": "Sudomotor / edema",
+        "symptoms_and_signs": [
+          "Edema / swelling of the limb",
+          "Sweating changes or sweating asymmetry (hyperhidrosis or dryness)"
+        ]
+      },
+      {
+        "id": "motor_trophic",
+        "name": "Motor / trophic",
+        "symptoms_and_signs": [
+          "Decreased range of motion",
+          "Weakness, tremor, dystonia, myoclonus",
+          "Trophic changes of skin, hair, or nails (glossy skin, hair growth change, brittle nails)",
+          "Later: contracture, bone demineralisation"
+        ]
+      }
+    ],
+    "associated_burden": [
+      "Sleep disruption, fatigue",
+      "Anxiety, depression, pain-related fear / kinesiophobia (secondary, not causal personality)",
+      "Body-perception disturbance",
+      "Work disability: up to ~40% unable to return to work; about one-third of returners need job adaptation",
+      "Less common systemic associations reported: cognitive/word-finding issues, urologic urgency, GI dysmotility"
+    ]
+  },
+  "diagnosis": {
+    "gold_standard_test": null,
+    "method": "Clinical diagnosis of exclusion using IASP Budapest criteria (2007/2010), with Valencia consensus assessment instructions (2021). Tests (thermography, 3-phase bone scan, QSART) may support or rule out mimics; they are not required.",
+    "budapest_clinical": {
+      "sensitivity": 0.99,
+      "specificity": 0.68,
+      "compared_to": "Original 1994 IASP criteria (similar sensitivity, lower specificity)"
+    },
+    "budapest_requirements": [
+      "1. Continuing pain that is disproportionate to any inciting event",
+      "2. Patient reports at least 1 symptom in 3 of 4 categories (sensory, vasomotor, sudomotor/edema, motor/trophic)",
+      "3. Examiner finds at least 1 sign in 2 or more of those 4 categories at the visit",
+      "4. No other diagnosis better explains the signs and symptoms"
+    ],
+    "valencia_clarifications_2021": [
+      "Re-apply the full criteria at every assessment (signs fluctuate).",
+      "Spread = meeting full CRPS criteria in more than one limb.",
+      "Define 'asymmetry' and 'changes' carefully (see ICD-11 assessment notes).",
+      "Introduced CRPS in partial remission and retained CRPS-NOS."
+    ],
+    "differential_diagnosis": [
+      "Infection / cellulitis",
+      "Deep-vein thrombosis",
+      "Peripheral arterial disease / arterial insufficiency",
+      "Raynaud phenomenon",
+      "Erythromelalgia",
+      "Vasculitis",
+      "Lymphedema",
+      "Small-fibre or large-fibre neuropathy",
+      "Post-traumatic or post-surgical neuropathic pain without CRPS features",
+      "Inflammatory arthritis / gout",
+      "Compartment syndrome (acute)",
+      "Conversion disorder (must not be a default explanation)"
+    ]
+  },
+  "management": {
+    "guideline": "UK Royal College of Physicians CRPS in adults (2nd edition) is widely cited as the high-quality integrated guideline. Four equal pillars: education, pain relief, physical rehabilitation, psychological intervention.",
+    "principles": [
+      "Start rehabilitation early; delayed care is linked to worse function.",
+      "Individualise: evidence for most drugs/procedures in CRPS specifically is low or very low certainty.",
+      "Do not wait for a 'perfect' diagnosis before gentle, supervised movement if CRPS is suspected.",
+      "Strong opioids are generally avoided; refer to a pain specialist if considered.",
+      "Amputation is not a reliable cure; phantom/stump pain and recurrent CRPS are common."
+    ],
+    "pillars": [
+      {
+        "id": "education",
+        "name": "Education",
+        "points": [
+          "Explain nerve-function / inflammatory pain, not 'imagined' pain",
+          "Up to ~18 months, many people improve substantially (about 80% in one 2025 clinical review)",
+          "Involve family; teach pacing and flare-up plans",
+          "Distress and a 'strange-feeling' limb are common, not a sign of madness"
+        ]
+      },
+      {
+        "id": "rehab",
+        "name": "Physical and occupational therapy",
+        "points": [
+          "Desensitisation, gentle ROM, then graded loading",
+          "Graded motor imagery and mirror therapy (low-certainty benefit in Cochrane reviews)",
+          "Exposure-based therapy if high fear-avoidance",
+          "Avoid forced painful mobilisation; also avoid complete disuse"
+        ]
+      },
+      {
+        "id": "meds",
+        "name": "Medicines (examples — clinician-directed)",
+        "points": [
+          "Simple analgesics (paracetamol, NSAIDs) first for residual trauma pain",
+          "Neuropathic agents: amitriptyline/nortriptyline, duloxetine, gabapentin/pregabalin — modest effects extrapolated from neuropathic pain; CRPS-specific evidence is weak",
+          "Short steroid course sometimes used early (guidelines vary; evidence mixed)",
+          "Bisphosphonates (e.g. IV pamidronate) considered for early CRPS (<~4–6 months) — low-certainty; later-duration trials of other agents have failed",
+          "Ketamine infusions: possible short-term relief, not guideline-first-line; psychomimetic risks",
+          "Avoid starting strong opioids for CRPS in RCP guidance"
+        ]
+      },
+      {
+        "id": "psychology",
+        "name": "Psychological intervention",
+        "points": [
+          "CBT / pain-management programmes have moderate-certainty small benefits in chronic pain generally",
+          "Address anxiety, depression, sleep, compensation stress, fear of movement",
+          "CRPS is not caused by a specific personality type"
+        ]
+      }
+    ],
+    "interventional": [
+      "Local-anaesthetic sympathetic blocks: historically common; RCTs suggest they are probably ineffective as pain treatment",
+      "IV regional guanethidine: not recommended",
+      "Spinal cord stimulation or dorsal root ganglion stimulation: specialist option after failed integrated care; ACCURATE trial favoured DRG vs SCS in selected CRPS; complications and waning benefit occur",
+      "Do not use amputation as routine salvage"
+    ],
+    "prevention_uncertain": [
+      "Non-restrictive casting and early functional rehab after fracture",
+      "Vitamin C 500 mg/day for 50 days after wrist fracture: mixed meta-analyses; not a firm guideline mandate"
+    ]
+  },
+  "prognosis": {
+    "early_course": "Acute CRPS often improves in the first 6 months.",
+    "at_12_months": "About 14–27% still fulfil Budapest criteria at 12 months in prospective series; in one CRPS I cohort with symptoms up to 6 months, 48% still met criteria 1 year later.",
+    "at_18_months": "NEJM 2025 clinical review: roughly 80% have substantial improvement by 18 months; later major improvement is less common.",
+    "long_term": "Between 1 and 8 years, average CRPS severity may change little. Residual mild pain, sensitivity, or swelling can persist even when people feel much better.",
+    "work": "Up to 40% do not return to work; ~1/3 of those who return need workplace adaptation.",
+    "spread_risk": "People who do not improve by ~18 months may develop spread or non-CRPS widespread/neuropathic pain."
+  },
+  "patient_and_germany_resources": [
+    {
+      "name": "IASP — International Association for the Study of Pain",
+      "url": "https://www.iasp-pain.org/"
+    },
+    {
+      "name": "UK RCP guideline: CRPS in adults (2nd edition)",
+      "url": "https://www.rcp.ac.uk/"
+    },
+    {
+      "name": "NCBI StatPearls: Complex Regional Pain Syndrome",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK430719/"
+    },
+    {
+      "name": "ICD-11 browser — MG30.04",
+      "url": "https://icd.who.int/"
+    },
+    {
+      "name": "Deutsche Schmerzgesellschaft e.V.",
+      "url": "https://www.schmerzgesellschaft.de/"
+    },
+    {
+      "name": "RSDSA (US patient organisation; historic RSD name)",
+      "url": "https://rsds.org/"
+    }
+  ]
+}

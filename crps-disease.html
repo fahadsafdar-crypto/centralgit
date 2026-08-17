@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRPS Disease Data — Complex Regional Pain Syndrome</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --surface2: #243044;
+      --border: #2d3a4f;
+      --text: #e8edf4;
+      --muted: #8b9cb3;
+      --accent: #3b82f6;
+      --accent-soft: rgba(59, 130, 246, 0.15);
+      --success: #22c55e;
+      --success-soft: rgba(34, 197, 94, 0.15);
+      --warning: #f59e0b;
+      --warning-soft: rgba(245, 158, 11, 0.15);
+      --danger: #ef4444;
+      --danger-soft: rgba(239, 68, 68, 0.15);
+      --purple: #a78bfa;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: #93c5fd; }
+    a:hover { color: #bfdbfe; }
+
+    .hero {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f1419 62%);
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 1.5rem 1.75rem;
+    }
+
+    .hero-inner, .wrap { max-width: 1040px; margin: 0 auto; }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: #93c5fd;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 { font-size: clamp(1.5rem, 4vw, 2.25rem); font-weight: 700; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+    h3 { font-size: 1.05rem; margin: 1.1rem 0 0.45rem; color: #c7d2fe; }
+    .subtitle { color: var(--muted); font-size: 1rem; max-width: 760px; }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.1rem;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+    .meta-row span::before { content: "• "; color: var(--accent); }
+
+    nav.toc {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(15, 20, 25, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav.toc .wrap {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.65rem 1.5rem;
+    }
+    nav.toc a {
+      flex: 0 0 auto;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.8rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+    }
+    nav.toc a:hover { color: var(--text); border-color: var(--border); background: var(--surface); }
+
+    .wrap { padding: 1.5rem; }
+
+    .disclaimer {
+      background: var(--warning-soft);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fde68a;
+      padding: 0.9rem 1rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      margin: 1.25rem 0 0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.75rem;
+      margin: 1.25rem 0 0.25rem;
+    }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.95rem 1rem;
+    }
+    .stat .n { font-size: 1.35rem; font-weight: 700; color: #93c5fd; }
+    .stat .l { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+    section.card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.35rem 1.4rem;
+      margin: 1.15rem 0;
+    }
+
+    p { margin: 0.55rem 0; color: #d5deea; }
+    ul, ol { margin: 0.4rem 0 0.4rem 1.2rem; color: #d5deea; }
+    li { margin: 0.28rem 0; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.85rem;
+    }
+    .mini {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+    }
+    .mini h3 { margin-top: 0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin-top: 0.6rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.55rem 0.6rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th { color: var(--muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    tr:last-child td { border-bottom: none; }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 0.12rem 0.5rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #93c5fd;
+      margin-right: 0.25rem;
+    }
+    .tag.warn { background: var(--warning-soft); color: #fcd34d; }
+    .tag.ok { background: var(--success-soft); color: #86efac; }
+    .tag.bad { background: var(--danger-soft); color: #fca5a5; }
+
+    label.check {
+      display: flex;
+      gap: 0.65rem;
+      align-items: flex-start;
+      padding: 0.45rem 0;
+      cursor: pointer;
+      font-size: 0.92rem;
+    }
+    label.check input { margin-top: 0.3rem; accent-color: var(--accent); }
+    fieldset {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.7rem 0.9rem 0.85rem;
+      margin: 0.7rem 0;
+    }
+    legend { color: #93c5fd; padding: 0 0.35rem; font-size: 0.85rem; }
+
+    .result {
+      margin-top: 0.9rem;
+      padding: 0.9rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      font-size: 0.95rem;
+    }
+    .result.yes { border-color: rgba(34, 197, 94, 0.45); background: var(--success-soft); }
+    .result.no { border-color: rgba(239, 68, 68, 0.4); background: var(--danger-soft); }
+    .result.maybe { border-color: rgba(245, 158, 11, 0.4); background: var(--warning-soft); }
+
+    .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.75rem; }
+    .pillar { background: var(--surface2); border-radius: 10px; padding: 0.9rem 1rem; border-top: 3px solid var(--accent); }
+    .pillar:nth-child(2) { border-top-color: var(--success); }
+    .pillar:nth-child(3) { border-top-color: var(--warning); }
+    .pillar:nth-child(4) { border-top-color: var(--purple); }
+    .pillar h3 { margin-top: 0; color: var(--text); }
+
+    footer {
+      color: var(--muted);
+      font-size: 0.8rem;
+      padding: 1.5rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    code { font-size: 0.88em; background: var(--surface2); padding: 0.05rem 0.35rem; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="badge">Disease data · educational</div>
+      <h1>Complex Regional Pain Syndrome (CRPS)</h1>
+      <p class="subtitle">
+        Rare post-traumatic limb pain with sensory, autonomic, motor, and trophic changes.
+        Clinical diagnosis (Budapest / Valencia). ICD-11 <code>MG30.04</code>.
+        Formerly called reflex sympathetic dystrophy, causalgia, or Morbus Sudeck.
+      </p>
+      <div class="meta-row">
+        <span>IASP chronic primary pain</span>
+        <span>Orphan / rare disease (EU &amp; US)</span>
+        <span>No gold-standard lab test</span>
+        <span>Compiled 17 Aug 2026</span>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="n">5.5–26</div><div class="l">Incidence per 100,000 person-years (population studies)</div></div>
+        <div class="stat"><div class="n">3–4×</div><div class="l">Women vs men</div></div>
+        <div class="stat"><div class="n">50–80</div><div class="l">Peak incidence age (years)</div></div>
+        <div class="stat"><div class="n">~80%</div><div class="l">Substantial improvement by ~18 months (2025 review)</div></div>
+        <div class="stat"><div class="n">44–46%</div><div class="l">Cases after fracture (classic series)</div></div>
+        <div class="stat"><div class="n">MG30.04</div><div class="l">ICD-11 code</div></div>
+      </div>
+      <p class="disclaimer">
+        <strong>Not medical advice.</strong> This page summarises published criteria and epidemiology for learning.
+        Only a clinician can diagnose or treat CRPS. Do not start, stop, or change medicines from this file.
+      </p>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <div class="wrap">
+      <a href="#what">What it is</a>
+      <a href="#types">Types</a>
+      <a href="#budapest">Budapest checker</a>
+      <a href="#epi">Epidemiology</a>
+      <a href="#features">Features</a>
+      <a href="#patho">Mechanisms</a>
+      <a href="#treat">Treatment</a>
+      <a href="#prognosis">Prognosis</a>
+      <a href="#diff">Mimics</a>
+      <a href="#sources">Sources</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section id="what" class="card">
+      <h2>What CRPS is</h2>
+      <p>
+        CRPS is a <strong>chronic regional pain condition</strong>, almost always in a hand, arm, foot, or leg,
+        that is <strong>more severe or longer-lasting than expected</strong> after an injury, fracture, surgery, or immobilisation.
+        Pain is regional (not one dermatome or one cut nerve). Colour, temperature, sweating, swelling, movement, hair, or nails
+        are usually abnormal on the same limb.
+      </p>
+      <p>
+        WHO ICD-11 classifies it as <strong>chronic primary pain</strong> (<code>MG30.04</code>), with a secondary link to
+        post-traumatic / post-surgical pain. In German ICD-10-GM practice it is often coded <code>G90.5</code> (Typ I / Morbus Sudeck)
+        or <code>G90.6</code> (Typ II / Kausalgie).
+      </p>
+      <p>
+        It is <strong>not</strong> “all in the mind,” though anxiety, sleep loss, and fear of moving the limb commonly follow
+        and can worsen disability. A specific personality type does <em>not</em> cause CRPS.
+      </p>
+    </section>
+
+    <section id="types" class="card">
+      <h2>Types and names</h2>
+      <div class="grid-2">
+        <div class="mini">
+          <h3>Type I <span class="tag">no major nerve cut</span></h3>
+          <p>Former name: <strong>reflex sympathetic dystrophy (RSD)</strong>, Sudeck, shoulder-hand syndrome. Most cases.</p>
+        </div>
+        <div class="mini">
+          <h3>Type II <span class="tag warn">known nerve injury</span></h3>
+          <p>Former name: <strong>causalgia</strong>. Same clinical picture as type I, plus a documented peripheral nerve lesion. Signs spread beyond that nerve’s territory — unlike ordinary neuropathic pain.</p>
+        </div>
+        <div class="mini">
+          <h3>Partial remission <span class="tag ok">Valencia 2021</span></h3>
+          <p>Previously met full Budapest criteria; now fewer signs, but leftover pain/sensitivity can still disable work and sleep.</p>
+        </div>
+        <div class="mini">
+          <h3>CRPS-NOS</h3>
+          <p>Some CRPS-like features, never fully Budapest-positive, and no better alternative diagnosis.</p>
+        </div>
+        <div class="mini">
+          <h3>Warm vs cold (informal)</h3>
+          <p><strong>Warm:</strong> hot, red, swollen — often early/inflammatory. <strong>Cold:</strong> cool, pale/blue — more often longer-standing. Not official IASP subtypes yet.</p>
+        </div>
+        <div class="mini">
+          <h3>Old “3 stages”</h3>
+          <p>Bonica’s acute → dystrophic → atrophic timeline is <strong>not reliable</strong>. Duration does not map cleanly onto stages.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="budapest" class="card">
+      <h2>Budapest clinical criteria — teaching checker</h2>
+      <p>
+        IASP clinical diagnosis needs <strong>all four</strong> items below. Research criteria are stricter (symptoms in 4/4 and signs in 2/4).
+        Validation (Harden 2010): sensitivity <strong>0.99</strong>, specificity <strong>0.68</strong> vs older IASP rules.
+        Valencia 2021: re-check the full set at every visit because signs fluctuate.
+      </p>
+      <p style="color:var(--muted);font-size:0.88rem;">This checker is for learning the logic. It does not examine a patient and cannot diagnose anyone.</p>
+
+      <fieldset>
+        <legend>1. Pain (required)</legend>
+        <label class="check"><input type="checkbox" id="pain" onchange="scoreBudapest()" /> Continuing pain that is disproportionate to any inciting event</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>2. Symptoms the patient reports — need ≥1 in 3 of 4 categories</legend>
+        <label class="check"><input type="checkbox" data-sym="sensory" onchange="scoreBudapest()" /> Sensory: hyperesthesia / allodynia (pain from touch, clothes, movement)</label>
+        <label class="check"><input type="checkbox" data-sym="vasomotor" onchange="scoreBudapest()" /> Vasomotor: colour change or temperature difference vs the other limb</label>
+        <label class="check"><input type="checkbox" data-sym="sudomotor" onchange="scoreBudapest()" /> Sudomotor / edema: swelling or sweating change / asymmetry</label>
+        <label class="check"><input type="checkbox" data-sym="motor" onchange="scoreBudapest()" /> Motor / trophic: stiffness, weakness, tremor, dystonia, or skin/hair/nail change</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>3. Signs the examiner sees today — need ≥1 in 2 of 4 categories</legend>
+        <label class="check"><input type="checkbox" data-sign="sensory" onchange="scoreBudapest()" /> Sensory sign: hyperalgesia to pinprick and/or allodynia to light touch, pressure, or joint movement</label>
+        <label class="check"><input type="checkbox" data-sign="vasomotor" onchange="scoreBudapest()" /> Vasomotor sign: colour asymmetry or temperature asymmetry (often cited &gt;1 °C)</label>
+        <label class="check"><input type="checkbox" data-sign="sudomotor" onchange="scoreBudapest()" /> Sudomotor / edema sign: visible edema or sweating asymmetry</label>
+        <label class="check"><input type="checkbox" data-sign="motor" onchange="scoreBudapest()" /> Motor / trophic sign: reduced ROM, weakness, tremor, dystonia, or trophic skin/hair/nails</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>4. Exclusion (required)</legend>
+        <label class="check"><input type="checkbox" id="exclude" onchange="scoreBudapest()" /> No other diagnosis better explains the signs and symptoms</label>
+      </fieldset>
+
+      <div id="budapest-result" class="result maybe">Tick the boxes to see whether the <em>clinical</em> Budapest logic is met (teaching only).</div>
+    </section>
+
+    <section id="epi" class="card">
+      <h2>Epidemiology data</h2>
+      <p>Rates differ by country, coding (ICD-9 vs clinical exam), and whether old IASP or Budapest rules were used. CRPS is treated as an <strong>orphan disease</strong> (EU ≤5/10,000; US &lt;200,000 people).</p>
+      <table>
+        <thead>
+          <tr><th>Source</th><th>Incidence</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sandroni 2003, Olmsted County, US</td>
+            <td>Type I 5.46 / 100k py<br>Type II 0.82 / 100k py</td>
+            <td>Female:male ≈ 4:1; median onset 46 y; upper limb more often</td>
+          </tr>
+          <tr>
+            <td>de Mos 2007, Netherlands</td>
+            <td>26.2 / 100k person-years</td>
+            <td>Female:male ≈ 3:1; peak 61–70 y</td>
+          </tr>
+          <tr>
+            <td>US database (Elsharydah 2017)</td>
+            <td>~0.07% over 5 years</td>
+            <td>ICD-9 based; may overestimate</td>
+          </tr>
+          <tr>
+            <td>South Korea (Bang / Kim)</td>
+            <td>Prevalence ~26 / 100k</td>
+            <td>Electronic records; coding caveats</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>After injury or surgery (selected published ranges)</h3>
+      <table>
+        <thead><tr><th>Setting</th><th>Reported CRPS rate</th></tr></thead>
+        <tbody>
+          <tr><td>Wrist / distal radius fracture</td><td>About 2–25% (criteria-dependent)</td></tr>
+          <tr><td>Closed reduction distal radius (one series)</td><td>32.2%</td></tr>
+          <tr><td>Foot / ankle surgery</td><td>4.36%</td></tr>
+          <tr><td>Carpal tunnel release</td><td>About 2–5%</td></tr>
+          <tr><td>Traumatic hand injury (one series)</td><td>~26%</td></tr>
+          <tr><td>Total knee arthroplasty</td><td>Up to ~13% in older series; ~0% in one Budapest-strict 100-patient study</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Risk factors with relatively consistent signals</h3>
+      <ul>
+        <li><strong>Highest-yield:</strong> severe pain in week 1 after trauma (wrist-fracture NRS 7–8/10 predicted CRPS at 4 months).</li>
+        <li>Female sex; age 50–80; upper limb in many Western series.</li>
+        <li>Immobilisation (tight cast / unused limb).</li>
+        <li>Open fracture or crush vs simple closed fracture.</li>
+        <li>Asthma (OR ~3.0), ACE inhibitors (OR ~2.7), diabetes (OR ~3.2), migraine, RA, widespread pain.</li>
+        <li>Post-injury anxiety / catastrophising associated with onset or persistence — not proof of a psychogenic cause.</li>
+      </ul>
+    </section>
+
+    <section id="features" class="card">
+      <h2>Clinical features</h2>
+      <p>Onset is usually <strong>days to a few weeks</strong> after trauma (often within 8 weeks). Typically <strong>one distal limb</strong>. Bilateral-from-the-start pain argues against CRPS.</p>
+      <table>
+        <thead><tr><th>Category</th><th>What patients notice / what examiners find</th></tr></thead>
+        <tbody>
+          <tr><td>Sensory</td><td>Burning, stabbing, or electric pain; allodynia; hyperalgesia</td></tr>
+          <tr><td>Vasomotor</td><td>Red / mottled / pale / blue; hot or cold vs the other side</td></tr>
+          <tr><td>Sudomotor / edema</td><td>Puffy limb; extra sweat or very dry skin</td></tr>
+          <tr><td>Motor / trophic</td><td>Won’t move, weak, tremor, dystonia; shiny skin, hair/nail change; later contracture or bone thinning</td></tr>
+        </tbody>
+      </table>
+      <p>Burden beyond the limb: poor sleep, fatigue, depression/anxiety, a limb that “doesn’t feel like mine,” and job loss. Up to <strong>~40%</strong> do not return to work; about one-third of those who do need adapted duties.</p>
+    </section>
+
+    <section id="patho" class="card">
+      <h2>Mechanisms (multifactorial)</h2>
+      <div class="grid-2">
+        <div class="mini"><h3>Inflammation</h3><p>TNF-α, IL-6 and neuropeptides (substance P, CGRP, bradykinin) → redness, heat, swelling, sensitised nociceptors.</p></div>
+        <div class="mini"><h3>Immune / autoantibody</h3><p>Antibodies to adrenergic and muscarinic receptors reported; Ig transfer can mimic CRPS in animals.</p></div>
+        <div class="mini"><h3>Peripheral + central sensitisation</h3><p>Lowered pain thresholds, spinal wind-up, NMDA involvement; allodynia far beyond the scar.</p></div>
+        <div class="mini"><h3>Brain map + autonomic</h3><p>Shrinkage of the cortical hand/foot map; colour/temp/sweat asymmetry; sympathetic–nociceptor coupling in some people.</p></div>
+      </div>
+      <p style="color:var(--muted);font-size:0.88rem;margin-top:0.8rem;">Genetics: possible HLA/TNF links; 2023 exome hints (ANO10, P2RX7, PRKAG1, SLC12A9) in a subset. Not a single-gene disease.</p>
+    </section>
+
+    <section id="treat" class="card">
+      <h2>Treatment — four equal pillars (UK RCP)</h2>
+      <p>High-certainty CRPS-specific drug trials are scarce. Care is <strong>early, multidisciplinary, and function-first</strong>. Cochrane overviews rate most single interventions as low or very-low certainty.</p>
+      <div class="pillars">
+        <div class="pillar">
+          <h3>1. Education</h3>
+          <ul>
+            <li>Pain is nerve- and inflammation-driven, not invented</li>
+            <li>Many improve in the first 18 months</li>
+            <li>Pacing, flare plans, family involved</li>
+          </ul>
+        </div>
+        <div class="pillar">
+          <h3>2. Rehab (PT/OT)</h3>
+          <ul>
+            <li>Desensitisation, gentle ROM, graded load</li>
+            <li>Mirror therapy / graded motor imagery</li>
+            <li>Avoid both forced pain and total disuse</li>
+          </ul>
+        </div>
+        <div class="pillar">
+          <h3>3. Pain relief</h3>
+          <ul>
+            <li>Simple analgesics first</li>
+            <li>Then neuropathic agents (TCA, SNRI, gabapentinoid) as for neuropathic pain</li>
+            <li>Early bisphosphonate sometimes; short steroids mixed evidence</li>
+            <li>RCP: do not start strong opioids for CRPS</li>
+          </ul>
+        </div>
+        <div class="pillar">
+          <h3>4. Psychology</h3>
+          <ul>
+            <li>CBT / pain programmes</li>
+            <li>Sleep, fear of movement, mood</li>
+            <li>Not “personality treatment”</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Procedures</h3>
+      <ul>
+        <li>Sympathetic blocks: historically used; RCTs suggest they are <strong>probably ineffective</strong> for pain.</li>
+        <li>IV guanethidine: <strong>not recommended</strong>.</li>
+        <li>Spinal cord or dorsal-root-ganglion stimulation: specialist option after failed integrated care (ACCURATE favoured DRG vs SCS in selected CRPS). Infection, lead failure, and fading benefit occur.</li>
+        <li>Amputation is not a reliable cure (phantom/stump pain, recurrent CRPS).</li>
+        <li>Ketamine infusions: possible short-lived relief; not first-line; psychomimetic risk.</li>
+      </ul>
+      <h3>Prevention (uncertain)</h3>
+      <p>Comfortable (not overly tight) casts and early movement after fracture. Vitamin C 500 mg/day for 50 days after wrist fracture: mixed meta-analyses — not a firm mandate.</p>
+    </section>
+
+    <section id="prognosis" class="card">
+      <h2>Prognosis numbers</h2>
+      <ul>
+        <li>Rapid improvement is common in the <strong>first 6 months</strong>.</li>
+        <li>At <strong>12 months</strong>, about <strong>14–27%</strong> still meet Budapest criteria in prospective series. One CRPS I cohort still had 48% Budapest-positive a year later.</li>
+        <li>NEJM 2025: roughly <strong>80% substantial improvement by 18 months</strong>; later big gains are less common.</li>
+        <li>From year 1 to year 8, average severity may barely change. People can feel much better and still tick residual criteria (mild pain, sensitivity, occasional swell).</li>
+        <li>No improvement by ~18 months: higher risk of spread or non-CRPS widespread pain.</li>
+        <li>Work: up to 40% do not return; ~33% of returners need adapted work.</li>
+      </ul>
+      <p>Early recognition and rehab are repeatedly linked to better function, even though many drug trials are disappointing.</p>
+    </section>
+
+    <section id="diff" class="card">
+      <h2>Important mimics (diagnosis of exclusion)</h2>
+      <p>Budapest item 4 fails if another disease explains the limb. Common alternatives:</p>
+      <ul>
+        <li>Cellulitis / infection</li>
+        <li>Deep-vein thrombosis</li>
+        <li>Arterial insufficiency / PAD</li>
+        <li>Raynaud, erythromelalgia, vasculitis</li>
+        <li>Lymphedema</li>
+        <li>Small- or large-fibre neuropathy; ordinary post-op neuropathic pain</li>
+        <li>Inflammatory arthritis, gout</li>
+        <li>Acute compartment syndrome</li>
+      </ul>
+      <p>Tests (thermography, 3-phase bone scan, QSART, duplex ultrasound, labs) help <strong>rule out mimics</strong>. They do not prove CRPS by themselves.</p>
+    </section>
+
+    <section id="sources" class="card">
+      <h2>Sources and further reading</h2>
+      <ul>
+        <li>Guthmiller KB et al. Complex Regional Pain Syndrome. <em>StatPearls</em>. NCBI Bookshelf. Updated 4 May 2025. <a href="https://www.ncbi.nlm.nih.gov/books/NBK430719/">NBK430719</a></li>
+        <li>Ferraro MC et al. Complex regional pain syndrome: advances in epidemiology, pathophysiology, diagnosis, and treatment. <em>Lancet Neurology</em> 2024.</li>
+        <li>Harden RN et al. Validation of the Budapest criteria. <em>Pain</em> 2010;150:268–274.</li>
+        <li>Goebel A et al. Valencia consensus adaptation of IASP CRPS criteria. <em>Pain</em> 2021;162:2346–2348.</li>
+        <li>Goebel A. Complex Regional Pain Syndrome. <em>N Engl J Med</em> 2025;393:2338–2348.</li>
+        <li>Royal College of Physicians. <em>Complex regional pain syndrome in adults</em>, 2nd edition.</li>
+        <li>WHO ICD-11: MG30.04 Complex regional pain syndrome. <a href="https://icd.who.int/">icd.who.int</a></li>
+        <li>Sandroni P et al. Olmsted County incidence. <em>Pain</em> 2003. de Mos M et al. Netherlands incidence. <em>Pain</em> 2007.</li>
+        <li>Deutsche Schmerzgesellschaft: <a href="https://www.schmerzgesellschaft.de/">schmerzgesellschaft.de</a> · IASP: <a href="https://www.iasp-pain.org/">iasp-pain.org</a></li>
+      </ul>
+      <p>Machine-readable companion: <a href="crps-data.json"><code>crps-data.json</code></a> in this repo.</p>
+    </section>
+  </main>
+
+  <footer>
+    CRPS disease data · educational compilation · not a medical device · centralgit
+  </footer>
+
+  <script>
+    function cats(attr) {
+      const set = new Set();
+      document.querySelectorAll("input[" + attr + "]:checked").forEach(function (el) {
+        set.add(el.getAttribute(attr));
+      });
+      return set.size;
+    }
+
+    function scoreBudapest() {
+      const pain = document.getElementById("pain").checked;
+      const exclude = document.getElementById("exclude").checked;
+      const sym = cats("data-sym");
+      const sign = cats("data-sign");
+      const box = document.getElementById("budapest-result");
+
+      const parts = [
+        (pain ? "✓" : "✗") + " disproportionate continuing pain",
+        (sym >= 3 ? "✓" : "✗") + " symptoms in " + sym + "/4 categories (need 3)",
+        (sign >= 2 ? "✓" : "✗") + " signs in " + sign + "/4 categories (need 2)",
+        (exclude ? "✓" : "✗") + " no better alternative diagnosis"
+      ];
+
+      if (pain && exclude && sym >= 3 && sign >= 2) {
+        box.className = "result yes";
+        box.innerHTML = "<strong>Clinical Budapest logic: MET</strong> (teaching only).<br>" + parts.join("<br>");
+      } else if (pain && (sym >= 2 || sign >= 1)) {
+        box.className = "result maybe";
+        box.innerHTML = "<strong>Incomplete / possible CRPS-NOS or partial picture.</strong> Full clinical diagnosis is not met on these ticks.<br>" + parts.join("<br>");
+      } else {
+        box.className = "result no";
+        box.innerHTML = "<strong>Clinical Budapest logic: NOT met</strong> on the current ticks.<br>" + parts.join("<br>");
+      }
+    }
+  </script>
+</body>
+</html>
