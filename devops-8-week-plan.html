@@ -641,6 +641,7 @@
         <span class="lab-chip">VS Code + WSL</span>
         <span class="lab-chip">Docker Desktop</span>
         <span class="lab-chip">GitHub Desktop</span>
+        <span class="lab-chip">GitLab (CI)</span>
         <span class="lab-chip">AWS Free Tier</span>
       </div>
 
@@ -985,8 +986,8 @@
       },
       {
         week: 4,
-        title: "CI/CD with GitHub Actions",
-        goal: "Automate build and test like real teams.",
+        title: "CI/CD with GitHub Actions + GitLab",
+        goal: "Automate build and test: GitHub Actions first, then GitLab CI. Cloud stays AWS.",
         color: "#f43f5e",
         days: [
           {
@@ -1051,14 +1052,14 @@
           },
           {
             day: "Sat",
-            label: "Week 4 pipeline review",
+            label: "GitLab CI lab",
             full: [
-              { id: "w4d6t1", tag: "hands", text: "End-to-end: push code → CI runs → build succeeds." },
-              { id: "w4d6t2", tag: "hands", text: "Draw Mermaid or ASCII pipeline in README." },
-              { id: "w4d6t3", tag: "de", text: "Note whether German jobs mention Jenkins, GitLab CI, or Azure DevOps." }
+              { id: "w4d6t1", tag: "theory", text: "GitLab CI = same idea as GitHub Actions (push → pipeline). File is .gitlab-ci.yml. Keep GitHub; add GitLab as a second CI. Cloud stays AWS — not Azure." },
+              { id: "w4d6t2", tag: "hands", text: "Create a GitLab account + project. Push or import devops-lab. Add .gitlab-ci.yml that docker-builds hello-site (same app as GitHub Actions)." },
+              { id: "w4d6t3", tag: "hands", text: "Run the GitLab pipeline until green. README: 4-line GitHub Actions vs GitLab CI + ASCII/Mermaid of one pipeline. Jenkins/Azure DevOps = ad names only." }
             ],
             micro: [
-              { id: "w4d6m1", tag: "micro", text: "Review CI notes 15 min." }
+              { id: "w4d6m1", tag: "micro", text: "Write 3 differences: GitHub Actions vs GitLab CI (file name, UI, runners)." }
             ]
           },
           {
@@ -1264,7 +1265,7 @@
             label: "Design the system",
             full: [
               { id: "w7d1t1", tag: "theory", text: "Define TaskFlow: simple task API + web UI requirements." },
-              { id: "w7d1t2", tag: "hands", text: "Draw architecture on paper: GitHub → CI → AWS → App → DB." },
+              { id: "w7d1t2", tag: "hands", text: "Draw architecture on paper: GitHub/GitLab → CI → AWS → App → DB." },
               { id: "w7d1t3", tag: "hands", text: "Create GitHub repo + PROJECT.md (scope & non-goals)." }
             ],
             micro: [
@@ -1311,7 +1312,7 @@
             day: "Fri",
             label: "CI for capstone",
             full: [
-              { id: "w7d5t1", tag: "hands", text: "Pipeline: lint/test/build images on PR." },
+              { id: "w7d5t1", tag: "hands", text: "Pipeline: lint/test/build images on PR (GitHub Actions). Keep .gitlab-ci.yml in sync if you added GitLab in Week 4." },
               { id: "w7d5t2", tag: "hands", text: "On main: push images to registry." },
               { id: "w7d5t3", tag: "hands", text: "Fix any CI failures before ending session." }
             ],
@@ -1401,7 +1402,7 @@
             day: "Fri",
             label: "Documentation",
             full: [
-              { id: "w8d5t1", tag: "hands", text: "README: architecture, local run, deploy, teardown." },
+              { id: "w8d5t1", tag: "hands", text: "README: architecture (AWS + GitHub Actions + GitLab CI), local run, deploy, teardown." },
               { id: "w8d5t2", tag: "hands", text: "RUNBOOK.md complete." },
               { id: "w8d5t3", tag: "hands", text: "Record 5-min demo video (phone is fine)." }
             ],
@@ -1518,7 +1519,7 @@
               <p>Same production goal, paced for your work schedule:</p>
               <ul>
                 <li>Containerized API + frontend + PostgreSQL</li>
-                <li>Terraform on AWS eu-central-1 + CI/CD</li>
+                <li>Terraform on AWS eu-central-1 + CI (GitHub Actions + GitLab CI)</li>
                 <li>Monitoring, security basics, runbooks, demo video</li>
                 <li>Busy nights stay micro — deep work on free evenings + Saturday</li>
               </ul>
