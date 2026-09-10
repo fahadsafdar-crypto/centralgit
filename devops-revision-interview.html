@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevOps revision + interview notebook</title>
+  <style>
+:root {
+  --bg:#0f1419; --surface:#1a2332; --surface2:#243044; --border:#2d3a4f;
+  --text:#e8edf4; --muted:#8b9cb3; --accent:#3b82f6; --accent-soft:rgba(59,130,246,.15);
+  --success:#22c55e; --warning:#f59e0b; --danger:#ef4444;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;min-height:100vh}
+.hero{background:linear-gradient(135deg,#1e3a5f 0%,#0f1419 62%);border-bottom:1px solid var(--border);padding:2.25rem 1.5rem 1.75rem}
+.hero-inner{max-width:980px;margin:0 auto}
+.badge{display:inline-block;background:var(--accent-soft);color:#93c5fd;font-size:.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:.25rem .75rem;border-radius:999px;margin-bottom:.75rem}
+h1{font-size:clamp(1.4rem,4vw,2.15rem);font-weight:700;margin-bottom:.5rem}
+.subtitle{color:var(--muted);max-width:760px}
+.honesty{max-width:980px;margin:1.25rem auto 0;padding:1rem 1.15rem;background:#3f1d20;border:1px solid #7f1d1d;border-radius:10px;color:#fecaca;font-size:.9rem}
+.honesty strong{color:#fff}
+.how{max-width:980px;margin:1rem auto 0;padding:1rem 1.15rem;background:var(--surface);border:1px solid var(--border);border-radius:10px}
+.how h2,.card-lite h2{font-size:1.05rem;margin-bottom:.5rem}
+.how ol{margin-left:1.2rem;color:var(--muted);font-size:.92rem}
+.how li{margin:.35rem 0}
+.toolbar{position:sticky;top:0;z-index:20;background:rgba(15,20,25,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:.7rem 1.5rem}
+.toolbar-inner{max-width:980px;margin:0 auto;display:flex;flex-wrap:wrap;gap:.55rem;align-items:center}
+input[type=search]{flex:1;min-width:180px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:.45rem .7rem;border-radius:8px;font:inherit}
+select,button{font:inherit;font-size:.8rem;padding:.45rem .8rem;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer}
+button:hover,select:hover{border-color:var(--accent)}
+button.on{background:var(--accent-soft);border-color:var(--accent);color:#93c5fd}
+.nav{max-width:980px;margin:0 auto;padding:.75rem 1.5rem 0;display:flex;flex-wrap:wrap;gap:.4rem}
+.nav a{font-size:.78rem;color:var(--muted);text-decoration:none;padding:.28rem .6rem;border-radius:6px;background:var(--surface);border:1px solid var(--border)}
+.nav a:hover{color:var(--text);border-color:var(--accent)}
+main{max-width:980px;margin:0 auto;padding:1.25rem 1.5rem 4rem}
+.topic{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.35rem 1.4rem 1.5rem;margin:1.15rem 0}
+.topic.hidden{display:none}
+.topic-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.75rem;align-items:flex-start;margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.topic h2{font-size:1.2rem}
+.topic h3{font-size:.95rem;color:#93c5fd;margin:1.1rem 0 .45rem}
+.topic p,.topic li{color:var(--muted);font-size:.94rem}
+.topic ul,.topic ol{margin:.3rem 0 .5rem 1.2rem}
+.topic li{margin:.28rem 0}
+.pill{display:inline-block;background:var(--accent-soft);color:#93c5fd;font-size:.7rem;font-weight:700;padding:.15rem .5rem;border-radius:999px;margin-bottom:.35rem}
+.mark{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:.4rem;white-space:nowrap}
+pre.arch,pre.code{background:#0b1016;border:1px solid var(--border);border-radius:8px;padding:.85rem 1rem;overflow-x:auto;font-size:.8rem;line-height:1.45;color:#d1fae5;margin:.4rem 0 .7rem;white-space:pre}
+table.cmds{width:100%;border-collapse:collapse;font-size:.82rem;margin:.4rem 0 .8rem}
+table.cmds th,table.cmds td{border:1px solid var(--border);padding:.45rem .55rem;text-align:left;vertical-align:top}
+table.cmds th{background:var(--surface2);color:#93c5fd;font-weight:600}
+table.cmds code{color:#fde68a;font-size:.78rem}
+.qa{border:1px solid var(--border);border-radius:8px;margin:.45rem 0;overflow:hidden}
+.q{width:100%;text-align:left;background:var(--surface2);border:0;border-radius:0;padding:.7rem .85rem;font-size:.9rem;font-weight:600}
+.q:hover{background:#2a3a52}
+.a{display:none;padding:.75rem .9rem 1rem;border-top:1px solid var(--border);background:#121a24}
+.qa.open .a{display:block}
+.say{color:#86efac !important;margin-bottom:.35rem}
+.dont{color:#fca5a5 !important;margin-top:.5rem}
+body.quiz .a{display:none !important}
+body.quiz .qa.open .a{display:none !important}
+.note{font-size:.82rem;color:var(--muted);margin-top:.4rem}
+.progress-note{font-size:.8rem;color:var(--success)}
+footer{max-width:980px;margin:0 auto;padding:0 1.5rem 2.5rem;color:var(--muted);font-size:.8rem}
+.card-lite{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.4rem;margin:1.15rem 0}
+.drill{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.6rem 0}
+#drill-q{font-size:1.05rem;margin:.4rem 0}
+#drill-a{display:none;margin-top:.5rem;padding:.75rem .9rem;border:1px solid var(--border);border-radius:8px;background:#121a24}
+#drill-a.show{display:block}
+.two{display:grid;gap:1rem}
+@media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
+a.inline{color:#93c5fd}
+</style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="badge">Weeks 1–6 · revise · then speak</div>
+      <h1>DevOps revision + interview notebook</h1>
+      <p class="subtitle">This is a study book, not a cheat sheet. One topic at a time: architecture first, commands with why, then interview answers you say out loud. Tick a topic only when you can explain it with the file closed.</p>
+    </div>
+  </header>
+
+  <div class="honesty">
+    <strong>Honesty rule.</strong> Daily job = SAP IT Support Engineer (Walldorf, Jun 2024–present). The public lab is how you practise DevOps. Do not describe the lab as SAP production. Do not claim Kubernetes, Jenkins-at-work, or a fake DevOps employer. Gaps you can name: no K8s prod, no full CD, Terraform state still local, Week 6 Terraform→Ansible-on-EC2 leftover.
+  </div>
+
+  <div class="how">
+    <h2>How to sit with this (1 hour)</h2>
+    <ol>
+      <li>Pick <strong>one</strong> topic in the nav. Search box is for “I forgot the Prometheus URL”, not for reading everything.</li>
+      <li>Read <strong>Concept</strong> and <strong>Architecture</strong>. Cover the diagram. Draw it. If you cannot draw it, you cannot explain it.</li>
+      <li>Cover the command table. Type the commands in WSL without looking.</li>
+      <li>Turn on <strong>Quiz mode</strong> (hides all answers). Open each question, speak, then turn quiz off and reveal.</li>
+      <li>Tick “I can explain this” only if that was true. Untick tomorrow if it was not.</li>
+    </ol>
+    <p class="note">Five questions for every pipeline or cloud job: When does it run? What must be true (test)? Where does the artifact go? How do I log in (secret not in Git)? What does the red log say?</p>
+  </div>
+
+  <div class="toolbar">
+    <div class="toolbar-inner">
+      <input type="search" id="search" placeholder="Search concepts, commands, errors…" />
+      <select id="week" aria-label="Filter by week">
+        <option value="all">All weeks</option>
+        <option value="0">Interview / honesty</option>
+        <option value="1">Week 1 Linux</option>
+        <option value="2">Week 2 Git / shell / net</option>
+        <option value="3">Week 3 Docker</option>
+        <option value="4">Week 4 CI</option>
+        <option value="5">Week 5 AWS</option>
+        <option value="6">Week 6 Terraform / Ansible / monitor</option>
+      </select>
+      <button type="button" id="quiz">Quiz mode</button>
+      <span class="progress-note" id="count"></span>
+    </div>
+  </div>
+
+  <nav class="nav" aria-label="Topics">
+    <a href="#about">About you</a>
+    <a href="#devops">DevOps</a>
+    <a href="#linux-fs">Filesystem</a>
+    <a href="#perms">Permissions</a>
+    <a href="#nginx-systemd">nginx</a>
+    <a href="#git">Git</a>
+    <a href="#bash">Bash</a>
+    <a href="#net">Network</a>
+    <a href="#ssh">SSH</a>
+    <a href="#docker">Docker</a>
+    <a href="#dockerfile">Dockerfile</a>
+    <a href="#compose">Compose</a>
+    <a href="#ci">CI/CD</a>
+    <a href="#gha-yaml">Actions YAML</a>
+    <a href="#gitlab">GitLab CI</a>
+    <a href="#aws">AWS</a>
+    <a href="#ec2-sg">EC2 / SG</a>
+    <a href="#s3">S3</a>
+    <a href="#terraform">Terraform</a>
+    <a href="#ansible">Ansible</a>
+    <a href="#monitor">Prometheus</a>
+    <a href="#runbook">Runbook</a>
+    <a href="#e2e">Full picture</a>
+    <a href="#errors">Errors</a>
+    <a href="#templates">Whiteboard</a>
+    <a href="#drill">Random drill</a>
+  </nav>
+
+  <main>
+    
+<article class="topic" id="about" data-week="0" data-title="About you and honesty">
+  <header class="topic-head">
+    <div>
+      <span class="pill">Interview opener</span>
+      <h2>Tell me about yourself — honest script</h2>
+    </div>
+    <label class="mark"><input type="checkbox" data-id="about"> I can say this without reading</label>
+  </header>
+  <h3>Concept</h3>
+  <p>They are hiring a person, not a tool list. Sixty to ninety seconds. Present job first, then the bridge to DevOps, then the lab and certs, then what you want. No fake employers, no Kubernetes production, no “DevOps Engineer at ITconfig”.</p>
+<p>Facts you may use: IT Support Engineer at SAP Walldorf (WDF19) from June 2024 — one job line, Windows/Mac/iPhone/Android, workplace setup, compliance tickets. Before that: Mercedes-Benz AG data centre / VMware (Kamenz, Mar 2022–May 2024), ITERGO (Düsseldorf), other support roles. German B2, English C1, German citizen, Wiesloch. AWS SAA and DevOps Professional if those certs are real. Public lab: github.com/fahadsafdar-crypto/devops-lab.</p>
+  <h3>Architecture of the answer</h3>
+  <pre class='arch'>1. Who I am now     SAP IT support, Walldorf
+2. What I already debug    users, devices, tickets, some datacentre past
+3. What I built in the lab path    Linux → Docker → CI → AWS → Terraform/Ansible → metrics
+4. What I am not    K8s prod, CD to AWS, company GitLab admin
+5. What I want      junior / Berufseinsteiger DevOps, honest</pre>
+  <h3>What you actually built</h3>
+  <p>Say the lab path. Do not upgrade it.</p>
+  <h3>Commands</h3>
+  <p>None. This is spoken.</p>
+  <h3>Interview — answer out loud, then reveal</h3>
+  
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Tell me about yourself.</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>I work as an IT Support Engineer at SAP in Walldorf: workplaces, Windows, Mac, phones, and compliance tickets. Before that I worked in data centre and support roles, including VMware at Mercedes-Benz in Kamenz. I am retraining into DevOps with a public lab: Linux, Docker Compose, GitHub Actions and GitLab CI, AWS in Frankfurt, Terraform, Ansible, and Prometheus/Grafana. I hold AWS certifications, and I am applying for junior DevOps roles. I do not claim Kubernetes production experience.</p>
+        <p class='dont'><strong>Do not say:</strong> ITconfig DevOps Engineer, 3 years K8s, Jenkins in production at SAP.</p>
+      </div>
+    </div>
+  
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Why DevOps from support?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>I already debug in a fixed order: is it running, can I reach it, what do the logs say. DevOps is the same order on pipelines, images, and cloud VMs. I want to build the path that prevents the ticket, not only close the ticket. The lab is how I practise that path every day for an hour.</p>
+        
+      </div>
+    </div>
+  
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Why should we hire you as a junior if you are not intermediate?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>I am reliable on-call in a support sense, I write things down, I do not hide mistakes — my CI failed on GHCR names and curl races and I fixed them. I can explain Linux, Docker, CI, AWS, Terraform and Ansible from things I actually ran. I will not invent production Kubernetes. That honesty is safer for a team than a fake senior.</p>
+        
+      </div>
+    </div>
+  
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What is your biggest gap?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>I have not run Kubernetes in production, I have not finished the Terraform-then-Ansible-on-EC2 flow, and I have not automated CD onto AWS. Terraform state is local in the lab. I know those gaps and they are next on the 8-week plan, not things I will pretend.</p>
+        
+      </div>
+    </div>
+  
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Walk me through a production incident you handled.</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>At work I handle workplace incidents: device, account, network path, ticket notes. In the lab I wrote a runbook and stopped a container on purpose: compose ps, logs, start, curl. I will not mix those into one fake “I paged Prometheus at SAP.” If they want a lab story I tell the runbook. If they want work, I tell a real support incident without naming customer secrets.</p>
+        
+      </div>
+    </div>
+</article>
+
+    
+    <article class="topic" id="devops" data-week="1" data-title="What DevOps actually is">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 1</span>
+          <h2>What DevOps actually is</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="devops"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>DevOps is not a job title you paste on LinkedIn. It is a way of shipping software: developers and operations share one path so a change is built, checked, and run the same way every time. In IT support you already debug a broken PC. In DevOps you debug the path that creates and runs the system: Git history, a pipeline, an image, a server, a metric.</p>
+<p>A useful definition you can say in an interview: <em>DevOps is making build, test, release, and operations repeatable and automatic so changes stay small and failures show up in a pipeline or a dashboard instead of only in a user ticket.</em></p>
+<p>CI (continuous integration) is the automatic check on every change. CD (continuous delivery/deployment) is releasing that checked artifact automatically or with one click. You have built CI. You have not built full CD. Say that clearly.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>you edit files
+   → Git stores a snapshot (commit, SHA)
+   → CI runner (rented Ubuntu) builds + tests
+   → optional: image goes to a registry (GHCR)
+   → a machine runs it (laptop, then EC2)
+   → metrics/logs tell you if it is alive
+
+Support ticket:  user says it is broken → you look
+DevOps path:    pipeline or dashboard says it is broken → you look earlier</pre>
+      <h3>What you actually built</h3>
+      <p>Your lab repo <code>devops-lab</code> is that path in small: Linux notes, Docker hello-site (nginx + Redis), GitHub Actions + GitLab CI, AWS EC2/S3 in eu-central-1, Terraform, Ansible on localhost, Prometheus/Grafana, a RUNBOOK. Daily job is still SAP IT support — the lab is how you prove you can walk the path.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>none unique</code></td><td>DevOps is the combination of the other topics.</td><td>When they ask “what is DevOps?” draw the path, then name the tools you used.</td></tr></tbody></table>
+      <h3>Mistakes from your own lab</h3><ul><li>Do not describe the lab as if it were your SAP job. SAP = IT Support Engineer, Walldorf, from June 2024.</li></ul>
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What is DevOps?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>DevOps is one path from code to a running system: Git for history, CI for automatic checks, the same package everywhere, and monitoring so we see problems before users do. I practised that in a public lab: Docker app, GitHub Actions, AWS in Frankfurt, Terraform and Ansible. My day job is IT support at SAP, so I am applying as a junior / Berufseinsteiger, not as a production platform engineer.</p>
+        <p class='dont'><strong>Do not say:</strong> “I have 3 years Kubernetes in production.”</p>
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">CI vs CD?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>CI is: every push starts a machine that builds and tests. If it is red, we do not pretend the change is fine. CD is taking that artifact and releasing it automatically or with one approval. I have CI: Docker build, curl smoke test, push to GHCR with the git SHA. I have not automated production deploy — that would be CD.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">How is this different from IT support?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Support is tickets on existing workplaces — Windows, Mac, phones, access, compliance. Same debugging order: is it running, can I reach it, what do the logs say. DevOps applies that brain to pipelines, images, cloud VMs and metrics. I am transferring the debugging, not claiming I already operated SAP’s cloud.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="linux-fs" data-week="1" data-title="Linux filesystem">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 1</span>
+          <h2>Linux filesystem</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="linux-fs"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>On Linux everything hangs under one tree starting at <code>/</code> (root). There is no <code>C:\</code>. Your home is <code>/home/…</code>; in WSL you often work as a user or, in your lab notes, you have been <code>root@Fahad</code> — still, put project files in a folder you own, <code>~/devops-lab</code>.</p>
+<p><code>/etc</code> is configuration (nginx lives here). <code>/var/log</code> is logs — this is the first place after “is the service running?”. <code>/tmp</code> is temporary. <code>/var/www/html</code> is the default website for <em>host</em> nginx, which is not the same as nginx inside Docker.</p>
+<p>You never guess in production. Config in <code>/etc</code>, truth in logs, app data often under <code>/var</code> or a Docker volume.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>/                    top of the tree
+├─ /home             user files  →  ~/devops-lab
+├─ /etc              config      →  /etc/nginx
+├─ /var/log          logs        →  /var/log/nginx
+├─ /var/www/html     default web files (host nginx)
+├─ /tmp              temporary
+└─ /usr/bin          programs (ls, curl, …)
+
+pwd   = print where I am
+ls    = list this folder
+cd    = change folder
+~     = my home
+.     = this folder
+..    = parent folder</pre>
+      <h3>What you actually built</h3>
+      <p>Week 1: you created <code>~/devops-lab</code>, listed <code>/etc</code> and <code>/var/log</code>, installed nginx on the host, changed the default HTML page.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>pwd</code></td><td>Prints the full path of the current directory.</td><td>Always when you feel lost.</td></tr><tr><td><code>ls -la</code></td><td>Lists files including hidden (dot files) and permissions.</td><td>Check .ssh, .github, file modes.</td></tr><tr><td><code>cd ~</code></td><td>Go home.</td><td>Start of a session.</td></tr><tr><td><code>cd /</code></td><td>Go to the top of the tree.</td><td>To visit /etc or /var/log.</td></tr><tr><td><code>mkdir -p ~/devops-lab</code></td><td>Create the folder and parents if missing. -p does not error if it exists.</td><td>First lab folder.</td></tr><tr><td><code>cat FILE / less FILE</code></td><td>Print file / page through it.</td><td>Read configs and notes.</td></tr><tr><td><code>head -n 20 FILE / tail -n 20 FILE</code></td><td>First or last 20 lines.</td><td>Logs: tail. Headers: head.</td></tr><tr><td><code>tail -f FILE</code></td><td>Follow new lines as they appear.</td><td>Watch nginx access log while you curl.</td></tr></tbody></table>
+      
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What is / ?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Slash is the root of the filesystem — the top of the tree. Every path starts there. It is not a Windows drive letter.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Nginx is wrong. Where do you look?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>First whether the process is running: systemctl status nginx. Then config under /etc/nginx. Then logs under /var/log/nginx — error.log if it will not start, access.log if it starts but the page is wrong.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="perms" data-week="1" data-title="Permissions (rwx and chmod)">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 1</span>
+          <h2>Permissions (rwx and chmod)</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="perms"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>Every file has three groups of rights: owner, group, others. Each group can have read (r), write (w), execute (x). Numbers are the same idea: 4 = read, 2 = write, 1 = execute. Add them: 4+2+1 = 7 means rwx, 4+2 = 6 means rw, 4 = r only.</p>
+<p>Directories need execute to <em>enter</em> them. A script needs execute to run with <code>./hello.sh</code>.</p>
+<p>SSH is strict: if your private key is readable by others, ssh refuses it. That is why <code>chmod 400</code> on a <code>.pem</code>. Permissions are not enough for Git: a secret with mode 644 in a public repo is still a leak — <strong>do not commit secrets</strong>.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>letter form          number     meaning
+rwx------            700        only owner, full
+rw-------            600        secrets: only you read/write
+r--------            400        private keys (.pem)
+rw-r--r--            644        normal files
+rwxr-xr-x            755        scripts and directories
+rwxrwxrwx            777        everyone — almost never
+
+chmod 400 ~/.ssh/devops-lab-ec2.pem
+ls -l  →  -r--------  (the leading - is “regular file”)
+         d at the start would mean directory</pre>
+      <h3>What you actually built</h3>
+      <p>You set <code>chmod 400</code> on <code>devops-lab-ec2.pem</code> so SSH would accept the key. You used <code>chmod +x</code> on bash scripts.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>ls -l FILE</code></td><td>Shows mode string like -rw-r--r--.</td><td>Verify chmod worked.</td></tr><tr><td><code>chmod 400 key.pem</code></td><td>Owner read only.</td><td>EC2 private keys.</td></tr><tr><td><code>chmod 600 secret</code></td><td>Owner read/write.</td><td>Files that must not be world-readable.</td></tr><tr><td><code>chmod 755 script.sh</code></td><td>Owner rwx, others rx.</td><td>Directories; sometimes scripts.</td></tr><tr><td><code>chmod +x hello.sh</code></td><td>Add execute for whoever the umask allows — usually you.</td><td>Before ./hello.sh</td></tr></tbody></table>
+      <h3>Mistakes from your own lab</h3><ul><li>chmod does not hide a secret that is already on GitHub. Rotate the key if it was pushed.</li></ul>
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Why 400 on a .pem?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>The private key must be readable only by me. SSH checks the file mode and refuses a key that group or others can read. 400 is owner-read only. I also never commit that file; it is in .gitignore.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Why not 777?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Everyone on the machine can change the file. On a shared server that includes attackers. We give the smallest rights that still work.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What does execute mean on a directory?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Permission to enter that directory (cd into it) and to access files by name inside it. Without x on a folder, ls and cd fail even if the files inside are 644.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="nginx-systemd" data-week="1" data-title="Packages, nginx, systemd">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 1</span>
+          <h2>Packages, nginx, systemd</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="nginx-systemd"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p><code>apt</code> is Ubuntu’s package manager — the app store for the OS. <code>apt update</code> refreshes the list of what can be installed; <code>apt install</code> downloads the program.</p>
+<p>nginx is a web server: it listens on a port (usually 80) and answers HTTP. systemd is how modern Linux starts, stops, and enables services. <strong>enable</strong> means start at boot. <strong>start</strong> means start now. <strong>status</strong> means is it running.</p>
+<p>Two nginx processes showed up in your labs: host nginx on port 80, and later Docker nginx on host port 8080 mapped to container port 80. They are different processes. curl the port you actually published.</p>
+<p><code>curl</code> is the same HTTP conversation a browser does, without a GUI — that is why CI uses curl as a smoke test.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>browser or curl
+      │
+      ▼
+   port 80  ──►  nginx process (systemd service)
+                    │
+                    ├─ files: /var/www/html
+                    ├─ config: /etc/nginx
+                    └─ logs:   /var/log/nginx/access.log
+                               /var/log/nginx/error.log
+
+systemctl enable  →  start this after reboot
+systemctl start   →  start now
+systemctl status  →  running or failed</pre>
+      <h3>What you actually built</h3>
+      <p>Week 1 Friday/Saturday: install nginx, enable it, curl localhost, watch logs with tail -f, change the default HTML to a hello page.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>sudo apt update</code></td><td>Refresh package index.</td><td>Before install.</td></tr><tr><td><code>sudo apt install -y nginx</code></td><td>Install nginx. -y answers yes.</td><td>Host web server lab.</td></tr><tr><td><code>sudo systemctl start nginx</code></td><td>Start the service now.</td><td>After install or after stop.</td></tr><tr><td><code>sudo systemctl enable nginx</code></td><td>Start on boot.</td><td>You want it after reboot.</td></tr><tr><td><code>sudo systemctl status nginx</code></td><td>Running, failed, or inactive + last log lines.</td><td>First check when the site is down.</td></tr><tr><td><code>curl -I http://localhost</code></td><td>HTTP headers only (status line).</td><td>Is anything answering on 80?</td></tr><tr><td><code>sudo tail -f /var/log/nginx/error.log</code></td><td>Live error lines.</td><td>nginx will not start, or 500s.</td></tr></tbody></table>
+      
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What does systemctl enable do?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>It makes the service start when the machine boots. start is only for this moment. A server that reboots and does not enable nginx will come up with no website.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">curl vs browser?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Same HTTP request. curl is scriptable and works on a server with no GUI, so we use it in CI and in SSH sessions. -I asks for headers so I can see 200 or 404 quickly.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Site down — first three checks?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Is the process running (systemctl status or docker ps)? Is something listening on the port (ss -tuln, curl)? Do logs or the firewall (security group) explain why? That is the same order as a workplace “cannot open intranet” ticket.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="git" data-week="2" data-title="Git, remotes, SHA">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 2</span>
+          <h2>Git, remotes, SHA</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="git"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>Git stores <strong>snapshots</strong> of files. Each snapshot is a commit: a message, a parent, and a SHA (a fingerprint). A branch is a movable name pointing at a commit. <code>main</code> is the line you treat as the default.</p>
+<p>A remote is another copy of the repo. <code>origin</code> in your lab is GitHub. You also added <code>gitlab</code> as a second remote — two websites, two lockboxes, same commits when you push both.</p>
+<p><code>git add</code> stages (choose what goes into the next snapshot). <code>git commit</code> writes the snapshot locally. <code>git push</code> sends commits to the remote. <code>git pull</code> brings remote commits home.</p>
+<p>If GitHub moved and you did not: <code>rejected, fetch first</code>. You pull (merge), then push. You do <strong>not</strong> <code>--force</code> on main — that rewrites history other people (or you on another machine) may have.</p>
+<p>You used the commit SHA as a Docker image tag so the image and the git snapshot are the same change.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>working files
+   git add      →  staging (index)
+   git commit   →  local snapshot (SHA)
+   git push     →  GitHub (origin) and/or GitLab (gitlab)
+   git pull     →  bring remote commits here
+
+origin   = github.com/fahadsafdar-crypto/devops-lab
+gitlab   = gitlab.com/engr.fs100/devops-lab
+
+never commit: .pem, terraform.tfstate, .terraform/, secret.txt</pre>
+      <h3>What you actually built</h3>
+      <p>You keep notes in Git, hit divergent branches, used stash for dirty files, set pull.rebase false, never force-pushed. GitHub port 22 was blocked so SSH to github.com goes via ssh.github.com:443 in ~/.ssh/config.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>git status</code></td><td>What is dirty, staged, or untracked.</td><td>Before every add/commit/pull.</td></tr><tr><td><code>git add FILE</code></td><td>Stage that file.</td><td>Do not git add . blindly if secrets sit nearby.</td></tr><tr><td><code>git commit -m &quot;message&quot;</code></td><td>Write a local snapshot.</td><td>After staging.</td></tr><tr><td><code>git remote -v</code></td><td>Show remotes and URLs.</td><td>Confirm origin vs gitlab.</td></tr><tr><td><code>git pull origin main --no-rebase</code></td><td>Fetch + merge remote main.</td><td>When push is rejected.</td></tr><tr><td><code>git push origin main</code></td><td>Upload local commits to GitHub.</td><td>After pull is clean.</td></tr><tr><td><code>git stash push -m &quot;wip&quot; -- notes.txt</code></td><td>Park uncommitted files.</td><td>Dirty tree blocking pull.</td></tr><tr><td><code>git stash pop</code></td><td>Bring parked files back.</td><td>After pull/push.</td></tr><tr><td><code>git log --oneline -5</code></td><td>Last five SHAs and messages.</td><td>Copy SHA for image tag.</td></tr></tbody></table>
+      <h3>Mistakes from your own lab</h3><ul><li>Do not git add secret.txt, private.txt, practice folders, or .pem files.</li><li>Port 22 to GitHub blocked at some networks → Host github.com in ssh config uses ssh.github.com port 443.</li></ul>
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What is a commit?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>A snapshot of the staged files plus a message and a SHA. It points at the previous commit, so Git is a chain of snapshots, not a folder of zip files.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What is a SHA and why tag images with it?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>The SHA is the fingerprint of that commit. If I tag the Docker image with github.sha, that image was built from that exact snapshot. The tag latest moves; a SHA does not.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Push rejected, fetch first — what do you do?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>The remote has commits I do not. I stash or commit local work, git pull origin main --no-rebase, fix conflicts if any, then push. I do not force push main.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="bash" data-week="2" data-title="Bash scripts and exit codes">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 2</span>
+          <h2>Bash scripts and exit codes</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="bash"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>Bash is the shell. A script is a text file of commands. Line 1 <code>#!/bin/bash</code> (shebang) tells Linux to run this file with bash. <code>chmod +x</code> plus <code>./hello.sh</code> executes it.</p>
+<p><code>$?</code> is the exit code of the last command: 0 means success, anything else is failure. CI and scripts use that. <code>set -e</code> stops the script at the first failing command so you do not continue on a broken state.</p>
+<p>GitHub Actions <code>run: |</code> blocks are bash on the runner. Your backup script with <code>tar</code> and a date in the filename is the same idea as a tiny operations job.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>#!/bin/bash          shebang: run with bash
+set -e               stop on first error
+echo &quot;hello $USER&quot;   $USER is a variable
+exit 0               optional explicit success
+
+chmod +x hello.sh
+./hello.sh           run THIS file in THIS folder
+echo $?              print last exit code</pre>
+      <h3>What you actually built</h3>
+      <p>Week 2: hello.sh, disk-check with df -h, backup tar.gz of ~/devops-lab with the date in the name.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>chmod +x hello.sh</code></td><td>Allow execute.</td><td>Once per script.</td></tr><tr><td><code>./hello.sh</code></td><td>Run the script in the current directory.</td><td>Need ./ because . is often not on PATH.</td></tr><tr><td><code>echo $?</code></td><td>Last exit code.</td><td>Confirm success in labs and CI.</td></tr><tr><td><code>set -e</code></td><td>Abort script on first failed command.</td><td>Top of serious scripts.</td></tr><tr><td><code>tar -czf backup-$(date +%F).tar.gz ~/devops-lab</code></td><td>Create gzip archive; %F is YYYY-MM-DD.</td><td>Week 2 mini project.</td></tr><tr><td><code>df -h</code></td><td>Disk free, human units.</td><td>disk-check.sh.</td></tr></tbody></table>
+      
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What is $?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>The exit code of the previous command. 0 is success. curl -f returns non-zero if HTTP is not 2xx, which is how a smoke test fails the pipeline.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Why set -e?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Without it, a script can fail on line 3 and still run line 4 on a broken system. set -e stops at the first failure. CI run steps already fail the job if the command exits non-zero.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="net" data-week="2" data-title="Networking: IP, DNS, ports, HTTP">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 2</span>
+          <h2>Networking: IP, DNS, ports, HTTP</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="net"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>An IP address is the machine. DNS maps a name to an IP. A port is a numbered door on that machine. HTTP is a request/response on a port (80 or 443). Status codes: 200 OK, 404 not found, 500 the server program crashed, 403 forbidden.</p>
+<p>Important ports: 22 SSH, 80 HTTP, 443 HTTPS, 8080 often “HTTP but not 80” (your Docker publish). Ping uses ICMP — it is not HTTP. Ping can work while the website is down.</p>
+<p>In AWS a security group is a firewall in front of the instance: it allows or denies ports from CIDR ranges. <code>0.0.0.0/0</code> means every IPv4 address. <code>YOUR_IP/32</code> means only you.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>your PC  --DNS--&gt;  name → IP
+                --TCP--&gt;  IP:port
+
+22   SSH          (your .pem)
+80   HTTP         host nginx
+443  HTTPS        GitHub, GitLab
+8080 Docker web   -p 8080:80
+
+site-down order:
+  1. process running?   systemctl / docker ps
+  2. port listening?    ss -tuln
+  3. HTTP answer?       curl -I
+  4. firewall?          security group, local firewall
+  5. logs</pre>
+      <h3>What you actually built</h3>
+      <p>You used ping, curl -I, ss -tuln, ip a, and later curl to checkip.amazonaws.com for the IP you put in ssh_cidr.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>ip a</code></td><td>Addresses on this machine.</td><td>What is my IP in WSL/EC2.</td></tr><tr><td><code>ping -c 3 8.8.8.8</code></td><td>3 ICMP echoes to Google DNS.</td><td>Do I have basic network.</td></tr><tr><td><code>curl -I http://127.0.0.1</code></td><td>HTTP headers from local port 80.</td><td>Is nginx answering.</td></tr><tr><td><code>ss -tuln</code></td><td>Listening TCP/UDP sockets.</td><td>Is 80, 22, 8080 open on this host.</td></tr><tr><td><code>curl -s https://checkip.amazonaws.com</code></td><td>Prints your public IPv4.</td><td>Terraform ssh_cidr=/32.</td></tr></tbody></table>
+      
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Ping works, website does not. Why?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Ping is ICMP. The website is HTTP on 80 or 443. The host can be reachable while nginx is down, the port is closed, or the security group allows ICMP/SSH but not 80.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What is 0.0.0.0/0?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Every IPv4 address. On SSH that means the whole internet can try my key. I restrict SSH to my public IP /32. HTTP 80 to the world can be OK for a public site; SSH should not be.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Private 172.31.x vs public IP?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>172.31 is the VPC private address. SSH from my laptop needs the public IPv4. I wasted time SSHing to the private IP — that only works from inside the VPC.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="ssh" data-week="2" data-title="SSH keys">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 2</span>
+          <h2>SSH keys</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="ssh"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>A key pair is two files. The public key is the lock — you paste it on GitHub, GitLab, or into an EC2 key pair / authorized_keys. The private key is the key — it stays on your disk, mode 400, never in chat, never in Git.</p>
+<p>GitHub and GitLab each need the public key registered on <em>that</em> website. The same private key can open both locks if you uploaded the matching public key to both.</p>
+<p>EC2 gave you <code>devops-lab-ec2.pem</code>. Ubuntu AMIs use user <code>ubuntu</code>. <code>Permission denied (publickey)</code> means the server did not accept the key you offered (wrong key, wrong user, or public key not installed). Timeout usually means network/SG, not the key.</p>
+<p>scp syntax: <code>scp -i key.pem file ubuntu@IP:~/</code> — no space before the colon.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>id_ed25519          PRIVATE   never copy
+id_ed25519.pub      PUBLIC    paste to GitHub + GitLab
+devops-lab-ec2.pem  PRIVATE   AWS key pair, chmod 400
+
+ssh -T git@github.com
+ssh -T git@gitlab.com
+ssh -i ~/.ssh/devops-lab-ec2.pem ubuntu@PUBLIC_IP
+
+~/.ssh/config example for GitHub on port 443:
+Host github.com
+  HostName ssh.github.com
+  Port 443
+  User git</pre>
+      <h3>What you actually built</h3>
+      <p>You added the public key to GitHub and GitLab (engr.fs100). You SSH to EC2 with the pem. GitHub 22 blocked → config to 443.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>cat ~/.ssh/id_ed25519.pub</code></td><td>Show public key to copy.</td><td>Adding a new Git host.</td></tr><tr><td><code>ssh -T git@github.com</code></td><td>Test GitHub SSH auth.</td><td>After adding the public key.</td></tr><tr><td><code>ssh -i ~/.ssh/devops-lab-ec2.pem ubuntu@PUBLIC_IP</code></td><td>Log into the lab EC2.</td><td>Need public IPv4, SG 22 from your IP, mode 400 on pem.</td></tr><tr><td><code>scp -i key.pem -r docker/hello-site ubuntu@IP:~/</code></td><td>Copy folder to home on EC2.</td><td>No space before :~/</td></tr></tbody></table>
+      <h3>Mistakes from your own lab</h3><ul><li>scp user@IP: ~/ with a space copies to a local folder named ubuntu@IP. Must be user@IP:~/</li></ul>
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Public vs private key?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Public is the lock I paste onto GitHub, GitLab, or the server. Private stays on my machine. Anyone with the private key is me. I never commit .pem or id_ed25519.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Permission denied (publickey)?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>The server did not like the key I offered. Checks: am I using -i with the right file, user ubuntu not root, public key actually on that server or site, file mode 400.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">SSH times out?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Usually security group, wrong IP (private vs public), or network. The key is not even tried if TCP 22 never connects.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="docker" data-week="3" data-title="Docker: image, container, registry">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 3</span>
+          <h2>Docker: image, container, registry</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="docker"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>An <strong>image</strong> is a packaged filesystem plus a default start command — the recipe. A <strong>container</strong> is a running (or stopped) instance of that image — one cake from the recipe. A <strong>registry</strong> is a warehouse of images (Docker Hub, GHCR).</p>
+<p>A <strong>tag</strong> is a sticker on an image: <code>hello-site:ci</code> is a local nickname you chose. It is not a special Docker mode. <code>nginx:alpine</code> means the nginx image, alpine variant. Your CI also tags with the git SHA for GHCR.</p>
+<p><code>-p 8080:80</code> means: host port 8080 forwards to container port 80. curl <code>localhost:8080</code> on the host. Inside the container nginx still thinks it is on 80.</p>
+<p><code>docker run -d</code> starts in the background. It does <strong>not</strong> wait until nginx is ready to answer HTTP — that is why CI curl needed a retry loop. Exit code 56 was “connection reset / not ready yet.”</p>
+<p>A container vs a VM: a VM emulates a whole machine (guest kernel). A container shares the host kernel and isolates a process with its own filesystem. Lighter, faster to start, not a full OS.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>Dockerfile  →  docker build -t NAME:TAG  →  image (recipe)
+docker run  →  container (running copy)
+docker push →  registry (GHCR / Docker Hub)
+
+-p 8080:80     host 8080  →  container 80
+--name ci-web  a name so you can logs/stop without copying IDs
+-d             detached (background)
+--rm           delete container when it stops (image stays)
+
+hello-site:ci     local name on the CI runner / your laptop
+ghcr.io/fahadsafdar-crypto/devops-lab:&lt;sha&gt;   warehouse name</pre>
+      <h3>What you actually built</h3>
+      <p>You built <code>~/devops-lab/docker/hello-site</code> from nginx:alpine, ran it on 8080, used docker ps, logs, exec. CI builds the same context.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>docker build -t hello-site:ci ./docker/hello-site</code></td><td>Build an image and name it hello-site:ci from that folder.</td><td>Folder must contain the Dockerfile.</td></tr><tr><td><code>docker run -d --name ci-web -p 8080:80 hello-site:ci</code></td><td>Start a container in background, publish 8080.</td><td>After build. Name must be unique.</td></tr><tr><td><code>docker ps -a</code></td><td>Running and stopped containers.</td><td>Did it exit immediately?</td></tr><tr><td><code>docker logs ci-web</code></td><td>Process stdout/stderr.</td><td>First debug step.</td></tr><tr><td><code>docker exec -it ci-web sh</code></td><td>Shell inside the running container.</td><td>Is the HTML file where nginx expects it?</td></tr><tr><td><code>docker stop ci-web &amp;&amp; docker rm ci-web</code></td><td>Stop then delete the container.</td><td>Cleanup. Image remains.</td></tr><tr><td><code>docker images</code></td><td>List local images and tags.</td><td>Confirm the build exists.</td></tr></tbody></table>
+      <h3>Mistakes from your own lab</h3><ul><li>curl 56 right after docker run -d: nginx not listening yet. Retry with sleep, then fail the job if still down.</li></ul>
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Image vs container?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>The image is the immutable recipe. The container is a running copy with its own writable layer. I can run two containers from the same image. Deleting a container does not delete the image.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What is a tag?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>A human name for an image, like ci or alpine or a git SHA. hello-site:ci is only a local nickname. On GHCR I used the repository name and the commit SHA so I can point at one build.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Why --rm?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>When the container stops, Docker deletes that container. Useful for one-shot tests. It does not delete the image. In CI I often named the container so I could logs, then removed it at the end.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Container vs VM?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>A VM has a guest operating system and its own kernel. A container reuses the host kernel and packages the app plus libraries. Faster to start, smaller, but all containers on a host share that kernel.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="dockerfile" data-week="3" data-title="Dockerfile — line by line">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 3</span>
+          <h2>Dockerfile — line by line</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="dockerfile"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>A Dockerfile is instructions to build an image. Each instruction creates a layer. You read it top to bottom: start FROM a base, COPY files in, maybe RUN extra packages, EXPOSE documents a port, CMD is the default process.</p>
+<p>Your hello-site image is static HTML on nginx:alpine. You do not need to memorise plugin versions. You need the skeleton and what each line does.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>FROM nginx:alpine
+# Start from a small official nginx image (Alpine Linux).
+# This already contains nginx configured to serve files.
+
+COPY index.html /usr/share/nginx/html/index.html
+# Copy OUR page into the folder nginx serves by default.
+# Left = on the build machine (next to the Dockerfile).
+# Right = path inside the image.
+
+# EXPOSE 80
+# Optional documentation: this image listens on 80.
+# EXPOSE does not publish the port to your laptop.
+# Publishing is docker run -p or Compose ports:
+
+# CMD is already defined in nginx:alpine (start nginx).
+# You only override CMD if you need a different start command.</pre>
+      <h3>What you actually built</h3>
+      <p>Week 3: Dockerfile in docker/hello-site, build, run, push the code to GitHub. Later CI uses the same Dockerfile.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>FROM</code></td><td>Base image.</td><td>Always first (except comments).</td></tr><tr><td><code>COPY src dest</code></td><td>Copy from build context into the image.</td><td>HTML, app code, configs you want baked in.</td></tr><tr><td><code>RUN apt-get …</code></td><td>Execute at build time, bake the result in.</td><td>Install packages. Not used in the tiny nginx HTML image.</td></tr><tr><td><code>EXPOSE 80</code></td><td>Documents the port. Does not publish it.</td><td>Readers and some tools.</td></tr><tr><td><code>CMD [&quot;nginx&quot;,&quot;-g&quot;,&quot;daemon off;&quot;]</code></td><td>Default process when the container starts.</td><td>nginx:alpine already has this.</td></tr></tbody></table>
+      
+      <h3>Whiteboard — write this from memory</h3><pre class='code'><code>FROM nginx:alpine
+COPY index.html /usr/share/nginx/html/index.html
+</code></pre>
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What does FROM do?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>It sets the starting filesystem. nginx:alpine already has nginx installed. I only copy my HTML on top.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">EXPOSE vs -p?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>EXPOSE is a comment for humans and tooling. -p 8080:80 is what actually maps the host port. Forgetting -p is a common reason the browser cannot connect.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="compose" data-week="3" data-title="Docker Compose, Redis, volumes">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 3</span>
+          <h2>Docker Compose, Redis, volumes</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="compose"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>Compose is one YAML file that starts several containers on one Docker network. One command instead of many docker run lines. Your hello-site stack: web (nginx) and redis (cache). Redis is a <strong>separate container</strong>, not baked into the nginx image.</p>
+<p>They find each other by <strong>service name</strong> on the Compose network (hostname <code>redis</code>, <code>web</code>). Your Windows browser is not on that network — you publish ports to localhost instead.</p>
+<p><strong>Named volume</strong>: Docker-managed disk. Redis data survives <code>compose down</code> but <code>down -v</code> deletes it. <strong>Bind mount</strong>: a host file or folder mapped in. Your Prometheus config is a bind mount: host <code>prometheus.yml</code> → path inside the container. If the host path is missing, Docker may create a <em>directory</em> named prometheus.yml — then the mount is wrong. The host path must be a <em>file</em> if the target is a file.</p>
+<p>Compose on one EC2 is a valid junior story. Kubernetes is many nodes — you have not run that. Say so.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>compose project (one YAML)
+  web     nginx     ports 8080:80     (browser hits this)
+  redis   redis     no public port    (only on docker network)
+
+named volume     docker volume   survives down, dies with down -v
+bind mount       ./prometheus.yml → /etc/prometheus/prometheus.yml
+                 host path MUST exist as a file
+
+down      stop and remove containers
+down -v   also delete named volumes (data gone)</pre>
+      <h3>What you actually built</h3>
+      <p>Week 3: compose up for web+redis. Week 5: scp the folder to EC2 and compose up there. Week 6: Prometheus bind-mount file-not-directory bug.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>cd ~/devops-lab/docker/hello-site</code></td><td>Compose file lives here.</td><td>Always cd first.</td></tr><tr><td><code>docker compose up -d</code></td><td>Create/start in background.</td><td>First start and after edits.</td></tr><tr><td><code>docker compose ps</code></td><td>State of this project’s containers.</td><td>Is web healthy?</td></tr><tr><td><code>docker compose logs</code></td><td>Logs from all services.</td><td>Add service name to filter.</td></tr><tr><td><code>docker compose down</code></td><td>Stop and remove containers/network.</td><td>End of lab.</td></tr><tr><td><code>docker compose down -v</code></td><td>Also wipe named volumes.</td><td>Only if you want Redis data gone.</td></tr><tr><td><code>ls -l prometheus.yml</code></td><td>Must show a file, not drwx.</td><td>Before monitoring compose up.</td></tr></tbody></table>
+      
+      <h3>Whiteboard — write this from memory</h3><pre class='code'><code>services:
+  web:
+    build: .
+    ports:
+      - &quot;8080:80&quot;
+  redis:
+    image: redis:alpine
+</code></pre>
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Why Compose?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>The app is more than one process. Compose gives one file, one network, one command to start web plus Redis. In production some teams still run Compose on a single VM. Many nodes is Kubernetes, which I have not operated.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Is Redis inside the nginx image?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>No. Separate image, separate container. nginx serves HTML. Redis is a key-value store on the same Compose network.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">down vs down -v?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>down removes containers. -v also deletes volumes, so Redis data is gone. I use -v only when I want a clean slate.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Mount error: not a directory?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>I bind-mounted prometheus.yml but the host path was missing, so Docker created a directory with that name. I removed the directory, created a real file, composed up again.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="ci" data-week="4" data-title="CI vs CD, and a smoke test">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 4</span>
+          <h2>CI vs CD, and a smoke test</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="ci"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>CI: on every change, a machine we do not babysit builds and tests. A red pipeline is a feature — it stops a broken change from pretending to be fine. CD: take the artifact that passed CI and put it in an environment automatically or with one click. You have CI. You have not wired CD to AWS.</p>
+<p>Typical stages people name: lint → test → build → deploy. Yours: checkout → docker build → run → curl with retry → login GHCR → tag SHA → push.</p>
+<p>A <strong>smoke test</strong> is a tiny live check (HTTP 200), not a full QA suite. <code>docker run -d</code> returning success is not a smoke test. curl against the published port is.</p>
+<p>Secrets never live in the YAML. GitHub injects <code>GITHUB_TOKEN</code> at runtime. It does <strong>not</strong> appear in Settings → Secrets. You still needed <code>permissions.packages: write</code> to push to GHCR.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>push to main
+  runner = rented Ubuntu VM (GitHub-hosted)
+
+  1. checkout the commit
+  2. docker build -t hello-site:ci
+  3. docker run -d -p 8080:80
+  4. retry: curl -f -I http://localhost:8080
+  5. docker login ghcr.io  (GITHUB_TOKEN)
+  6. docker tag + push  ghcr.io/OWNER/REPO:SHA
+
+failing CI = do not merge as if it were green
+${{ }}  = filled by GitHub at run time, not stored in Git</pre>
+      <h3>What you actually built</h3>
+      <p>Week 4: .github/workflows/ci.yml, then GHCR. GitLab CI later as a second green pipeline. curl 56 fixed with retry. GHCR 403 until image name matched repo devops-lab and packages:write.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>On the runner (inside YAML run:)</code></td><td>Same docker commands as your laptop.</td><td>You do not SSH into the runner.</td></tr><tr><td><code>curl -f -I http://localhost:8080</code></td><td>-f = fail on HTTP errors.</td><td>Smoke test. Wrap in a retry loop.</td></tr><tr><td><code>echo &quot;$TOKEN&quot; | docker login ghcr.io -u USER --password-stdin</code></td><td>Login without putting the token on the CLI argv list as clearly.</td><td>Before push.</td></tr></tbody></table>
+      <h3>Mistakes from your own lab</h3><ul><li>GHCR: installation not allowed to Create organization package — image name was hello-site; it must be devops-lab (the repo).</li><li>Do not put passwords in ci.yml.</li></ul>
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What is a runner?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>The rented VM GitHub (or GitLab) starts for the job. Mine is ubuntu-latest. It checks out my repo and runs the steps. When the job ends, that VM is thrown away — that is why I push the image to GHCR if I want to keep it.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What is a smoke test?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>A tiny check that the thing actually answers. I curl HTTP and want 200. I retry because docker run -d does not wait for nginx. It is not a full test suite.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Why SHA tags not only latest?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>latest moves whenever I push again. A SHA tag is that commit. If production is bad I can see exactly which git snapshot that image was.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Where is GITHUB_TOKEN?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>GitHub injects it into the job. It is not in the Actions secrets UI. I still must set permissions.packages: write, and the package name for this token should match the repository name.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="gha-yaml" data-week="4" data-title="GitHub Actions YAML — line by line">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 4</span>
+          <h2>GitHub Actions YAML — line by line</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="gha-yaml"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>The file lives at <code>.github/workflows/ci.yml</code>. YAML cares about spaces. You memorise the skeleton, not action SHAs of every marketplace action.</p>
+<p>Read it as: <em>when</em> (on) → <em>jobs</em> on a runner → <em>steps</em> in order.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>name: CI
+# Label in the GitHub UI.
+
+on:
+  push:
+    branches: [main]
+# When: a push to main starts this workflow.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # This job’s VM.
+
+    permissions:
+      contents: read
+      packages: write
+    # GITHUB_TOKEN may read the repo and write GHCR packages.
+
+    steps:
+      - uses: actions/checkout@v4
+      # Clone this commit onto the runner.
+
+      - name: Build image
+        run: docker build -t hello-site:ci ./docker/hello-site
+      # Shell on the runner. Same command as WSL.
+
+      - name: Smoke test
+        run: |
+          docker run -d --name ci-web -p 8080:80 hello-site:ci
+          for i in 1 2 3 4 5 6; do
+            curl -f -I http://localhost:8080 &amp;&amp; exit 0
+            sleep 2
+          done
+          exit 1
+      # | means a multi-line script. Retry then fail.
+
+      - name: Login and push
+        run: |
+          echo &quot;${{ secrets.GITHUB_TOKEN }}&quot; | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker tag hello-site:ci ghcr.io/${{ github.repository }}:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
+# github.repository is owner/repo → image name matches the repo.</pre>
+      <h3>What you actually built</h3>
+      <p>You can sketch on: / jobs / runs-on / steps / run without memorising HashiCorp or action commit SHAs.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>on.push</code></td><td>Trigger.</td><td>When does it run?</td></tr><tr><td><code>runs-on</code></td><td>Which VM image.</td><td>ubuntu-latest for your lab.</td></tr><tr><td><code>permissions.packages: write</code></td><td>Allow GHCR push with GITHUB_TOKEN.</td><td>Without this, 403.</td></tr><tr><td><code>uses: actions/checkout@v4</code></td><td>Get the code.</td><td>Almost every workflow.</td></tr><tr><td><code>run:</code></td><td>Bash on the runner.</td><td>Your docker/curl commands.</td></tr><tr><td><code>${{ github.sha }}</code></td><td>Commit fingerprint, filled at runtime.</td><td>Image tag.</td></tr></tbody></table>
+      
+      <h3>Whiteboard — write this from memory</h3><pre class='code'><code>name: CI
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t hello-site:ci ./docker/hello-site
+</code></pre>
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Walk me through your pipeline.</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>On push to main, GitHub starts Ubuntu. It checks out the commit, builds the hello-site Docker image, runs it, curls port 8080 with retries, logs into GHCR with GITHUB_TOKEN, tags the image with the git SHA using the repo name, and pushes. If curl never gets 200, the job fails and I do not treat that commit as good.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="gitlab" data-week="4" data-title="GitLab CI">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 4</span>
+          <h2>GitLab CI</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="gitlab"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>Same idea as GitHub Actions: a YAML file describes jobs, a runner executes them on push. Different file name and keys. GitLab file is <code>.gitlab-ci.yml</code> at the <strong>repository root</strong>, not under .github/.</p>
+<p>Jobs use <code>script:</code> (a list) instead of <code>run:</code>. Docker-in-Docker (<code>docker:dind</code>) is a common pattern so the job can run docker build. German ads often say GitLab CI — you can show a green pipeline. You have not administered GitLab for a bank or SAP cloud team.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>GitHub Actions          GitLab CI
+.github/workflows/*.yml  .gitlab-ci.yml  (repo root)
+on: push                 default: pipelines on push
+jobs: / steps: / run:    job-name: / script:
+runs-on: ubuntu-latest   image: + optional services: dind
+GITHUB_TOKEN             CI_JOB_TOKEN / registry vars
+
+git remote add gitlab git@gitlab.com:engr.fs100/devops-lab.git
+git push gitlab main
+# UI: Build → Pipelines</pre>
+      <h3>What you actually built</h3>
+      <p>Remote gitlab on the same commits. Pipeline green for docker build. SSH key on account engr.fs100.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>git remote add gitlab URL</code></td><td>Second remote.</td><td>Once.</td></tr><tr><td><code>git push gitlab main</code></td><td>Send commits; pipeline starts.</td><td>After GitHub push or instead.</td></tr><tr><td><code>GitLab → Build → Pipelines</code></td><td>See red/green.</td><td>Same as Actions tab.</td></tr></tbody></table>
+      
+      <h3>Whiteboard — write this from memory</h3><pre class='code'><code>stages:
+  - build
+build-image:
+  stage: build
+  image: docker:24
+  services:
+    - docker:24-dind
+  variables:
+    DOCKER_TLS_CERTDIR: &quot;&quot;
+  script:
+    - docker build -t hello-site:ci ./docker/hello-site
+</code></pre>
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Actions vs GitLab CI?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Same pipeline idea: YAML in Git, a runner builds on push. GitHub uses workflows under .github with steps and run. GitLab uses one .gitlab-ci.yml at the root with script lists, and often docker:dind for docker build. I have a green build on both. I have not run GitLab as a platform for a company.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Where does the GitLab file live?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Repository root: .gitlab-ci.yml. Putting it only under .github will not run on GitLab.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="aws" data-week="5" data-title="AWS: account, IAM, region, billing">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 5</span>
+          <h2>AWS: account, IAM, region, billing</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="aws"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>AWS is IaaS: you rent computers and services. <strong>Region</strong> is a geography. Yours is <code>eu-central-1</code> (Frankfurt) — GDPR practice, German jobs, lower latency. Console in the wrong region looks like “my VM vanished.”</p>
+<p><strong>Root</strong> is the account owner — emergency, MFA on, not daily. Daily: an IAM user with MFA. IAM is users, groups, policies (who may call which API).</p>
+<p>Shared responsibility: AWS secures the cloud (datacenter, hypervisor). You secure what you put in it: keys, security groups, data, MFA. A €5 budget email is a lab safety net, not a production FinOps team.</p>
+<p>Stop vs terminate: stop an EC2 and the disk can remain (small cost). Terminate deletes the instance. Labs: destroy/terminate when you walk away.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>IAM user (daily) + MFA
+   → region eu-central-1 (Frankfurt)
+        → EC2 (Ubuntu VM) + security group
+        → S3 (bucket of objects)
+        → Budget alert €5
+
+Root account = break glass, not daily login
+Wrong region = empty console (you are looking at Ireland, VM is in Frankfurt)</pre>
+      <h3>What you actually built</h3>
+      <p>Week 5: account, MFA, IAM admin, eu-central-1, €5 budget, AWS CLI sts get-caller-identity.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>aws sts get-caller-identity</code></td><td>Who am I (account, IAM user/role).</td><td>Confirm CLI is logged in.</td></tr><tr><td><code>aws configure get region</code></td><td>Default region.</td><td>Must be eu-central-1 for this lab.</td></tr><tr><td><code>aws s3 ls</code></td><td>List buckets this identity can see.</td><td>CLI works.</td></tr></tbody></table>
+      
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Shared responsibility?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>AWS is responsible for the cloud itself. I am responsible for my IAM users, MFA, key files, security group rules, and data in S3 or on the VM. MFA on root and not using root daily is part of my side.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Why Frankfurt?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>eu-central-1 is in Germany. For a lab it matches GDPR practice and German job ads. Also I always pick one region so I do not create resources I cannot find.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">IaaS vs PaaS vs SaaS?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>IaaS is I rent VMs and networks — EC2. PaaS is I push code onto a platform that runs it. SaaS is I use a finished app. My lab is mostly IaaS plus GitHub as SaaS CI.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="ec2-sg" data-week="5" data-title="EC2 and security groups">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 5</span>
+          <h2>EC2 and security groups</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="ec2-sg"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>EC2 is a rented virtual computer. You picked a small Ubuntu in Frankfurt, a key pair, and a security group. You SSH as <code>ubuntu@PUBLIC_IP</code>. The 172.31.x address is private inside the VPC — your laptop is not there.</p>
+<p>A <strong>security group</strong> is a stateful firewall attached to the instance (and ENI): inbound rules say who may open which port. It is the same idea as a Windows firewall, but it sits <em>in AWS in front of the VM</em>. SSH (22) from <code>0.0.0.0/0</code> is the whole internet guessing. Use <code>YOUR_PUBLIC_IP/32</code>.</p>
+<p>Week 5 Saturday: Docker + Compose on that EC2. Empty mkdir on the server is not the app — you scp the project files, then compose up.</p>
+<p>Week 6 leftover (not done yet): Terraform creates the VM, Ansible configures it, app runs — one flow — then cleanup.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>Internet
+   │
+   ▼
+Security group  (allow 22 from YOUR_IP/32)
+   │            (allow 80/8080 only if you need a demo)
+   ▼
+EC2 Ubuntu
+   ubuntu@PUBLIC_IP     SSH with devops-lab-ec2.pem
+   172.31.x.x           private — not for laptop SSH
+
+Stop      = VM off, disk may still cost a little
+Terminate = VM gone
+Terraform destroy = delete what THIS state created</pre>
+      <h3>What you actually built</h3>
+      <p>Key in ~/.ssh, chmod 400. scp compose app. Budget and terminate after demo.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>ssh -i ~/.ssh/devops-lab-ec2.pem ubuntu@PUBLIC_IP</code></td><td>Enter the VM.</td><td>Public IP, SG, correct user.</td></tr><tr><td><code>scp -i pem -r docker/hello-site ubuntu@IP:~/</code></td><td>Copy app files.</td><td>Then ssh and compose up.</td></tr><tr><td><code>sudo apt install docker.io … / Docker docs</code></td><td>Engine on the VM.</td><td>Then your user in docker group or sudo.</td></tr></tbody></table>
+      
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Security group vs Windows firewall?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Same idea: allow or deny ports. The security group is in AWS, before traffic reaches the guest OS. I still care about both, but “SSH timeout” is usually the SG or the public IP, not Windows.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Stop vs terminate?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Stop powers off; EBS disk can remain and costs a bit. Terminate deletes the instance. For a lab I terminate or terraform destroy so I do not pay overnight.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Why not SSH 0.0.0.0/0?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Any host on the internet can hit port 22 and try keys or passwords. I lock SSH to my /32. If my home IP changes, I update the rule.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="s3" data-week="5" data-title="S3">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 5</span>
+          <h2>S3</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="s3"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>S3 is object storage: files (objects) in buckets, not a Linux filesystem. You create a bucket in a region, upload objects, optionally versioning. Bucket names are globally unique. CLI: <code>aws s3 ls</code>, <code>cp</code>.</p>
+<p>Use cases you can name: backups, Terraform remote state (you used <em>local</em> state in lab — say that), static website hosting, storing build artifacts. Public buckets leak data — lab buckets stay private.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>bucket  = container with a globally unique name
+object  = a file + key (path-like name)
+region  = eu-central-1 for the lab
+versioning = keep old versions of an object
+
+Terraform lab also created an S3 bucket from code, then destroy</pre>
+      <h3>What you actually built</h3>
+      <p>Console bucket + CLI ls. Terraform s3-lab folder later.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>aws s3 ls</code></td><td>List buckets.</td><td>CLI sanity check.</td></tr><tr><td><code>aws s3 ls s3://BUCKET</code></td><td>List objects.</td><td>After upload.</td></tr><tr><td><code>aws s3 cp file s3://BUCKET/key</code></td><td>Upload.</td><td>Lab file.</td></tr></tbody></table>
+      
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What is S3?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Object storage. I put files in a bucket. It is not a disk I mount like EBS. I used it in the console and created one with Terraform, then destroyed it. Private buckets only.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="terraform" data-week="6" data-title="Terraform (IaC)">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 6</span>
+          <h2>Terraform (IaC)</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="terraform"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>IaC means the cloud is described in files. Terraform reads HCL, compares it to real AWS (using state), and plans a diff. <code>init</code> downloads providers. <code>plan</code> is preview. <code>apply</code> makes the change. <code>destroy</code> deletes objects tracked in <em>this</em> state. Destroy does <strong>not</strong> delete your <code>.tf</code> files.</p>
+<p><code>resource</code> = create/manage. <code>data</code> = read something that already exists. You used <code>data.aws_ssm_parameter</code> for the current Ubuntu AMI in the region — the nickname in SSM is not the AMI id; Terraform reads the value. Do not paste a stale <code>ami-…</code>.</p>
+<p>Variables: <code>description</code> is help text, <strong>not</strong> the value. <code>ssh_cidr</code> is passed with <code>-var=</code>. Outputs print after apply (public_ip).</p>
+<p>State file <code>terraform.tfstate</code> is memory of what apply created. Do not Git it. Production teams store state remotely (S3 + lock). You used local state. Say that.</p>
+<p>Order: security group resource, then instance with <code>vpc_security_group_ids = [aws_security_group.ssh.id]</code> so the SG exists first.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>variables.tf   knobs (ssh_cidr has NO value in description)
+main.tf        terraform {}  provider  data  resource
+outputs.tf     output &quot;public_ip&quot; { value = aws_instance.lab.public_ip }
+terraform.tfstate   do not commit
+.terraform/         provider plugins, do not commit
+
+init     download aws provider
+plan     show create/change/destroy
+apply    do it
+destroy  delete tracked resources, keep .tf files
+
+data  = look up (AMI via SSM)
+resource = own this object (SG, instance, bucket)</pre>
+      <h3>What you actually built</h3>
+      <p>terraform/s3-lab and terraform/ec2-lab. AMI via SSM. ssh_cidr via -var. .gitignore for state and pem.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>cd ~/devops-lab/terraform/ec2-lab</code></td><td>Each folder is a separate root/state.</td><td>Do not mix s3-lab state with ec2-lab.</td></tr><tr><td><code>terraform init</code></td><td>Install providers into .terraform.</td><td>Once per folder, or after provider changes.</td></tr><tr><td><code>terraform plan -var=&#x27;ssh_cidr=IP/32&#x27;</code></td><td>Preview.</td><td>Always read plan before apply.</td></tr><tr><td><code>terraform apply -var=&#x27;ssh_cidr=IP/32&#x27;</code></td><td>Create/update.</td><td>Type yes or -auto-approve only if you mean it.</td></tr><tr><td><code>terraform destroy -var=&#x27;ssh_cidr=IP/32&#x27;</code></td><td>Delete AWS objects in this state.</td><td>End of lab. Confirm console.</td></tr><tr><td><code>curl -s https://checkip.amazonaws.com</code></td><td>Current public IP for /32.</td><td>IP changes = update var and apply.</td></tr></tbody></table>
+      <h3>Mistakes from your own lab</h3><ul><li>ssh_cidr in description does nothing — pass -var.</li><li>Do not git add tfstate or .terraform.</li><li>Apply in the wrong folder uses the wrong state.</li></ul>
+      <h3>Whiteboard — write this from memory</h3><pre class='code'><code>terraform {
+  required_providers {
+    aws = { source = &quot;hashicorp/aws&quot; }
+  }
+}
+provider &quot;aws&quot; {
+  region = &quot;eu-central-1&quot;
+}
+variable &quot;ssh_cidr&quot; { type = string }
+resource &quot;aws_s3_bucket&quot; &quot;lab&quot; {
+  bucket = &quot;unique-name-here&quot;
+}
+</code></pre>
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">plan vs apply?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>plan shows what Terraform would do. apply does it. I read the plan so I do not create a second instance by accident.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Why not hardcode the AMI?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>AMI ids go stale. The SSM parameter points at the current Ubuntu 24.04 in this region. data looks it up at plan time. The name of the parameter is not itself an ami- id.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Does destroy delete main.tf?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>No. Destroy deletes the cloud objects recorded in state. The files stay so I can apply again.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Terraform vs Ansible?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Terraform creates cloud objects: VPC bits, SG, EC2, S3. Ansible logs into a machine and configures the OS: packages, files, services. I used Terraform for AWS and Ansible on localhost for nginx. The Saturday integration — Terraform then Ansible on that EC2 — is the leftover.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Where is state in production?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>On a remote backend, usually S3 with a lock, so two people do not apply at once. My lab state is a local file, gitignored. That is a gap I would name in an interview.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="ansible" data-week="6" data-title="Ansible">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 6</span>
+          <h2>Ansible</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="ansible"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>Ansible configures machines you already have: install packages, write files, start services. It is agentless over SSH (or <code>connection=local</code> for the same computer). A playbook is a list of tasks. Modules do the work (<code>apt</code>, <code>service</code>, <code>ping</code>).</p>
+<p><strong>Inventory</strong> is who: a file listing hosts and groups. You had <code>[lab]</code> and localhost. Typo <code>inventiry.ini</code> meant no hosts matched — Ansible did not guess.</p>
+<p><strong>Idempotent</strong>: run twice, second time should be ok. <code>state: present</code> means install if missing. <code>changed=0</code> means already in the desired state — that is success, not a failure.</p>
+<p><code>become: true</code> is sudo. You ran localhost. Next step is the same playbook with the EC2 IP and SSH — that is the Week 6 Saturday leftover.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>inventory.ini     who  [lab]  localhost or ubuntu@IP
+ansible.cfg       optional defaults
+playbook.yml      what  hosts: lab  tasks: …
+
+ansible lab -i inventory.ini -m ping     can we reach them?
+ansible-playbook -i inventory.ini nginx.yml
+
+become: true      sudo
+state: present    install if needed
+changed=0         already good — success</pre>
+      <h3>What you actually built</h3>
+      <p>ansible/ with inventory + nginx playbook. ping + playbook on localhost. nginx already installed → changed=0.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>ansible lab -i inventory.ini -m ping</code></td><td>Reachability using group lab.</td><td>First check. Filename must be exact.</td></tr><tr><td><code>ansible-playbook -i inventory.ini nginx.yml</code></td><td>Run tasks.</td><td>Configure nginx.</td></tr></tbody></table>
+      <h3>Mistakes from your own lab</h3><ul><li>inventiry.ini typo.</li></ul>
+      <h3>Whiteboard — write this from memory</h3><pre class='code'><code>[lab]
+localhost ansible_connection=local
+</code></pre><pre class='code'><code>---
+- name: Lab
+  hosts: lab
+  become: true
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+</code></pre>
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Terraform vs Ansible in one sentence?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Terraform builds the house in AWS. Ansible furnishes the OS inside. I should not use Terraform to apt-install nginx as my main story, and I should not use Ansible to create the EC2 instance as my main story.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What does changed=0 mean?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Every task compared the system to the desired state and needed no change. That is a successful idempotent run. My localhost already had nginx from Week 1.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">no hosts matched?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>The inventory file name was wrong or the group name in the playbook did not match. I had inventiry.ini. Ansible will not invent hosts.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="monitor" data-week="6" data-title="Prometheus, Grafana, metrics vs logs">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 6</span>
+          <h2>Prometheus, Grafana, metrics vs logs</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="monitor"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p><strong>Logs</strong> are text stories (nginx access line, container crash). <strong>Metrics</strong> are numbers over time (CPU seconds, up/down). You need both. Prometheus <strong>scrapes</strong> (pulls) exporters on an interval and stores time series. Grafana graphs them and is where humans look. Alert rules fire when a number is bad — you have not written alert rules yet; say that.</p>
+<p>Your stack: node-exporter on :9100 → Prometheus :9090 → Grafana :3000. Scrape config is YAML. Indentation matters: <code>scrape_interval</code> under <code>global:</code>. A second colon on the wrong line crashed Prometheus.</p>
+<p>URLs: your Windows browser uses <code>http://localhost:9090</code>. Grafana’s data source uses <code>http://prometheus:9090</code> — that hostname is Docker DNS inside the Compose network. Typing prometheus:9090 in Chrome on Windows fails. If Grafana says no such host, the Prometheus container is down or the URL is in the wrong place.</p>
+<p>On-call in a real job: alert → Grafana → which instance → then logs. One local Compose stack is not SAP Sovereign Cloud on-call. You can still explain the architecture.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>node-exporter :9100  →  Prometheus :9090  →  Grafana :3000
+     CPU numbers           scrape ~15s           you look here
+
+Browser on Windows:      http://localhost:9090
+Grafana datasource:      http://prometheus:9090   (Docker DNS)
+
+prometheus.yml must be a FILE bind-mounted
+job_name under scrape_configs with a dash -
+scrape_interval indented under global:</pre>
+      <h3>What you actually built</h3>
+      <p>monitoring/ compose. File-vs-directory mount. YAML indent crash. Explore node_cpu_seconds_total. RUNBOOK.md.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>cd ~/devops-lab/monitoring</code></td><td>Project folder.</td><td>Compose + prometheus.yml.</td></tr><tr><td><code>ls -l prometheus.yml</code></td><td>Regular file, not a directory.</td><td>Before up.</td></tr><tr><td><code>docker compose up -d</code></td><td>Start Prometheus, Grafana, exporter.</td><td>Local only.</td></tr><tr><td><code>docker compose ps -a</code></td><td>Restart loops?</td><td>If 9090 dead.</td></tr><tr><td><code>docker compose logs prometheus</code></td><td>YAML parse errors show here.</td><td>Crash on start.</td></tr><tr><td><code>curl -I http://127.0.0.1:9090</code></td><td>Prometheus UI/API up.</td><td>From WSL or the host that published the port.</td></tr><tr><td><code>docker compose down</code></td><td>Stop stack.</td><td>End of session.</td></tr></tbody></table>
+      <h3>Mistakes from your own lab</h3><ul><li>prometheus.yml directory created by Docker.</li><li>YAML indent / two colons on line 2.</li><li>Datasource URL used in Chrome.</li></ul>
+      <h3>Whiteboard — write this from memory</h3><pre class='code'><code>global:
+  scrape_interval: 15s
+scrape_configs:
+  - job_name: &quot;node&quot;
+    static_configs:
+      - targets: [&quot;node-exporter:9100&quot;]
+</code></pre>
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Metrics vs logs?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Metrics are numbers over time — CPU, memory, up. Logs are text — why it crashed, which request failed. Prometheus stores metrics. Grafana draws them. I still use docker logs and /var/log for the story.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What is scrape?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Prometheus pulls metrics from a target URL on an interval. node-exporter exposes :9100. I list that target in prometheus.yml. This is pull. Some systems push; this lab is pull.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Grafana lookup prometheus failed?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Either the Prometheus container is not running, or I pasted http://prometheus:9090 into the Windows browser. That hostname only works inside Docker. Chrome should use localhost:3000 for Grafana and localhost:9090 for Prometheus.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Have you done alerting?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Not yet. I have scrape and a graph. I have not written alert rules or Alertmanager. I would say that honestly.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="runbook" data-week="6" data-title="Incidents, runbook, GDPR">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 6</span>
+          <h2>Incidents, runbook, GDPR</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="runbook"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>A runbook is a written path for when it breaks so you do not invent flags at 2 a.m. Yours: detect → triage → fix → postmortem. Detect might be Grafana, a failed curl, CI red, or a ticket. Triage: how bad, what still works. Fix: smallest change (compose start), not random terraform destroy. Postmortem: blameless what/why/what we change.</p>
+<p>GDPR: IP addresses and usernames in logs can be personal data. Keep them only with a purpose, restrict access, delete after a retention period. A lab that stores access logs forever is sloppy practice to mention as something you would not do at work.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>DETECT      Grafana down / CI red / user ticket / curl fail
+TRIAGE      compose ps, logs, curl, metrics — blast radius
+FIX         smallest restart that restores service
+POSTMORTEM  what happened, why, action items, no blame
+
+GDPR: logs may contain IPs → purpose + retention + access control</pre>
+      <h3>What you actually built</h3>
+      <p>RUNBOOK.md in the lab. You simulated an outage by stopping a container and following the doc.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>docker compose ps</code></td><td>What is running.</td><td>Triage line 1.</td></tr><tr><td><code>docker compose logs</code></td><td>Why it died.</td><td>Triage.</td></tr><tr><td><code>docker compose start</code></td><td>Start stopped services without recreating.</td><td>Often enough.</td></tr><tr><td><code>curl -I http://127.0.0.1:8080</code></td><td>Confirm the fix.</td><td>Before you close the incident.</td></tr></tbody></table>
+      
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Site is down. What do you do first?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>I check if the process or container is running, then logs, then listen port, then firewall or security group, then DNS. I follow the runbook instead of destroying infrastructure first. After restore I write what happened.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">What is a postmortem?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>A blameless write-up: timeline, impact, root cause, what we will change so it is less likely. The point is learning, not finding someone to blame.</p>
+        
+      </div>
+    </div>
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">GDPR and logs?</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Logs can include IP addresses and usernames, which can be personal data. We collect only what we need, limit who can read them, and delete them after a retention time. I would not keep access logs forever “just in case.”</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    <article class="topic" id="e2e" data-week="6" data-title="Your lab end-to-end (draw this)">
+      <header class="topic-head">
+        <div>
+          <span class="pill">Week 6</span>
+          <h2>Your lab end-to-end (draw this)</h2>
+        </div>
+        <label class="mark"><input type="checkbox" data-id="e2e"> I can explain this out loud</label>
+      </header>
+      <h3>Concept</h3>
+      <p>This is the picture you should be able to draw on a whiteboard in two minutes. It is a learning lab, not SAP production. If they ask “what would you add next?”: Terraform → Ansible on the same EC2, remote Terraform state, then a tiny CD deploy, then Kubernetes as a taste in weeks 7–8 — without claiming you already did K8s in production.</p>
+      <h3>Architecture</h3>
+      <pre class='arch'>Laptop / WSL (Ubuntu)
+  ~/devops-lab
+       │
+       │ git push
+       ▼
+  GitHub  origin          GitLab  gitlab
+  Actions CI              .gitlab-ci.yml
+       │
+       │ docker build, curl retry
+       ▼
+  GHCR  ghcr.io/fahadsafdar-crypto/devops-lab:&lt;sha&gt;
+
+  AWS eu-central-1
+    IAM user + MFA
+    SG 22 /32  →  EC2 Ubuntu  →  Docker Compose hello-site
+    S3 lab bucket (destroyed after)
+    Terraform  s3-lab / ec2-lab   local state
+    Ansible    localhost nginx    (EC2 playbook leftover)
+
+  Local monitoring Compose
+    node-exporter → Prometheus → Grafana
+
+  RUNBOOK.md  detect → triage → fix → postmortem
+
+Daily job (honest): SAP IT Support Engineer, Walldorf, Jun 2024–present
+Certs you may name if true: AWS SAA + DevOps Professional
+Not in this picture: Kubernetes production, Jenkins at SAP, fake ITconfig DevOps job</pre>
+      <h3>What you actually built</h3>
+      <p>Week 6 Saturday leftover: one flow Terraform create → Ansible configure → app on that EC2, 1-page capstone plan, AWS cleanup.</p>
+      <h3>Commands</h3>
+      <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>Draw, then speak 90 seconds</code></td><td>See interview drill “Walk me through your lab”.</td><td>Before every interview.</td></tr></tbody></table>
+      
+      
+      <h3>Interview — answer out loud, then reveal</h3>
+      
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Walk me through your architecture.</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>I have a Git repo with a small nginx plus Redis app in Docker Compose. On push, GitHub Actions builds the image, smoke-tests HTTP, and pushes to GHCR tagged with the git SHA. I also have GitLab CI building the image. In AWS Frankfurt I used an IAM user with MFA, a security group, and an EC2 Ubuntu where I ran the same Compose stack. I described EC2 and S3 in Terraform, configured nginx with Ansible on localhost, and ran Prometheus and Grafana locally. My job at SAP is IT support, not operating that as production. I still need the integration lab that applies Terraform and then Ansible on the same instance.</p>
+        
+      </div>
+    </div>
+    </article>
+    
+    
+<article class="topic" id="errors" data-week="0" data-title="Error to meaning">
+  <header class="topic-head">
+    <div>
+      <span class="pill">Debug table</span>
+      <h2>Error → meaning (from your labs)</h2>
+    </div>
+    <label class="mark"><input type="checkbox" data-id="errors"> I can diagnose these without the table</label>
+  </header>
+  <p>Interviewers love “tell me about a failure.” Use these. They are yours.</p>
+  <table class='cmds'><thead><tr><th>Command</th><th>What it does</th><th>When you use it</th></tr></thead><tbody><tr><td><code>rejected fetch first / divergent</code></td><td>Remote has commits you do not.</td><td>stash or commit, pull --no-rebase, push. Never force main.</td></tr><tr><td><code>Permission denied (publickey)</code></td><td>Key not accepted.</td><td>Right -i file, ubuntu user, public key on THAT site, chmod 400.</td></tr><tr><td><code>SSH timeout</code></td><td>TCP 22 never connected.</td><td>Public IP not 172.31, SG /32, instance running.</td></tr><tr><td><code>curl 56 / connection reset</code></td><td>Nothing listening yet (or connection dropped).</td><td>Retry loop after docker run -d; then exit 1.</td></tr><tr><td><code>GHCR denied / org package</code></td><td>Token may not create that package name.</td><td>Image = repo name devops-lab; packages:write.</td></tr><tr><td><code>Ansible no hosts matched</code></td><td>Inventory not loaded.</td><td>Check -i filename spelling.</td></tr><tr><td><code>Prometheus YAML line 2</code></td><td>Indent or extra colon.</td><td>scrape_interval under global, not the same line as a key twice.</td></tr><tr><td><code>mount not a directory</code></td><td>Bind target is a file, host path became a folder.</td><td>rm the directory, create prometheus.yml file.</td></tr><tr><td><code>Grafana lookup prometheus</code></td><td>DNS name only works on the Docker network.</td><td>localhost in Chrome; prometheus:9090 only in Grafana datasource.</td></tr><tr><td><code>scp copied to a local file named ubuntu@IP</code></td><td>Space before the colon.</td><td>user@IP:~/ with no space.</td></tr></tbody></table>
+  <h3>Interview — answer out loud, then reveal</h3>
+  
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Tell me about a CI failure you debugged.</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>Two. First, curl failed with 56 because I treated docker run -d as “HTTP is ready.” I added a retry loop and fail the job if it never answers. Second, GHCR returned 403 because GITHUB_TOKEN was not allowed to create a package named hello-site. I set packages: write and pushed ghcr.io/fahadsafdar-crypto/devops-lab:SHA to match the repository.</p>
+        
+      </div>
+    </div>
+  
+    <div class="qa">
+      <button type="button" class="q" aria-expanded="false">Tell me about a Terraform mistake.</button>
+      <div class="a">
+        <p class="say"><strong>Say this:</strong></p>
+        <p>I thought the variable description field was the CIDR. It is only help text. ssh_cidr must be passed with -var, using my public IP /32. I also learned destroy does not delete the .tf files, and the SSM parameter name is not the AMI id.</p>
+        
+      </div>
+    </div>
+</article>
+
+    
+<article class="topic" id="templates" data-week="4" data-title="Whiteboard templates">
+  <header class="topic-head">
+    <div>
+      <span class="pill">Memorise the shape</span>
+      <h2>Whiteboard templates</h2>
+    </div>
+    <label class="mark"><input type="checkbox" data-id="templates"> I can write these from memory</label>
+  </header>
+  <p>Do not memorise AMI ids, provider plugin versions, or marketplace action SHAs. Memorise structure. Cover the page and write on paper.</p>
+  <div class="two">
+    <div>
+      <h3>A. GitHub Actions</h3>
+      <pre class='code'><code>name: CI
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t hello-site:ci ./docker/hello-site</code></pre>
+      <h3>B. GitLab CI</h3>
+      <pre class='code'><code>stages:
+  - build
+build-image:
+  stage: build
+  image: docker:24
+  services:
+    - docker:24-dind
+  variables:
+    DOCKER_TLS_CERTDIR: &quot;&quot;
+  script:
+    - docker build -t hello-site:ci ./docker/hello-site</code></pre>
+      <h3>C. Compose</h3>
+      <pre class='code'><code>services:
+  web:
+    build: .
+    ports:
+      - &quot;8080:80&quot;
+  redis:
+    image: redis:alpine</code></pre>
+    </div>
+    <div>
+      <h3>D. Prometheus scrape</h3>
+      <pre class='code'><code>global:
+  scrape_interval: 15s
+scrape_configs:
+  - job_name: &quot;node&quot;
+    static_configs:
+      - targets: [&quot;node-exporter:9100&quot;]</code></pre>
+      <h3>E. Ansible</h3>
+      <pre class='code'><code>[lab]
+localhost ansible_connection=local</code></pre>
+      <pre class='code'><code>---
+- name: Lab
+  hosts: lab
+  become: true
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present</code></pre>
+      <h3>F. Terraform shape</h3>
+      <pre class='code'><code>provider &quot;aws&quot; {
+  region = &quot;eu-central-1&quot;
+}
+variable &quot;ssh_cidr&quot; { type = string }
+resource &quot;aws_instance&quot; &quot;lab&quot; {
+  ami           = data.aws_ssm_parameter.ubuntu_ami.value
+  instance_type = &quot;t3.micro&quot;
+  vpc_security_group_ids = [aws_security_group.ssh.id]
+}</code></pre>
+    </div>
+  </div>
+</article>
+
+
+    <section class="card-lite" id="drill">
+      <h2>Random interview drill</h2>
+      <p>Uses every question on this page. Say the answer, then show it.</p>
+      <div class="drill">
+        <button type="button" id="next-drill">Next question</button>
+        <button type="button" id="show-drill">Show / hide answer</button>
+      </div>
+      <p id="drill-q">Press Next question.</p>
+      <div id="drill-a"></div>
+    </section>
+  </main>
+
+  <footer>
+    Progress is stored in this browser only (localStorage key devops-revision-interview-v1). Same idea as the 8-week planner. Open via a static server: python3 -m http.server 8080 then /devops-revision-interview.html
+  </footer>
+  <script>
+const KEY = "devops-revision-interview-v1";
+function load(){ try { return JSON.parse(localStorage.getItem(KEY)||"{}"); } catch { return {}; } }
+function save(s){ localStorage.setItem(KEY, JSON.stringify(s)); }
+
+const state = load();
+document.querySelectorAll("input[data-id]").forEach(cb => {
+  cb.checked = !!state[cb.dataset.id];
+  cb.addEventListener("change", () => {
+    state[cb.dataset.id] = cb.checked;
+    save(state);
+    updateCount();
+  });
+});
+
+document.querySelectorAll(".qa .q").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const box = btn.parentElement;
+    const open = !box.classList.contains("open");
+    box.classList.toggle("open", open);
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+});
+
+const search = document.getElementById("search");
+const week = document.getElementById("week");
+function filter() {
+  const q = (search.value || "").toLowerCase().trim();
+  const w = week.value;
+  document.querySelectorAll("article.topic").forEach(el => {
+    const text = el.innerText.toLowerCase();
+    const okW = w === "all" || el.dataset.week === w;
+    const okQ = !q || text.includes(q) || (el.dataset.title||"").toLowerCase().includes(q);
+    el.classList.toggle("hidden", !(okW && okQ));
+  });
+}
+search.addEventListener("input", filter);
+week.addEventListener("change", filter);
+
+document.getElementById("quiz").addEventListener("click", (ev) => {
+  document.body.classList.toggle("quiz");
+  ev.currentTarget.classList.toggle("on", document.body.classList.contains("quiz"));
+  ev.currentTarget.textContent = document.body.classList.contains("quiz")
+    ? "Quiz mode ON — answers hidden"
+    : "Quiz mode";
+});
+
+function updateCount(){
+  const total = document.querySelectorAll("input[data-id]").length;
+  const done = document.querySelectorAll("input[data-id]:checked").length;
+  document.getElementById("count").textContent = done + " / " + total + " topics you can explain";
+}
+updateCount();
+
+const drills = Array.from(document.querySelectorAll(".qa")).map(box => ({
+  q: box.querySelector(".q").textContent,
+  a: box.querySelector(".a").innerHTML
+}));
+let last = -1;
+document.getElementById("next-drill").addEventListener("click", () => {
+  if (!drills.length) return;
+  let i = Math.floor(Math.random()*drills.length);
+  if (i === last && drills.length > 1) i = (i+1) % drills.length;
+  last = i;
+  document.getElementById("drill-q").textContent = drills[i].q;
+  const a = document.getElementById("drill-a");
+  a.classList.remove("show");
+  a.innerHTML = drills[i].a;
+});
+document.getElementById("show-drill").addEventListener("click", () => {
+  const el = document.getElementById("drill-a");
+  if (el.innerHTML) el.classList.toggle("show");
+});
+</script>
+</body>
+</html>
