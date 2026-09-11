@@ -70,6 +70,70 @@ footer{max-width:980px;margin:0 auto;padding:0 1.5rem 2.5rem;color:var(--muted);
 .two{display:grid;gap:1rem}
 @media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
 a.inline{color:#93c5fd}
+.print-opt{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:.35rem;white-space:nowrap}
+.chapter{margin:1.75rem 0 2rem;scroll-margin-top:5rem}
+.chapter.hidden{display:none}
+.chapter-head{margin:0 0 1rem;padding:.85rem 1.1rem;background:linear-gradient(135deg,#1e3a5f,#1a2332);border:1px solid var(--border);border-radius:12px}
+.chapter-num{display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#93c5fd;margin-bottom:.2rem}
+.chapter-title{font-size:1.15rem;font-weight:700;color:var(--text)}
+.chapter-lead{color:var(--muted);font-size:.88rem;margin-top:.2rem}
+.toc{max-width:980px;margin:1rem auto 0;padding:1.15rem 1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:12px}
+.toc h2{font-size:1.05rem;margin-bottom:.75rem}
+.toc-grid{display:grid;gap:1rem}
+@media(min-width:800px){.toc-grid{grid-template-columns:1fr 1fr}}
+.toc-col h3{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:#93c5fd;margin-bottom:.4rem}
+.toc-col ol{margin-left:1.15rem;color:var(--muted);font-size:.88rem}
+.toc-col li{margin:.22rem 0}
+.toc-col a{color:#c7d7ee;text-decoration:none}
+.toc-col a:hover{color:#fff;text-decoration:underline}
+.print-only{display:none}
+@media print {
+  :root { --text:#111; --muted:#333; --border:#bbb; --accent:#111; }
+  html{scroll-padding-top:0}
+  .topic,.card-lite{scroll-margin-top:0}
+  body{background:#fff;color:#111;font-size:10.5pt;line-height:1.45}
+  a{color:#111;text-decoration:none}
+  .hero,.honesty,.how,.toolbar,.nav,#drill,footer,.mark,.print-opt,.no-print,
+  #print-btn,#quiz,#search,#week,#count{display:none !important}
+  .print-only{display:block !important}
+  .print-cover{margin:0 0 1.2rem;padding-bottom:.8rem;border-bottom:2px solid #111}
+  .print-cover h1{font-size:18pt;margin:0 0 .35rem;color:#111}
+  .print-cover p{color:#333;font-size:10pt;max-width:none}
+  .print-honesty{border:1px solid #111;padding:.5rem .7rem;margin:.7rem 0 1rem;font-size:9.5pt;color:#111;background:#fff}
+  .toc{max-width:none;margin:0 0 1rem;padding:0;background:#fff;border:0;border-radius:0}
+  .toc h2{color:#111;font-size:13pt;border-bottom:1px solid #111;padding-bottom:.3rem}
+  .toc-grid{grid-template-columns:1fr 1fr !important;gap:.6rem 1.4rem}
+  .toc-col h3{color:#111;font-size:9.5pt}
+  .toc-col a,.toc-col li{color:#111}
+  main{max-width:none;margin:0;padding:0}
+  .chapter{margin:0;break-before:page}
+  .chapter:first-of-type{break-before:auto}
+  .chapter-head{background:#fff;border:0;border-bottom:2px solid #111;border-radius:0;padding:0 0 .45rem;margin:0 0 .8rem;break-after:avoid}
+  .chapter-num,.chapter-title,.chapter-lead{color:#111}
+  .chapter-title{font-size:14pt}
+  .topic{background:#fff;border:1px solid #ccc;border-radius:0;padding:.7rem .8rem .9rem;margin:0 0 .85rem;break-inside:auto;box-shadow:none}
+  .topic-head{border-bottom:1px solid #ccc;margin-bottom:.5rem;padding-bottom:.4rem}
+  .topic h2{font-size:12.5pt;color:#111;break-after:avoid}
+  .topic h3{font-size:10.5pt;color:#111;margin:.7rem 0 .25rem;break-after:avoid}
+  .topic p,.topic li{color:#222;font-size:10pt}
+  .pill{background:#eee;color:#111;border:1px solid #999}
+  pre.arch,pre.code{background:#f4f4f4;color:#111;border:1px solid #ccc;white-space:pre-wrap;word-break:break-word;font-size:8.5pt;break-inside:avoid}
+  table.cmds{font-size:8.5pt;break-inside:auto}
+  table.cmds th,table.cmds td{border:1px solid #999;color:#111}
+  table.cmds th{background:#eee;color:#111}
+  table.cmds code{color:#111}
+  table.cmds tr{break-inside:avoid}
+  .qa{border:1px solid #ccc;border-radius:0;break-inside:auto;margin:.35rem 0}
+  .q{background:#eee;color:#111;padding:.35rem .5rem;border:0;font-size:10pt}
+  .a,.qa.open .a,body.quiz .a,body.quiz .qa.open .a{display:block !important;background:#fff;border-top:1px solid #ccc;color:#111;padding:.4rem .5rem .55rem}
+  body.print-hide-answers .a{display:none !important}
+  .say{color:#111 !important}
+  .dont{color:#111 !important}
+  .two{grid-template-columns:1fr 1fr !important;gap:.5rem}
+  body.filtered .toc{display:none !important}
+  body.filtered .chapter{break-before:auto}
+  body.filtered .print-cover{margin-bottom:.8rem}
+}
 </style>
 </head>
 <body>
@@ -80,6 +144,11 @@ a.inline{color:#93c5fd}
       <p class="subtitle">This is a study book, not a cheat sheet. One topic at a time: architecture first, commands with why, then interview answers you say out loud. Tick a topic only when you can explain it with the file closed.</p>
     </div>
   </header>
+  <div class="print-only print-cover">
+    <h1>DevOps revision notes</h1>
+    <p>Weeks 1–6 · concepts, architecture, commands, interview answers. Personal lab — not SAP production.</p>
+    <div class="print-honesty"><strong>Honesty:</strong> SAP IT Support Engineer, Walldorf, Jun 2024–present. No Kubernetes production. No fake DevOps employer. Gaps: no full CD, Terraform state is local, Terraform→Ansible-on-EC2 leftover.</div>
+  </div>
 
   <div class="honesty">
     <strong>Honesty rule.</strong> Daily job = SAP IT Support Engineer (Walldorf, Jun 2024–present). The public lab is how you practise DevOps. Do not describe the lab as SAP production. Do not claim Kubernetes, Jenkins-at-work, or a fake DevOps employer. Gaps you can name: no K8s prod, no full CD, Terraform state still local, Week 6 Terraform→Ansible-on-EC2 leftover.
@@ -111,41 +180,97 @@ a.inline{color:#93c5fd}
         <option value="6">Week 6 Terraform / Ansible / monitor</option>
       </select>
       <button type="button" id="quiz">Quiz mode</button>
+      <button type="button" id="print-btn">Print notes</button>
+      <label class="print-opt"><input type="checkbox" id="print-answers" checked> Answers on paper</label>
       <span class="progress-note" id="count"></span>
     </div>
   </div>
 
-  <nav class="nav" aria-label="Topics">
-    <a href="#about">About you</a>
-    <a href="#devops">DevOps</a>
-    <a href="#linux-fs">Filesystem</a>
-    <a href="#perms">Permissions</a>
-    <a href="#nginx-systemd">nginx</a>
-    <a href="#git">Git</a>
-    <a href="#bash">Bash</a>
-    <a href="#net">Network</a>
-    <a href="#ssh">SSH</a>
-    <a href="#docker">Docker</a>
-    <a href="#dockerfile">Dockerfile</a>
-    <a href="#compose">Compose</a>
-    <a href="#ci">CI/CD</a>
-    <a href="#gha-yaml">Actions YAML</a>
-    <a href="#gitlab">GitLab CI</a>
-    <a href="#aws">AWS</a>
-    <a href="#ec2-sg">EC2 / SG</a>
-    <a href="#s3">S3</a>
-    <a href="#terraform">Terraform</a>
-    <a href="#ansible">Ansible</a>
-    <a href="#monitor">Prometheus</a>
-    <a href="#runbook">Runbook</a>
-    <a href="#e2e">Full picture</a>
-    <a href="#errors">Errors</a>
-    <a href="#templates">Whiteboard</a>
-    <a href="#drill">Random drill</a>
+  <nav class="nav" aria-label="Jump to week">
+    <a href="#contents">Contents</a>
+    <a href="#ch-interview">Interview</a>
+    <a href="#ch-week-1">Week 1 Linux</a>
+    <a href="#ch-week-2">Week 2 Git</a>
+    <a href="#ch-week-3">Week 3 Docker</a>
+    <a href="#ch-week-4">Week 4 CI</a>
+    <a href="#ch-week-5">Week 5 AWS</a>
+    <a href="#ch-week-6">Week 6 IaC</a>
+    <a href="#ch-ref">Reference</a>
+    <a href="#drill">Drill</a>
+  </nav>
+
+  <nav class="toc" id="contents" aria-label="Contents">
+    <h2>Contents</h2>
+    <div class="toc-grid">
+      <div class="toc-col">
+        <h3>Interview</h3>
+        <ol>
+          <li><a href="#about">Tell me about yourself</a></li>
+        </ol>
+        <h3>Week 1 — Linux</h3>
+        <ol>
+          <li><a href="#devops">What DevOps is</a></li>
+          <li><a href="#linux-fs">Filesystem</a></li>
+          <li><a href="#perms">Permissions</a></li>
+          <li><a href="#nginx-systemd">Packages, nginx, systemd</a></li>
+        </ol>
+      </div>
+      <div class="toc-col">
+        <h3>Week 2 — Git / shell / net</h3>
+        <ol>
+          <li><a href="#git">Git, remotes, SHA</a></li>
+          <li><a href="#bash">Bash and exit codes</a></li>
+          <li><a href="#net">IP, DNS, ports, HTTP</a></li>
+          <li><a href="#ssh">SSH keys</a></li>
+        </ol>
+        <h3>Week 3 — Docker</h3>
+        <ol>
+          <li><a href="#docker">Image, container, registry</a></li>
+          <li><a href="#dockerfile">Dockerfile line by line</a></li>
+          <li><a href="#compose">Compose, Redis, volumes</a></li>
+        </ol>
+      </div>
+      <div class="toc-col">
+        <h3>Week 4 — CI</h3>
+        <ol>
+          <li><a href="#ci">CI vs CD, smoke test</a></li>
+          <li><a href="#gha-yaml">GitHub Actions YAML</a></li>
+          <li><a href="#gitlab">GitLab CI</a></li>
+        </ol>
+        <h3>Week 5 — AWS</h3>
+        <ol>
+          <li><a href="#aws">Account, IAM, region, billing</a></li>
+          <li><a href="#ec2-sg">EC2 and security groups</a></li>
+          <li><a href="#s3">S3</a></li>
+        </ol>
+      </div>
+      <div class="toc-col">
+        <h3>Week 6 — IaC + monitor</h3>
+        <ol>
+          <li><a href="#terraform">Terraform</a></li>
+          <li><a href="#ansible">Ansible</a></li>
+          <li><a href="#monitor">Prometheus and Grafana</a></li>
+          <li><a href="#runbook">Runbook and GDPR</a></li>
+          <li><a href="#e2e">Full lab picture</a></li>
+        </ol>
+        <h3>Reference</h3>
+        <ol>
+          <li><a href="#errors">Error → meaning</a></li>
+          <li><a href="#templates">Whiteboard templates</a></li>
+        </ol>
+      </div>
+    </div>
+    <p class="note no-print">Print: use <strong>Print notes</strong> (or Ctrl+P). Filter a week first if you only want that chapter on paper. Tick <strong>Answers on paper</strong> for revision notes; untick for a blank quiz printout.</p>
   </nav>
 
   <main>
     
+<section class="chapter" id="ch-interview" data-week="0">
+  <header class="chapter-head">
+    <span class="chapter-num">Interview opener</span>
+    <p class="chapter-title">About you — honest script</p>
+    <p class="chapter-lead">90 seconds. Support job first, then the lab, then the gaps.</p>
+  </header>
 <article class="topic" id="about" data-week="0" data-title="About you and honesty">
   <header class="topic-head">
     <div>
@@ -216,7 +341,15 @@ a.inline{color:#93c5fd}
 </article>
 
     
-    <article class="topic" id="devops" data-week="1" data-title="What DevOps actually is">
+    
+</section>
+<section class="chapter" id="ch-week-1" data-week="1">
+  <header class="chapter-head">
+    <span class="chapter-num">Week 1</span>
+    <p class="chapter-title">Linux foundations</p>
+    <p class="chapter-lead">DevOps path, filesystem, permissions, nginx, systemd.</p>
+  </header>
+<article class="topic" id="devops" data-week="1" data-title="What DevOps actually is">
       <header class="topic-head">
         <div>
           <span class="pill">Week 1</span>
@@ -444,7 +577,15 @@ systemctl status  →  running or failed</pre>
     </div>
     </article>
     
-    <article class="topic" id="git" data-week="2" data-title="Git, remotes, SHA">
+    
+</section>
+<section class="chapter" id="ch-week-2" data-week="2">
+  <header class="chapter-head">
+    <span class="chapter-num">Week 2</span>
+    <p class="chapter-title">Git, shell, networking</p>
+    <p class="chapter-lead">Commits and remotes, bash, ports, SSH keys.</p>
+  </header>
+<article class="topic" id="git" data-week="2" data-title="Git, remotes, SHA">
       <header class="topic-head">
         <div>
           <span class="pill">Week 2</span>
@@ -672,7 +813,15 @@ Host github.com
     </div>
     </article>
     
-    <article class="topic" id="docker" data-week="3" data-title="Docker: image, container, registry">
+    
+</section>
+<section class="chapter" id="ch-week-3" data-week="3">
+  <header class="chapter-head">
+    <span class="chapter-num">Week 3</span>
+    <p class="chapter-title">Docker and Compose</p>
+    <p class="chapter-lead">Image vs container, Dockerfile, Redis, volumes.</p>
+  </header>
+<article class="topic" id="docker" data-week="3" data-title="Docker: image, container, registry">
       <header class="topic-head">
         <div>
           <span class="pill">Week 3</span>
@@ -869,7 +1018,15 @@ down -v   also delete named volumes (data gone)</pre>
     </div>
     </article>
     
-    <article class="topic" id="ci" data-week="4" data-title="CI vs CD, and a smoke test">
+    
+</section>
+<section class="chapter" id="ch-week-4" data-week="4">
+  <header class="chapter-head">
+    <span class="chapter-num">Week 4</span>
+    <p class="chapter-title">CI — GitHub Actions and GitLab</p>
+    <p class="chapter-lead">Pipelines, smoke tests, GHCR, YAML line by line.</p>
+  </header>
+<article class="topic" id="ci" data-week="4" data-title="CI vs CD, and a smoke test">
       <header class="topic-head">
         <div>
           <span class="pill">Week 4</span>
@@ -1081,7 +1238,15 @@ build-image:
     </div>
     </article>
     
-    <article class="topic" id="aws" data-week="5" data-title="AWS: account, IAM, region, billing">
+    
+</section>
+<section class="chapter" id="ch-week-5" data-week="5">
+  <header class="chapter-head">
+    <span class="chapter-num">Week 5</span>
+    <p class="chapter-title">AWS in Frankfurt</p>
+    <p class="chapter-lead">IAM, EC2, security groups, S3, billing safety.</p>
+  </header>
+<article class="topic" id="aws" data-week="5" data-title="AWS: account, IAM, region, billing">
       <header class="topic-head">
         <div>
           <span class="pill">Week 5</span>
@@ -1234,7 +1399,15 @@ Terraform lab also created an S3 bucket from code, then destroy</pre>
     </div>
     </article>
     
-    <article class="topic" id="terraform" data-week="6" data-title="Terraform (IaC)">
+    
+</section>
+<section class="chapter" id="ch-week-6" data-week="6">
+  <header class="chapter-head">
+    <span class="chapter-num">Week 6</span>
+    <p class="chapter-title">Terraform, Ansible, monitoring</p>
+    <p class="chapter-lead">IaC vs configuration, metrics vs logs, runbook.</p>
+  </header>
+<article class="topic" id="terraform" data-week="6" data-title="Terraform (IaC)">
       <header class="topic-head">
         <div>
           <span class="pill">Week 6</span>
@@ -1573,6 +1746,14 @@ Not in this picture: Kubernetes production, Jenkins at SAP, fake ITconfig DevOps
     </article>
     
     
+
+</section>
+<section class="chapter" id="ch-ref" data-week="ref">
+  <header class="chapter-head">
+    <span class="chapter-num">Reference</span>
+    <p class="chapter-title">Errors and whiteboard templates</p>
+    <p class="chapter-lead">Failures from your labs, plus skeletons to write from memory.</p>
+  </header>
 <article class="topic" id="errors" data-week="0" data-title="Error to meaning">
   <header class="topic-head">
     <div>
@@ -1686,7 +1867,9 @@ resource &quot;aws_instance&quot; &quot;lab&quot; {
 </article>
 
 
-    <section class="card-lite" id="drill">
+    
+</section>
+<section class="card-lite" id="drill">
       <h2>Random interview drill</h2>
       <p>Uses every question on this page. Say the answer, then show it.</p>
       <div class="drill">
@@ -1736,6 +1919,12 @@ function filter() {
     const okQ = !q || text.includes(q) || (el.dataset.title||"").toLowerCase().includes(q);
     el.classList.toggle("hidden", !(okW && okQ));
   });
+  document.querySelectorAll(".chapter").forEach(ch => {
+    const topics = ch.querySelectorAll("article.topic");
+    const any = Array.from(topics).some(t => !t.classList.contains("hidden"));
+    ch.classList.toggle("hidden", topics.length > 0 && !any);
+  });
+  document.body.classList.toggle("filtered", w !== "all" || !!q);
 }
 search.addEventListener("input", filter);
 week.addEventListener("change", filter);
@@ -1747,6 +1936,17 @@ document.getElementById("quiz").addEventListener("click", (ev) => {
     ? "Quiz mode ON — answers hidden"
     : "Quiz mode";
 });
+
+function syncPrintAnswers() {
+  const on = document.getElementById("print-answers").checked;
+  document.body.classList.toggle("print-hide-answers", !on);
+}
+document.getElementById("print-answers").addEventListener("change", syncPrintAnswers);
+document.getElementById("print-btn").addEventListener("click", () => {
+  syncPrintAnswers();
+  window.print();
+});
+window.addEventListener("beforeprint", syncPrintAnswers);
 
 function updateCount(){
   const total = document.querySelectorAll("input[data-id]").length;
