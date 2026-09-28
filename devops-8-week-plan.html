@@ -416,6 +416,55 @@
       background: rgba(59, 130, 246, 0.12);
     }
 
+    .lab-hour {
+      margin: 0 0 0.85rem 1.15rem;
+      color: var(--muted);
+      font-size: 0.8125rem;
+    }
+
+    .lab-hour li { margin-bottom: 0.3rem; }
+    .lab-hour strong { color: var(--text); }
+
+    .remain-path {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.45rem;
+      margin: 0 0 0.85rem;
+    }
+
+    .remain-step {
+      background: rgba(15, 20, 25, 0.35);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 0.6rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .remain-step strong {
+      display: block;
+      color: var(--text);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 0.15rem;
+    }
+
+    .remain-step.now {
+      border-color: rgba(16, 185, 129, 0.5);
+      background: rgba(16, 185, 129, 0.1);
+      color: #bbf7d0;
+    }
+
+    .remain-step.done {
+      opacity: 0.55;
+      text-decoration: line-through;
+    }
+
+    @media (max-width: 720px) {
+      .remain-path { grid-template-columns: 1fr; }
+    }
+
     .day-card.leftover-day {
       border-color: rgba(16, 185, 129, 0.55);
       box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);
@@ -637,18 +686,18 @@
 
   <header class="hero">
     <div class="hero-inner">
-      <div class="badge">1 Hour / Day · Working Professional · Germany</div>
+      <div class="badge">Saturday-start weeks · 1 Hour / Day · Germany</div>
       <h1>8-Week DevOps Learning Plan</h1>
       <p class="subtitle">
-        Built for your real life: full-time IT support (08:00–17:00), second job twice a week (17:00–22:30),
-        and Sunday sports. Each study day is exactly <strong style="color:#e8edf4">1 hour</strong>.
-        Progress saves in your browser.
+        Weeks now start on <strong style="color:#e8edf4">Saturday</strong> (the 1-hour lab), then Sunday rest,
+        then Mon–Fri evenings. Follow the HTML day labels, not the calendar date.
+        Busy nights stay 15 minutes. Progress saves in your browser.
       </p>
       <div class="meta-row">
-        <span>~6 focused hours / week</span>
-        <span>Busy nights = 15 min micro mode</span>
+        <span>Week starts Saturday</span>
+        <span>Saturday = 1h lab</span>
         <span>Sunday = rest / sports</span>
-        <span>Capstone: weeks 7–8</span>
+        <span>Tue + Fri = micro unless you change them</span>
       </div>
     </div>
   </header>
@@ -679,7 +728,7 @@
       <div class="dashboard-top">
         <div>
           <h2>Your progress</h2>
-          <p class="dashboard-sub">Week 7 Friday is already done. Tick leftover tasks from Saturday onward.</p>
+          <p class="dashboard-sub">Start here: Week 7 Saturday lab. Friday CI is already done.</p>
         </div>
         <div class="now-pill" id="now-pill">
           <span class="now-dot"></span>
@@ -688,11 +737,13 @@
       </div>
 
       <div class="leftover-card" id="leftover-card">
-        <div class="leftover-kicker">Next leftover sitting</div>
+        <div class="leftover-kicker" id="leftover-kicker">Start here — Saturday lab</div>
         <div class="leftover-title" id="leftover-title">Finding leftover…</div>
         <p class="leftover-closed" id="leftover-closed">Week 7 Fri is closed: taskflow → Actions green, plus local compose /health.</p>
-        <p class="leftover-detail" id="leftover-detail">Do not start another CI YAML sitting.</p>
-        <a class="leftover-jump" id="leftover-jump" href="#w7-sat">Open that day</a>
+        <p class="leftover-detail" id="leftover-detail">Picture first: one Frankfurt host runs the same compose as your laptop. Browser /health is the proof. Destroy before you stop.</p>
+        <ol class="lab-hour" id="leftover-hour"></ol>
+        <div class="remain-path" id="remain-path"></div>
+        <a class="leftover-jump" id="leftover-jump" href="#w7-sat">Open Saturday lab</a>
       </div>
 
       <div class="stat-row">
@@ -726,9 +777,9 @@
     </section>
 
     <section class="card">
-      <h2>Your weekly timetable (tutor version)</h2>
+      <h2>Your weekly timetable (Saturday-start)</h2>
       <p>Main job: <strong style="color:var(--text)">08:00–17:00</strong>. Second job nights: <strong style="color:var(--text)">17:00–22:30</strong> → after that you are tired. Sunday = sports.</p>
-      <p>Mark which two weekdays are your second-job nights. Those days switch to <strong style="color:var(--text)">15-minute micro mode</strong> (theory only). All other study days are a full <strong style="color:var(--text)">1-hour lesson</strong>. Sunday stays rest.</p>
+      <p>Each week now runs <strong style="color:var(--text)">Sat → Sun → Mon → Tue → Wed → Thu → Fri</strong>. Saturday is the 1-hour lab. Sunday is rest. Mark which two weekdays are second-job nights — those switch to <strong style="color:var(--text)">15-minute micro mode</strong>.</p>
 
       <div class="busy-picker" id="busy-picker">
         <label><input type="checkbox" value="Mon" /> Mon busy night</label>
@@ -736,7 +787,7 @@
         <label><input type="checkbox" value="Wed" /> Wed busy night</label>
         <label><input type="checkbox" value="Thu" /> Thu busy night</label>
         <label><input type="checkbox" value="Fri" checked /> Fri busy night</label>
-        <label><input type="checkbox" value="Sat" disabled /> Sat = full study</label>
+        <label><input type="checkbox" value="Sat" disabled /> Sat = 1h lab (week start)</label>
         <label><input type="checkbox" value="Sun" disabled /> Sun = sports / rest</label>
       </div>
 
@@ -755,7 +806,8 @@
     <section class="card">
       <h2>How to use this with your tutor (me)</h2>
       <ul>
-        <li>Tell me: <em>“Starting Week X, Day Y”</em></li>
+        <li>This sitting: <em>“Starting Week 7 Saturday”</em> — TaskFlow on one AWS host</li>
+        <li>Follow HTML day labels (Saturday lab first), not the calendar date</li>
         <li>I teach that day’s lesson step by step</li>
         <li>You paste errors / screenshots text — we fix together</li>
         <li>I check understanding before we move on</li>
@@ -768,6 +820,7 @@
     <section class="card" style="margin-top:2rem">
       <h2>After week 8</h2>
       <ul>
+        <li>Kubernetes taste (kind/minikube) is stretch only — after the Saturday-start remaining week, if you still have energy</li>
         <li>Keep 1 hour/day habit — next target: CKA or AWS Solutions Architect Associate</li>
         <li>Publish capstone on GitHub + LinkedIn/XING</li>
         <li>Apply to Junior/Mid DevOps roles in Germany with your portfolio video</li>
@@ -781,9 +834,10 @@
 
   <script>
     const STORAGE_KEY = "devops-plan-de-1h-v2";
-    const CHECKPOINT_ID = "w7-fri-actions-health-2026-09-28";
+    const CHECKPOINT_ID = "saturday-start-2026-09-28";
     const CHECKPOINT_THROUGH = { week: 7, day: "Fri" };
-    const DAY_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const CALENDAR_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const DISPLAY_ORDER = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
 
     const tagLabels = {
       theory: "Theory",
@@ -1402,14 +1456,14 @@
           },
           {
             day: "Sat",
-            label: "Infra start (Terraform)",
+            label: "START HERE — TaskFlow on one AWS host",
             full: [
-              { id: "w7d6t1", tag: "hands", text: "Terraform: simplest working host in eu-central-1 (VPC/SG/EC2 is fine)." },
-              { id: "w7d6t2", tag: "hands", text: "Deploy TaskFlow containers to that host." },
-              { id: "w7d6t3", tag: "hands", text: "Open /health in the browser. Set a €5 budget alarm. terraform destroy before you stop — do not leave the host running overnight." }
+              { id: "w7d6t1", tag: "theory", text: "Picture (5 min): one EC2 in eu-central-1 is a rented Linux PC. TaskFlow already runs on your laptop with compose. Today that same compose runs on the PC. Browser /health is the proof. Same pattern as Week 6 hello-site — different app. Do not start a new CI sitting." },
+              { id: "w7d6t2", tag: "hands", text: "Reuse Week 6 Terraform: simplest host + security group in eu-central-1. SSH in, run TaskFlow compose. SG: 22 from your IP only. 80 from your IP (open 0.0.0.0/0 only for the 1h test if the browser cannot reach it)." },
+              { id: "w7d6t3", tag: "hands", text: "Open http://PUBLIC_IP/health in the browser — expect 200. Set a €5 AWS budget alarm. terraform destroy before you stop. A screenshot is the evidence, not a running bill." }
             ],
             micro: [
-              { id: "w7d6m1", tag: "micro", text: "Review architecture drawing 15 min." }
+              { id: "w7d6m1", tag: "micro", text: "Redraw: laptop compose vs one Frankfurt host vs /health in the browser. Saturday is a 1h lab — do it on a free evening if today is not Saturday." }
             ]
           },
           {
@@ -1427,28 +1481,50 @@
       {
         week: 8,
         title: "Production Hardening + Portfolio",
-        goal: "Make TaskFlow interview-ready: secure, documented, demoable.",
+        goal: "Saturday-start week: monitor, lock down, document, then show the lab honestly.",
         color: "#06b6d4",
         days: [
           {
-            day: "Mon",
+            day: "Sat",
             label: "Monitoring for TaskFlow",
             full: [
               { id: "w8d1t1", tag: "hands", text: "Add /metrics or basic logging. Hook Prometheus/Grafana or CloudWatch." },
               { id: "w8d1t2", tag: "hands", text: "One dashboard: up/down + error-ish signal." },
-              { id: "w8d1t3", tag: "hands", text: "One alert rule. Test by stopping app." }
+              { id: "w8d1t3", tag: "hands", text: "One alert rule. Test by stopping the app." }
             ],
             micro: [
               { id: "w8d1m1", tag: "micro", text: "Write 3 things you would alert on in production." }
             ]
           },
           {
-            day: "Tue",
+            day: "Sun",
+            label: "Sports day — rest",
+            full: [
+              { id: "w8d7t1", tag: "read", text: "Rest / sports. Hardening continues Monday." }
+            ],
+            micro: [
+              { id: "w8d7m1", tag: "micro", text: "Rest. Sports day." }
+            ]
+          },
+          {
+            day: "Mon",
             label: "Security basics",
             full: [
               { id: "w8d2t1", tag: "hands", text: "Lock security groups: DB not public, SSH only your IP." },
               { id: "w8d2t2", tag: "hands", text: "HTTPS plan: ALB+ACM or Caddy/nginx TLS (do what fits in 1h)." },
-              { id: "w8d2t3", tag: "de", text: "Add short GDPR note: what data TaskFlow stores." }
+              { id: "w8d2t3", tag: "de", text: "Add a short GDPR note: what data TaskFlow stores." }
+            ],
+            micro: [
+              { id: "w8d2m2", tag: "micro", text: "Name 3 ports TaskFlow should not expose publicly." }
+            ]
+          },
+          {
+            day: "Tue",
+            label: "Security check",
+            full: [
+              { id: "w8d4t2", tag: "hands", text: "If Tuesday is a free evening: optional kind/minikube nginx scaled to 3 — only if Monday security is done." },
+              { id: "w8d4t3", tag: "read", text: "Optional stretch: note “Phase 2 = EKS” in README. Do not start Kubernetes today unless Monday security is done." },
+              { id: "w8d4t1", tag: "theory", text: "Optional stretch only: Pods, Deployments, Services — why DE companies mention K8s." }
             ],
             micro: [
               { id: "w8d2m1", tag: "micro", text: "List 5 security mistakes beginners make." }
@@ -1468,48 +1544,26 @@
           },
           {
             day: "Thu",
-            label: "Kubernetes taste (stretch)",
-            full: [
-              { id: "w8d4t1", tag: "theory", text: "Pods, Deployments, Services — why DE companies love K8s." },
-              { id: "w8d4t2", tag: "hands", text: "kind/minikube: deploy nginx, scale to 3." },
-              { id: "w8d4t3", tag: "read", text: "Optional: note “Phase 2 = EKS” in README for interviews." }
-            ],
-            micro: [
-              { id: "w8d4m1", tag: "micro", text: "Watch a 15-min Kubernetes explained video." }
-            ]
-          },
-          {
-            day: "Fri",
-            label: "Documentation",
+            label: "Docs, demo, honest LinkedIn",
             full: [
               { id: "w8d5t1", tag: "hands", text: "README: architecture, local run, deploy, teardown." },
-              { id: "w8d5t2", tag: "hands", text: "RUNBOOK.md complete." },
-              { id: "w8d5t3", tag: "hands", text: "Record 5-min demo video (phone is fine)." }
+              { id: "w8d5t3", tag: "hands", text: "Record a 5-min demo (phone is fine)." },
+              { id: "w8d6t2", tag: "hands", text: "Update CV + LinkedIn/XING with tools + project link. SAP stays current job. Lab is evidence, not a fake employer." }
             ],
             micro: [
               { id: "w8d5m1", tag: "micro", text: "Outline README sections on paper." }
             ]
           },
           {
-            day: "Sat",
-            label: "Portfolio + job prep",
+            day: "Fri",
+            label: "Portfolio close",
             full: [
               { id: "w8d6t1", tag: "hands", text: "Tag release v1.0.0. Final validation checklist." },
-              { id: "w8d6t2", tag: "hands", text: "Update CV + LinkedIn/XING with tools + project link." },
-              { id: "w8d6t3", tag: "de", text: "Apply to 3–5 Junior/Mid DevOps roles in Germany. Clean up AWS resources after demo." }
+              { id: "w8d6t3", tag: "de", text: "Apply to 3–5 Junior/Mid DevOps roles in Germany. Clean up AWS after the demo." },
+              { id: "w8d5t2", tag: "hands", text: "RUNBOOK.md complete if Thursday left a hole." }
             ],
             micro: [
-              { id: "w8d6m1", tag: "micro", text: "Practice one interview answer: “Tell me about your project.”" }
-            ]
-          },
-          {
-            day: "Sun",
-            label: "Sports day — celebrate",
-            full: [
-              { id: "w8d7t1", tag: "read", text: "Sports + rest. You completed an 8-week intermediate track on a working-adult schedule. Optional: light flashcards only." }
-            ],
-            micro: [
-              { id: "w8d7m1", tag: "micro", text: "Rest. Celebrate. Sports day." }
+              { id: "w8d6m1", tag: "micro", text: "Practice one interview answer: “Tell me about your project.” Honest: SAP IT Support + this lab." }
             ]
           }
         ]
@@ -1519,7 +1573,15 @@
     function isThroughCheckpoint(weekNum, dayName) {
       if (weekNum < CHECKPOINT_THROUGH.week) return true;
       if (weekNum > CHECKPOINT_THROUGH.week) return false;
-      return DAY_ORDER.indexOf(dayName) <= DAY_ORDER.indexOf(CHECKPOINT_THROUGH.day);
+      return CALENDAR_ORDER.indexOf(dayName) <= CALENDAR_ORDER.indexOf(CHECKPOINT_THROUGH.day);
+    }
+
+    function orderedDays(week) {
+      return DISPLAY_ORDER.map((name) => week.days.find((d) => d.day === name)).filter(Boolean);
+    }
+
+    function collapseKey(weekNum, dayName) {
+      return `w${weekNum}-${dayName}`;
     }
 
     function checkpointTaskIds() {
@@ -1538,9 +1600,9 @@
       checkpointTaskIds().forEach((id) => { state[id] = true; });
       state._collapsed = state._collapsed || {};
       plan.forEach((week) => {
-        week.days.forEach((day, idx) => {
+        orderedDays(week).forEach((day) => {
           if (isThroughCheckpoint(week.week, day.day)) {
-            state._collapsed[`w${week.week}d${idx}`] = true;
+            state._collapsed[collapseKey(week.week, day.day)] = true;
           }
         });
       });
@@ -1564,8 +1626,9 @@
     function findLeftover() {
       let restFallback = null;
       for (const week of plan) {
-        for (let dayIdx = 0; dayIdx < week.days.length; dayIdx++) {
-          const day = week.days[dayIdx];
+        const days = orderedDays(week);
+        for (let dayIdx = 0; dayIdx < days.length; dayIdx++) {
+          const day = days[dayIdx];
           const mode = modeFor(day.day);
           const tasks = mode === "micro" || mode === "rest" ? day.micro : day.full;
           const incomplete = tasks.some((t) => {
@@ -1584,23 +1647,45 @@
       return restFallback;
     }
 
+    function leftoverHourSteps(leftover) {
+      if (leftover && leftover.week.week === 7 && leftover.day.day === "Sat") {
+        return [
+          ["0–5 min", "Picture: laptop compose vs one Frankfurt PC. /health in the browser is the proof."],
+          ["5–45 min", "Reuse Week 6 Terraform. One host + SG + SSH + TaskFlow compose up."],
+          ["45–55 min", "Browser http://PUBLIC_IP/health → 200. Set the €5 alarm."],
+          ["55–60 min", "terraform destroy. Three notes. Tick Saturday. Stop."]
+        ];
+      }
+      if (!leftover) return [];
+      return leftover.tasks.slice(0, 3).map((t, i) => {
+        const stamps = ["0–20 min", "20–45 min", "45–60 min"];
+        return [stamps[i] || "Later", t.text];
+      });
+    }
+
     function leftoverCopy(leftover) {
       if (!leftover) {
         return {
-          title: "No leftover — plan complete",
+          kicker: "Plan complete",
+          title: "No leftover — ship the portfolio",
           closed: "Week 7 Fri stayed closed: green Actions + compose /health.",
-          detail: "Ship the portfolio when you are ready.",
-          href: "#progress-dashboard"
+          detail: "You finished the Saturday-start remaining track.",
+          href: "#progress-dashboard",
+          jump: "Back to progress",
+          hour: []
         };
       }
       const isW7Sat = leftover.week.week === 7 && leftover.day.day === "Sat";
       return {
+        kicker: isW7Sat ? "Start here — Saturday lab" : "Next leftover sitting",
         title: `Week ${leftover.week.week} · ${leftover.day.day} — ${leftover.day.label}`,
         closed: "Week 7 Fri is closed: taskflow → Actions green, plus local compose /health. Do not redo CI YAML.",
         detail: isW7Sat
-          ? "One host in eu-central-1, deploy TaskFlow, open /health in the browser, €5 budget alarm, then terraform destroy. That is the only leftover sitting."
+          ? "Follow the HTML Saturday label even if the calendar says another weekday. One host in eu-central-1, same compose as your laptop, /health in the browser, €5 alarm, then destroy."
           : leftover.tasks.map((t) => t.text).join(" "),
-        href: `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`
+        href: `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
+        jump: isW7Sat ? "Open Saturday lab" : "Open that day",
+        hour: leftoverHourSteps(leftover)
       };
     }
 
@@ -1631,15 +1716,15 @@
 
     function updateSchedulePreview() {
       const busy = getBusyDays();
-      const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      const days = DISPLAY_ORDER;
       const labels = {
+        Sat: "Week start · 1h lab",
+        Sun: "Sports",
         Mon: "After 17:00",
         Tue: "After 17:00",
         Wed: "After 17:00",
         Thu: "After 17:00",
-        Fri: "After 17:00",
-        Sat: "Flexible 1h",
-        Sun: "Sports"
+        Fri: "After 17:00"
       };
       const el = document.getElementById("schedule-preview");
       el.innerHTML = days.map((d) => {
@@ -1681,7 +1766,8 @@
                 <li>Containerized API + frontend + PostgreSQL</li>
                 <li>Terraform on AWS eu-central-1 + CI/CD</li>
                 <li>Monitoring, security basics, runbooks, demo video</li>
-                <li>Busy nights stay micro — deep work on free evenings + Saturday</li>
+                <li>Busy nights stay micro — Saturday is the 1-hour lab that starts the week</li>
+                <li><strong style="color:#bbf7d0">Start here: Week 7 Saturday.</strong> One AWS host, same compose as your laptop, /health in the browser, then destroy.</li>
                 <li><strong style="color:#bbf7d0">Week 7 Fri is already complete:</strong> GitHub → taskflow → Actions is green, and local <code>docker compose</code> + <code>/health</code> works. Do not redo CI.</li>
               </ul>
             </div>`;
@@ -1702,7 +1788,7 @@
 
         const daysEl = section.querySelector(".days");
 
-        week.days.forEach((day, dayIdx) => {
+        orderedDays(week).forEach((day) => {
           const mode = modeFor(day.day);
           const tasks = mode === "micro" || mode === "rest" ? day.micro : day.full;
           const modeLabel = mode === "full" ? "1 hour" : mode === "micro" ? "15 min" : "Rest";
@@ -1713,7 +1799,7 @@
           card.className = `day-card ${cardClass}`;
           card.id = `w${week.week}-${day.day.toLowerCase()}`;
           card.dataset.week = week.week;
-          card.dataset.day = dayIdx;
+          card.dataset.dayName = day.day;
           if (isThroughCheckpoint(week.week, day.day)) card.classList.add("day-done");
 
           const tasksHtml = tasks.map((t) => `
@@ -1740,7 +1826,7 @@
             card.classList.toggle("collapsed");
             const state = getState();
             state._collapsed = state._collapsed || {};
-            const key = `w${card.dataset.week}d${card.dataset.day}`;
+            const key = collapseKey(card.dataset.week, card.dataset.dayName);
             state._collapsed[key] = card.classList.contains("collapsed");
             saveState(state);
           });
@@ -1778,7 +1864,7 @@
       });
       const collapsed = state._collapsed || {};
       document.querySelectorAll(".day-card").forEach((card) => {
-        const key = `w${card.dataset.week}d${card.dataset.day}`;
+        const key = collapseKey(card.dataset.week, card.dataset.dayName);
         if (collapsed[key]) card.classList.add("collapsed");
       });
     }
@@ -1836,22 +1922,34 @@
 
       const leftover = findLeftover();
       const copy = leftoverCopy(leftover);
+      const leftoverKicker = document.getElementById("leftover-kicker");
       const leftoverTitle = document.getElementById("leftover-title");
       const leftoverClosed = document.getElementById("leftover-closed");
       const leftoverDetail = document.getElementById("leftover-detail");
       const leftoverJump = document.getElementById("leftover-jump");
+      const leftoverHour = document.getElementById("leftover-hour");
+      if (leftoverKicker) leftoverKicker.textContent = copy.kicker;
       if (leftoverTitle) leftoverTitle.textContent = copy.title;
       if (leftoverClosed) leftoverClosed.textContent = copy.closed;
       if (leftoverDetail) leftoverDetail.textContent = copy.detail;
       if (leftoverJump) {
         leftoverJump.href = copy.href;
-        leftoverJump.textContent = leftover ? "Open that day" : "Back to progress";
+        leftoverJump.textContent = copy.jump;
       }
+      if (leftoverHour) {
+        leftoverHour.innerHTML = (copy.hour || []).map(([stamp, text]) =>
+          `<li><strong>${stamp}:</strong> ${text}</li>`
+        ).join("");
+        leftoverHour.style.display = copy.hour && copy.hour.length ? "" : "none";
+      }
+      renderRemainPath(leftover);
 
       const nowText = document.getElementById("now-text");
       if (nowText) {
         if (pct === 100) {
           nowText.textContent = "Plan complete — ship the portfolio";
+        } else if (leftover && leftover.week.week === 7 && leftover.day.day === "Sat") {
+          nowText.textContent = "Start: W7 Sat lab";
         } else if (leftover) {
           nowText.textContent = `Leftover: W${leftover.week.week} ${leftover.day.day}`;
         } else {
@@ -1879,6 +1977,28 @@
           `;
         }).join("");
       }
+    }
+
+    function renderRemainPath(leftover) {
+      const el = document.getElementById("remain-path");
+      if (!el) return;
+      const steps = [
+        { week: 7, day: "Sat", label: "AWS host + /health" },
+        { week: 8, day: "Sat", label: "Monitoring lab" },
+        { week: 8, day: "Mon", label: "Security" },
+        { week: 8, day: "Wed", label: "Backups" },
+        { week: 8, day: "Thu", label: "Docs + demo" },
+        { week: 8, day: "Fri", label: "Portfolio close" }
+      ];
+      el.innerHTML = steps.map((step) => {
+        const isNow = leftover && leftover.week.week === step.week && leftover.day.day === step.day;
+        const past = leftover && (
+          leftover.week.week > step.week ||
+          (leftover.week.week === step.week && DISPLAY_ORDER.indexOf(leftover.day.day) > DISPLAY_ORDER.indexOf(step.day))
+        );
+        const cls = isNow ? "now" : past ? "done" : "";
+        return `<div class="remain-step ${cls}"><strong>W${step.week} ${step.day}${isNow ? " · now" : past ? " · done" : ""}</strong>${step.label}</div>`;
+      }).join("");
     }
 
     function markLeftoverDay() {
@@ -1918,7 +2038,7 @@
       state._collapsed = state._collapsed || {};
       document.querySelectorAll(".day-card").forEach((card) => {
         card.classList.add("collapsed");
-        state._collapsed[`w${card.dataset.week}d${card.dataset.day}`] = true;
+        state._collapsed[collapseKey(card.dataset.week, card.dataset.dayName)] = true;
       });
       saveState(state);
     });
