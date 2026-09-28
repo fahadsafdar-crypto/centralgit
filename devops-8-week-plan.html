@@ -425,6 +425,126 @@
     .lab-hour li { margin-bottom: 0.3rem; }
     .lab-hour strong { color: var(--text); }
 
+    .lab-board {
+      background: var(--surface);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem 1.4rem;
+      margin-bottom: 1.25rem;
+      scroll-margin-top: 4.5rem;
+    }
+
+    .lab-board[hidden] { display: none !important; }
+
+    .lab-board h2 {
+      font-size: 1.15rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .lab-timer {
+      color: #fcd34d;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .arch-row {
+      display: grid;
+      grid-template-columns: 1fr 28px 1fr 28px 1fr;
+      gap: 0.35rem;
+      align-items: stretch;
+      margin: 0.75rem 0 1rem;
+    }
+
+    .arch-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.7rem 0.65rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .arch-box strong {
+      display: block;
+      color: var(--text);
+      font-size: 0.8rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .arch-box code {
+      color: #bbf7d0;
+      font-size: 0.7rem;
+    }
+
+    .arch-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6ee7b7;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .lab-now {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      margin: 0.75rem 0 1rem;
+    }
+
+    .lab-now h3 {
+      color: #fcd34d;
+      font-size: 0.85rem;
+      margin: 0 0 0.4rem;
+    }
+
+    .lab-now p { color: var(--muted); font-size: 0.85rem; margin-bottom: 0.5rem; }
+
+    .lab-code {
+      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+      font-size: 0.78rem;
+      line-height: 1.45;
+      background: rgba(15, 20, 25, 0.75);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.7rem 0.8rem;
+      color: #e8edf4;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .lab-board h3 {
+      font-size: 0.9rem;
+      color: #93c5fd;
+      margin: 1rem 0 0.4rem;
+    }
+
+    .lab-board ul { margin-left: 1.2rem; color: var(--muted); font-size: 0.875rem; }
+    .lab-board li { margin-bottom: 0.35rem; }
+
+    .hcl-idea {
+      background: var(--surface2);
+      border-left: 3px solid #3b82f6;
+      border-radius: 0 8px 8px 0;
+      padding: 0.55rem 0.75rem;
+      margin: 0.4rem 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .hcl-idea strong { color: #93c5fd; display: block; margin-bottom: 0.2rem; }
+    .hcl-idea code { color: #bbf7d0; }
+
+    @media (max-width: 720px) {
+      .arch-row {
+        grid-template-columns: 1fr;
+      }
+      .arch-arrow { transform: rotate(90deg); height: 1.2rem; }
+    }
+
     .remain-path {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -743,8 +863,75 @@
         <p class="leftover-detail" id="leftover-detail">Picture first: one Frankfurt host runs the same compose as your laptop. Browser /health is the proof. Destroy before you stop.</p>
         <ol class="lab-hour" id="leftover-hour"></ol>
         <div class="remain-path" id="remain-path"></div>
-        <a class="leftover-jump" id="leftover-jump" href="#w7-sat">Open Saturday lab</a>
+        <a class="leftover-jump" id="leftover-jump" href="#saturday-lab">Open Saturday lab</a>
       </div>
+
+      <section class="lab-board" id="saturday-lab">
+        <h2>Saturday lab is on — TaskFlow on one AWS host</h2>
+        <p class="lab-timer">60 minutes. Stop at 60. If AWS is half-done, destroy first, then stop. Do not open GitHub Actions.</p>
+
+        <div class="arch-row" aria-label="Lab architecture">
+          <div class="arch-box">
+            <strong>1. Your WSL laptop</strong>
+            Already works.<br>
+            <code>docker compose</code> + <code>/health</code>
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-box">
+            <strong>2. One EC2 in Frankfurt</strong>
+            A rented Linux PC.<br>
+            Same compose as the laptop.
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-box">
+            <strong>3. Your browser</strong>
+            Proof of this hour:<br>
+            <code>http://PUBLIC_IP/health</code> = 200
+          </div>
+        </div>
+
+        <div class="lab-now">
+          <h3>Do this now (0–5 min) — no Terraform yet</h3>
+          <p>Prove the laptop still has TaskFlow. Paste the output if anything is not 200. Use the same /health URL that worked last time (port 80 or 8000).</p>
+          <div class="lab-code">cd ~/taskflow
+docker compose ps
+curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1/health
+curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8000/health</div>
+        </div>
+
+        <h3>Rules for this hour</h3>
+        <ul>
+          <li>Run Terraform from <strong style="color:var(--text)">WSL</strong>, never from inside the EC2.</li>
+          <li>Reuse Week 6: <code>~/devops-lab/terraform/ec2-lab</code> + the Ansible docker playbook. Do not start a new project from blank files.</li>
+          <li>Security group picture: door 22 = SSH from your IP only. Door 80 = HTTP from your IP only. Database stays inside Docker — no public 5432.</li>
+          <li>Success is <code>/health</code> in the browser, not a perfect UI.</li>
+          <li><code>terraform destroy</code> before you walk away. Screenshot = evidence. A running host = a bill.</li>
+        </ul>
+
+        <h3>After laptop /health is 200 — three HCL ideas to find in Week 6</h3>
+        <p style="color:var(--muted);font-size:0.875rem;margin-bottom:0.4rem">Open the Week 6 files. Do not rewrite them. Confirm these three ideas exist, then <code>terraform apply</code> from that folder.</p>
+        <div class="hcl-idea">
+          <strong>1. Region</strong>
+          The PC must be in Frankfurt: <code>region = "eu-central-1"</code>
+        </div>
+        <div class="hcl-idea">
+          <strong>2. SSH door</strong>
+          Port <code>22</code> ingress cidr = <code>YOUR.PUBLIC.IP/32</code> — not <code>0.0.0.0/0</code>
+        </div>
+        <div class="hcl-idea">
+          <strong>3. HTTP door</strong>
+          Port <code>80</code> ingress cidr = <code>YOUR.PUBLIC.IP/32</code> (open <code>0.0.0.0/0</code> only if the browser cannot reach it during this 1h test)
+        </div>
+
+        <h3>Then (still inside 60 min)</h3>
+        <ul>
+          <li>SSH in → Docker already there from Week 6 Ansible. If not, run that playbook from WSL, not from the EC2.</li>
+          <li>Copy TaskFlow onto the host (scp or git clone <code>fahadsafdar-crypto/taskflow</code>).</li>
+          <li><code>docker compose up -d</code> on the host. Browser: <code>http://PUBLIC_IP/health</code>.</li>
+          <li>Set a €5 AWS budget alarm if it is not already there.</li>
+          <li>Destroy. Tick the three Saturday checkboxes. Stop.</li>
+        </ul>
+      </section>
 
       <div class="stat-row">
         <div class="stat-card">
@@ -1683,8 +1870,8 @@
         detail: isW7Sat
           ? "Follow the HTML Saturday label even if the calendar says another weekday. One host in eu-central-1, same compose as your laptop, /health in the browser, €5 alarm, then destroy."
           : leftover.tasks.map((t) => t.text).join(" "),
-        href: `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
-        jump: isW7Sat ? "Open Saturday lab" : "Open that day",
+        href: isW7Sat ? "#saturday-lab" : `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
+        jump: isW7Sat ? "Start the lab" : "Open that day",
         hour: leftoverHourSteps(leftover)
       };
     }
@@ -1943,6 +2130,11 @@
         leftoverHour.style.display = copy.hour && copy.hour.length ? "" : "none";
       }
       renderRemainPath(leftover);
+      const labBoard = document.getElementById("saturday-lab");
+      if (labBoard) {
+        const showLab = leftover && leftover.week.week === 7 && leftover.day.day === "Sat";
+        labBoard.hidden = !showLab;
+      }
 
       const nowText = document.getElementById("now-text");
       if (nowText) {
