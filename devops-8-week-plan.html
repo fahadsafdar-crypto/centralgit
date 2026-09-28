@@ -495,6 +495,36 @@
       margin: 0.75rem 0 1rem;
     }
 
+    .lab-now.passed {
+      background: rgba(34, 197, 94, 0.1);
+      border-color: rgba(34, 197, 94, 0.4);
+    }
+
+    .lab-now.passed h3 { color: #86efac; }
+
+    .port-key {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.45rem;
+      margin: 0.5rem 0 1rem;
+    }
+
+    .port-key div {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 0.6rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .port-key strong { display: block; color: var(--text); margin-bottom: 0.15rem; }
+    .port-key code { color: #bbf7d0; }
+
+    @media (max-width: 720px) {
+      .port-key { grid-template-columns: 1fr; }
+    }
+
     .lab-now h3 {
       color: #fcd34d;
       font-size: 0.85rem;
@@ -886,25 +916,35 @@
           <div class="arch-box">
             <strong>3. Your browser</strong>
             Proof of this hour:<br>
-            <code>http://PUBLIC_IP/health</code> = 200
+            <code>http://PUBLIC_IP:8000/health</code> = 200
           </div>
         </div>
 
+        <div class="port-key">
+          <div><strong>web :80</strong> HTML UI. <code>/health</code> here is <code>404</code> — normal.</div>
+          <div><strong>api :8000</strong> FastAPI. <code>/health</code> is <code>200</code> — this is the proof.</div>
+          <div><strong>db</strong> Postgres. No public door. Never open <code>5432</code>.</div>
+        </div>
+
+        <div class="lab-now passed">
+          <h3>Passed (0–5 min) — laptop API is up</h3>
+          <p><code>127.0.0.1/health</code> → 404 (nginx website). <code>127.0.0.1:8000/health</code> → 200 (API). Tick the picture checkbox. Do not “fix” the 404 this hour.</p>
+        </div>
+
         <div class="lab-now">
-          <h3>Do this now (0–5 min) — no Terraform yet</h3>
-          <p>Prove the laptop still has TaskFlow. Paste the output if anything is not 200. Use the same /health URL that worked last time (port 80 or 8000).</p>
-          <div class="lab-code">cd ~/taskflow
-docker compose ps
-curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1/health
-curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8000/health</div>
+          <h3>Do this now (5–15 min) — still no apply</h3>
+          <p>Find the Week 6 Terraform folder. Paste the listing and the matching lines. We only look for three ideas: Frankfurt, SSH door 22, HTTP door <strong>8000</strong> (API health). If door 80 exists from hello-site, leave it; add 8000 if it is missing.</p>
+          <div class="lab-code">ls ~/devops-lab/terraform/ec2-lab
+grep -n "eu-central-1" ~/devops-lab/terraform/ec2-lab/*.tf
+grep -n "from_port" ~/devops-lab/terraform/ec2-lab/*.tf</div>
         </div>
 
         <h3>Rules for this hour</h3>
         <ul>
           <li>Run Terraform from <strong style="color:var(--text)">WSL</strong>, never from inside the EC2.</li>
           <li>Reuse Week 6: <code>~/devops-lab/terraform/ec2-lab</code> + the Ansible docker playbook. Do not start a new project from blank files.</li>
-          <li>Security group picture: door 22 = SSH from your IP only. Door 80 = HTTP from your IP only. Database stays inside Docker — no public 5432.</li>
-          <li>Success is <code>/health</code> in the browser, not a perfect UI.</li>
+          <li>Security group picture: door 22 = SSH from your IP only. Door <code>8000</code> = API <code>/health</code> from your IP only. Door 80 = website if you want it. Database stays inside Docker — no public 5432.</li>
+          <li>Success is <code>http://PUBLIC_IP:8000/health</code> = 200 in the browser, not a perfect UI. Port 80 <code>/health</code> 404 is the frontend — ignore it this hour.</li>
           <li><code>terraform destroy</code> before you walk away. Screenshot = evidence. A running host = a bill.</li>
         </ul>
 
@@ -919,15 +959,15 @@ curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8000/health</div>
           Port <code>22</code> ingress cidr = <code>YOUR.PUBLIC.IP/32</code> — not <code>0.0.0.0/0</code>
         </div>
         <div class="hcl-idea">
-          <strong>3. HTTP door</strong>
-          Port <code>80</code> ingress cidr = <code>YOUR.PUBLIC.IP/32</code> (open <code>0.0.0.0/0</code> only if the browser cannot reach it during this 1h test)
+          <strong>3. API health door</strong>
+          Port <code>8000</code> ingress cidr = <code>YOUR.PUBLIC.IP/32</code> — this is how the browser reaches FastAPI <code>/health</code>
         </div>
 
         <h3>Then (still inside 60 min)</h3>
         <ul>
           <li>SSH in → Docker already there from Week 6 Ansible. If not, run that playbook from WSL, not from the EC2.</li>
           <li>Copy TaskFlow onto the host (scp or git clone <code>fahadsafdar-crypto/taskflow</code>).</li>
-          <li><code>docker compose up -d</code> on the host. Browser: <code>http://PUBLIC_IP/health</code>.</li>
+          <li><code>docker compose up -d</code> on the host. Browser: <code>http://PUBLIC_IP:8000/health</code>.</li>
           <li>Set a €5 AWS budget alarm if it is not already there.</li>
           <li>Destroy. Tick the three Saturday checkboxes. Stop.</li>
         </ul>
@@ -1645,9 +1685,9 @@ curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8000/health</div>
             day: "Sat",
             label: "START HERE — TaskFlow on one AWS host",
             full: [
-              { id: "w7d6t1", tag: "theory", text: "Picture (5 min): one EC2 in eu-central-1 is a rented Linux PC. TaskFlow already runs on your laptop with compose. Today that same compose runs on the PC. Browser /health is the proof. Same pattern as Week 6 hello-site — different app. Do not start a new CI sitting." },
-              { id: "w7d6t2", tag: "hands", text: "Reuse Week 6 Terraform: simplest host + security group in eu-central-1. SSH in, run TaskFlow compose. SG: 22 from your IP only. 80 from your IP (open 0.0.0.0/0 only for the 1h test if the browser cannot reach it)." },
-              { id: "w7d6t3", tag: "hands", text: "Open http://PUBLIC_IP/health in the browser — expect 200. Set a €5 AWS budget alarm. terraform destroy before you stop. A screenshot is the evidence, not a running bill." }
+              { id: "w7d6t1", tag: "theory", text: "Picture: web :80 is the UI ( /health → 404 is normal ). api :8000 is FastAPI ( /health → 200 ). One EC2 in eu-central-1 runs the same compose. Do not start a new CI sitting." },
+              { id: "w7d6t2", tag: "hands", text: "Reuse Week 6 Terraform. SG: 22 from your IP, 8000 from your IP for API /health. SSH from WSL, compose up TaskFlow on the host." },
+              { id: "w7d6t3", tag: "hands", text: "Browser http://PUBLIC_IP:8000/health → 200. €5 budget alarm. terraform destroy before you stop." }
             ],
             micro: [
               { id: "w7d6m1", tag: "micro", text: "Redraw: laptop compose vs one Frankfurt host vs /health in the browser. Saturday is a 1h lab — do it on a free evening if today is not Saturday." }
@@ -1837,9 +1877,9 @@ curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8000/health</div>
     function leftoverHourSteps(leftover) {
       if (leftover && leftover.week.week === 7 && leftover.day.day === "Sat") {
         return [
-          ["0–5 min", "Picture: laptop compose vs one Frankfurt PC. /health in the browser is the proof."],
-          ["5–45 min", "Reuse Week 6 Terraform. One host + SG + SSH + TaskFlow compose up."],
-          ["45–55 min", "Browser http://PUBLIC_IP/health → 200. Set the €5 alarm."],
+          ["0–5 min", "Passed: :8000/health = 200. :80/health = 404 is the website, not a failure."],
+          ["5–45 min", "Reuse Week 6 Terraform. Doors: 22 + 8000 from your IP. Compose on the host."],
+          ["45–55 min", "Browser http://PUBLIC_IP:8000/health → 200. Set the €5 alarm."],
           ["55–60 min", "terraform destroy. Three notes. Tick Saturday. Stop."]
         ];
       }
@@ -1868,7 +1908,7 @@ curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8000/health</div>
         title: `Week ${leftover.week.week} · ${leftover.day.day} — ${leftover.day.label}`,
         closed: "Week 7 Fri is closed: taskflow → Actions green, plus local compose /health. Do not redo CI YAML.",
         detail: isW7Sat
-          ? "Follow the HTML Saturday label even if the calendar says another weekday. One host in eu-central-1, same compose as your laptop, /health in the browser, €5 alarm, then destroy."
+          ? "Laptop API passed: :8000/health = 200. Port 80 /health 404 is the website. Next: find Week 6 Terraform (Frankfurt, door 22, door 8000). Do not apply yet."
           : leftover.tasks.map((t) => t.text).join(" "),
         href: isW7Sat ? "#saturday-lab" : `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
         jump: isW7Sat ? "Start the lab" : "Open that day",
