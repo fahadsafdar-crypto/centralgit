@@ -944,19 +944,23 @@
           <p><code>variables.tf:3</code> Frankfurt is set. <code>main.tf:24</code> door 22 exists. <code>main.tf:30 from_port = 0</code> is almost certainly <strong style="color:var(--text)">egress</strong> (the PC calling out: apt, docker pull) — not an inbound health door. Door <code>8000</code> is not in the grep. Still no <code>apply</code>.</p>
         </div>
 
-        <div class="lab-now">
-          <h3>Do this now — read the doors, then add 8000</h3>
-          <p>Paste both outputs. First we confirm line 30 is egress. Then we add one <code>ingress</code> for API health from your IP only.</p>
-          <div class="lab-code">sed -n '15,50p' ~/devops-lab/terraform/ec2-lab/main.tf
-curl -sS https://checkip.amazonaws.com; echo</div>
+        <div class="lab-now passed">
+          <h3>Passed — security group picture confirmed</h3>
+          <p>Your <code>aws_security_group.ssh</code> has one <code>ingress</code> (22, <code>var.ssh_cidr</code>) and one <code>egress</code> (0–0, protocol <code>-1</code>, <code>0.0.0.0/0</code>). That egress is outbound — apt and docker pull. It is not <code>/health</code>. Checkip today: <code>193.16.224.46</code>. Still no <code>apply</code>.</p>
         </div>
 
-        <h3>Ingress vs egress (your two from_port lines)</h3>
+        <div class="lab-now">
+          <h3>Do this now — confirm ssh_cidr, then add door 8000</h3>
+          <p>Paste the <code>ssh_cidr</code> lines. It must be <code>193.16.224.46/32</code> (today’s checkip). If it is <code>0.0.0.0/0</code> or an old IP, change the default / tfvars first. Then insert the 8000 <code>ingress</code> <em>after</em> the port-22 block and <em>before</em> <code>egress</code>. Reuse <code>var.ssh_cidr</code> — do not type the IP twice.</p>
+          <div class="lab-code">grep -n -A6 "ssh_cidr" ~/devops-lab/terraform/ec2-lab/*.tf ~/devops-lab/terraform/ec2-lab/*.tfvars 2>/dev/null</div>
+        </div>
+
+        <h3>Line-by-line of the block you pasted</h3>
         <ul>
-          <li><code>ingress</code> = door <strong style="color:var(--text)">in</strong> (browser / SSH coming to the PC).</li>
-          <li><code>egress</code> = door <strong style="color:var(--text)">out</strong> (the PC downloading packages or images).</li>
-          <li><code>from_port = 0</code> + <code>to_port = 0</code> + <code>protocol = "-1"</code> on egress = “allow any outbound”. Normal for this lab.</li>
-          <li><code>from_port = 0</code> on <em>ingress</em> would mean “anyone can hit every port” — we will not do that.</li>
+          <li><code>resource "aws_security_group" "ssh"</code> — a named set of doors attached to the EC2.</li>
+          <li><code>ingress { from_port = 22 … cidr_blocks = [var.ssh_cidr] }</code> — only your IP may SSH. Good pattern.</li>
+          <li><code>egress { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }</code> — the PC may call out. Keep it. Do not turn this into ingress.</li>
+          <li><code>vpc_security_group_ids = [aws_security_group.ssh.id]</code> — this instance uses that one SG. Adding 8000 here is enough; no second SG this hour.</li>
         </ul>
 
         <h3>Rules for this hour</h3>
@@ -969,24 +973,24 @@ curl -sS https://checkip.amazonaws.com; echo</div>
         </ul>
 
         <h3>HCL scorecard — Week 6 files</h3>
-        <p style="color:var(--muted);font-size:0.875rem;margin-bottom:0.4rem">Do not rewrite the files. Add only the missing 8000 ingress after we see the security-group block. Still no <code>apply</code>.</p>
+        <p style="color:var(--muted);font-size:0.875rem;margin-bottom:0.4rem">Add only the missing 8000 ingress. Reuse <code>var.ssh_cidr</code>. Still no <code>apply</code> until ssh_cidr matches today’s checkip.</p>
         <div class="hcl-idea found">
           <strong>1. Region — found</strong>
           <code>variables.tf:3 default = "eu-central-1"</code> — Frankfurt. Keep it.
         </div>
         <div class="hcl-idea found">
           <strong>2. SSH door — found</strong>
-          <code>main.tf:24 from_port = 22</code> — inbound SSH. We will check the cidr is your IP, not <code>0.0.0.0/0</code>.
+          Port 22 ingress uses <code>var.ssh_cidr</code>. Today’s IP is <code>193.16.224.46</code> — that variable must be <code>193.16.224.46/32</code>.
         </div>
         <div class="hcl-idea missing">
-          <strong>3. API health door — missing</strong>
-          No <code>from_port = 8000</code> in the grep. After we see the SG block, add this <em>next to</em> the port-22 ingress (same security group). Do not replace the egress block.
+          <strong>3. API health door — add this inside aws_security_group.ssh</strong>
+          Place it after the port-22 <code>ingress</code>, before <code>egress</code>. Same doors, extra inbound 8000.
           <div class="lab-code">ingress {
   description = "TaskFlow API /health from my IP"
   from_port   = 8000
   to_port     = 8000
   protocol    = "tcp"
-  cidr_blocks = ["PASTE_CHECKIP_HERE/32"]
+  cidr_blocks = [var.ssh_cidr]
 }</div>
         </div>
 
@@ -1906,7 +1910,7 @@ curl -sS https://checkip.amazonaws.com; echo</div>
         return [
           ["0–5 min", "Passed: :8000/health = 200. :80/health = 404 is the website, not a failure."],
           ["5–15 min", "Passed: Frankfurt + SSH 22 found. from_port 0 is egress (out), not health."],
-          ["15–45 min", "Add ingress 8000 from your IP/32. Then apply from WSL, compose on the host."],
+          ["15–45 min", "Confirm ssh_cidr is 193.16.224.46/32. Add ingress 8000 with var.ssh_cidr. Then apply from WSL."],
           ["45–55 min", "Browser http://PUBLIC_IP:8000/health → 200. Set the €5 alarm."],
           ["55–60 min", "terraform destroy. Three notes. Tick Saturday. Stop."]
         ];
@@ -1936,7 +1940,7 @@ curl -sS https://checkip.amazonaws.com; echo</div>
         title: `Week ${leftover.week.week} · ${leftover.day.day} — ${leftover.day.label}`,
         closed: "Week 7 Fri is closed: taskflow → Actions green, plus local compose /health. Do not redo CI YAML.",
         detail: isW7Sat
-          ? "Frankfurt + SSH 22 found. from_port 0 is outbound, not /health. Next: paste the SG block and your public IP, then add ingress 8000. Do not apply yet."
+          ? "SG confirmed: ingress 22 + egress all. Checkip 193.16.224.46. Next: ssh_cidr must be that /32, then add ingress 8000 with var.ssh_cidr. Do not apply yet."
           : leftover.tasks.map((t) => t.text).join(" "),
         href: isW7Sat ? "#saturday-lab" : `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
         jump: isW7Sat ? "Start the lab" : "Open that day",
