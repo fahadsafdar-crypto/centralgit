@@ -949,10 +949,19 @@
           <p>Your <code>aws_security_group.ssh</code> has one <code>ingress</code> (22, <code>var.ssh_cidr</code>) and one <code>egress</code> (0–0, protocol <code>-1</code>, <code>0.0.0.0/0</code>). That egress is outbound — apt and docker pull. It is not <code>/health</code>. Checkip today: <code>193.16.224.46</code>. Still no <code>apply</code>.</p>
         </div>
 
+        <div class="lab-now passed">
+          <h3>Passed — ssh_cidr is a required variable</h3>
+          <p><code>variables.tf</code> declares <code>ssh_cidr</code> with <code>type = string</code> and description “My public IP with /32” — and <strong style="color:var(--text)">no default</strong>. Terraform will not guess. The grep found no <code>.tfvars</code>. <code>main.tf</code> still goes port-22 → egress, so door 8000 is not saved yet (nano without the new block does not count).</p>
+        </div>
+
         <div class="lab-now">
-          <h3>Do this now — confirm ssh_cidr, then add door 8000</h3>
-          <p>Paste the <code>ssh_cidr</code> lines. It must be <code>193.16.224.46/32</code> (today’s checkip). If it is <code>0.0.0.0/0</code> or an old IP, change the default / tfvars first. Then insert the 8000 <code>ingress</code> <em>after</em> the port-22 block and <em>before</em> <code>egress</code>. Reuse <code>var.ssh_cidr</code> — do not type the IP twice.</p>
-          <div class="lab-code">grep -n -A6 "ssh_cidr" ~/devops-lab/terraform/ec2-lab/*.tf ~/devops-lab/terraform/ec2-lab/*.tfvars 2>/dev/null</div>
+          <h3>Do this now — set the IP, then save door 8000</h3>
+          <p>Paste the listing. If there is no <code>terraform.tfvars</code>, create it with today’s checkip. Do not commit that file. Then in <code>main.tf</code> insert the 8000 <code>ingress</code> after port 22 and before <code>egress</code>. Prove it with <code>grep 8000</code>. Still no <code>apply</code>.</p>
+          <div class="lab-code">ls -la ~/devops-lab/terraform/ec2-lab/
+grep -n "8000\|ssh_cidr" ~/devops-lab/terraform/ec2-lab/* 2>/dev/null
+
+# if terraform.tfvars is missing (do not git add this file):
+printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraform.tfvars</div>
         </div>
 
         <h3>Line-by-line of the block you pasted</h3>
@@ -980,7 +989,7 @@
         </div>
         <div class="hcl-idea found">
           <strong>2. SSH door — found</strong>
-          Port 22 ingress uses <code>var.ssh_cidr</code>. Today’s IP is <code>193.16.224.46</code> — that variable must be <code>193.16.224.46/32</code>.
+          Port 22 uses <code>var.ssh_cidr</code>. The variable has <strong>no default</strong>. Put <code>ssh_cidr = "193.16.224.46/32"</code> in <code>terraform.tfvars</code> (do not commit it). An old IP here is why SSH timed out in Week 6.
         </div>
         <div class="hcl-idea missing">
           <strong>3. API health door — add this inside aws_security_group.ssh</strong>
@@ -1910,7 +1919,7 @@
         return [
           ["0–5 min", "Passed: :8000/health = 200. :80/health = 404 is the website, not a failure."],
           ["5–15 min", "Passed: Frankfurt + SSH 22 found. from_port 0 is egress (out), not health."],
-          ["15–45 min", "Confirm ssh_cidr is 193.16.224.46/32. Add ingress 8000 with var.ssh_cidr. Then apply from WSL."],
+          ["15–45 min", "ssh_cidr has no default. Write terraform.tfvars 193.16.224.46/32. Save ingress 8000. Then apply from WSL."],
           ["45–55 min", "Browser http://PUBLIC_IP:8000/health → 200. Set the €5 alarm."],
           ["55–60 min", "terraform destroy. Three notes. Tick Saturday. Stop."]
         ];
@@ -1940,7 +1949,7 @@
         title: `Week ${leftover.week.week} · ${leftover.day.day} — ${leftover.day.label}`,
         closed: "Week 7 Fri is closed: taskflow → Actions green, plus local compose /health. Do not redo CI YAML.",
         detail: isW7Sat
-          ? "SG confirmed: ingress 22 + egress all. Checkip 193.16.224.46. Next: ssh_cidr must be that /32, then add ingress 8000 with var.ssh_cidr. Do not apply yet."
+          ? "ssh_cidr has no default and no tfvars in the grep. Door 8000 is not in main.tf yet. Next: terraform.tfvars = 193.16.224.46/32, then save the 8000 ingress. Do not apply yet."
           : leftover.tasks.map((t) => t.text).join(" "),
         href: isW7Sat ? "#saturday-lab" : `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
         jump: isW7Sat ? "Start the lab" : "Open that day",
