@@ -565,7 +565,15 @@
       color: var(--muted);
     }
 
-    .hcl-idea strong { color: #93c5fd; display: block; margin-bottom: 0.2rem; }
+    .hcl-idea strong { display: block; margin-bottom: 0.2rem; color: #93c5fd; }
+    .hcl-idea.found {
+      border-left-color: #22c55e;
+    }
+    .hcl-idea.found strong { color: #86efac; }
+    .hcl-idea.missing {
+      border-left-color: #f59e0b;
+    }
+    .hcl-idea.missing strong { color: #fcd34d; }
     .hcl-idea code { color: #bbf7d0; }
 
     @media (max-width: 720px) {
@@ -931,13 +939,25 @@
           <p><code>127.0.0.1/health</code> → 404 (nginx website). <code>127.0.0.1:8000/health</code> → 200 (API). Tick the picture checkbox. Do not “fix” the 404 this hour.</p>
         </div>
 
-        <div class="lab-now">
-          <h3>Do this now (5–15 min) — still no apply</h3>
-          <p>Find the Week 6 Terraform folder. Paste the listing and the matching lines. We only look for three ideas: Frankfurt, SSH door 22, HTTP door <strong>8000</strong> (API health). If door 80 exists from hello-site, leave it; add 8000 if it is missing.</p>
-          <div class="lab-code">ls ~/devops-lab/terraform/ec2-lab
-grep -n "eu-central-1" ~/devops-lab/terraform/ec2-lab/*.tf
-grep -n "from_port" ~/devops-lab/terraform/ec2-lab/*.tf</div>
+        <div class="lab-now passed">
+          <h3>Passed (5–15 min) — two ideas found, one missing</h3>
+          <p><code>variables.tf:3</code> Frankfurt is set. <code>main.tf:24</code> door 22 exists. <code>main.tf:30 from_port = 0</code> is almost certainly <strong style="color:var(--text)">egress</strong> (the PC calling out: apt, docker pull) — not an inbound health door. Door <code>8000</code> is not in the grep. Still no <code>apply</code>.</p>
         </div>
+
+        <div class="lab-now">
+          <h3>Do this now — read the doors, then add 8000</h3>
+          <p>Paste both outputs. First we confirm line 30 is egress. Then we add one <code>ingress</code> for API health from your IP only.</p>
+          <div class="lab-code">sed -n '15,50p' ~/devops-lab/terraform/ec2-lab/main.tf
+curl -sS https://checkip.amazonaws.com; echo</div>
+        </div>
+
+        <h3>Ingress vs egress (your two from_port lines)</h3>
+        <ul>
+          <li><code>ingress</code> = door <strong style="color:var(--text)">in</strong> (browser / SSH coming to the PC).</li>
+          <li><code>egress</code> = door <strong style="color:var(--text)">out</strong> (the PC downloading packages or images).</li>
+          <li><code>from_port = 0</code> + <code>to_port = 0</code> + <code>protocol = "-1"</code> on egress = “allow any outbound”. Normal for this lab.</li>
+          <li><code>from_port = 0</code> on <em>ingress</em> would mean “anyone can hit every port” — we will not do that.</li>
+        </ul>
 
         <h3>Rules for this hour</h3>
         <ul>
@@ -948,19 +968,26 @@ grep -n "from_port" ~/devops-lab/terraform/ec2-lab/*.tf</div>
           <li><code>terraform destroy</code> before you walk away. Screenshot = evidence. A running host = a bill.</li>
         </ul>
 
-        <h3>After laptop /health is 200 — three HCL ideas to find in Week 6</h3>
-        <p style="color:var(--muted);font-size:0.875rem;margin-bottom:0.4rem">Open the Week 6 files. Do not rewrite them. Confirm these three ideas exist, then <code>terraform apply</code> from that folder.</p>
-        <div class="hcl-idea">
-          <strong>1. Region</strong>
-          The PC must be in Frankfurt: <code>region = "eu-central-1"</code>
+        <h3>HCL scorecard — Week 6 files</h3>
+        <p style="color:var(--muted);font-size:0.875rem;margin-bottom:0.4rem">Do not rewrite the files. Add only the missing 8000 ingress after we see the security-group block. Still no <code>apply</code>.</p>
+        <div class="hcl-idea found">
+          <strong>1. Region — found</strong>
+          <code>variables.tf:3 default = "eu-central-1"</code> — Frankfurt. Keep it.
         </div>
-        <div class="hcl-idea">
-          <strong>2. SSH door</strong>
-          Port <code>22</code> ingress cidr = <code>YOUR.PUBLIC.IP/32</code> — not <code>0.0.0.0/0</code>
+        <div class="hcl-idea found">
+          <strong>2. SSH door — found</strong>
+          <code>main.tf:24 from_port = 22</code> — inbound SSH. We will check the cidr is your IP, not <code>0.0.0.0/0</code>.
         </div>
-        <div class="hcl-idea">
-          <strong>3. API health door</strong>
-          Port <code>8000</code> ingress cidr = <code>YOUR.PUBLIC.IP/32</code> — this is how the browser reaches FastAPI <code>/health</code>
+        <div class="hcl-idea missing">
+          <strong>3. API health door — missing</strong>
+          No <code>from_port = 8000</code> in the grep. After we see the SG block, add this <em>next to</em> the port-22 ingress (same security group). Do not replace the egress block.
+          <div class="lab-code">ingress {
+  description = "TaskFlow API /health from my IP"
+  from_port   = 8000
+  to_port     = 8000
+  protocol    = "tcp"
+  cidr_blocks = ["PASTE_CHECKIP_HERE/32"]
+}</div>
         </div>
 
         <h3>Then (still inside 60 min)</h3>
@@ -1878,7 +1905,8 @@ grep -n "from_port" ~/devops-lab/terraform/ec2-lab/*.tf</div>
       if (leftover && leftover.week.week === 7 && leftover.day.day === "Sat") {
         return [
           ["0–5 min", "Passed: :8000/health = 200. :80/health = 404 is the website, not a failure."],
-          ["5–45 min", "Reuse Week 6 Terraform. Doors: 22 + 8000 from your IP. Compose on the host."],
+          ["5–15 min", "Passed: Frankfurt + SSH 22 found. from_port 0 is egress (out), not health."],
+          ["15–45 min", "Add ingress 8000 from your IP/32. Then apply from WSL, compose on the host."],
           ["45–55 min", "Browser http://PUBLIC_IP:8000/health → 200. Set the €5 alarm."],
           ["55–60 min", "terraform destroy. Three notes. Tick Saturday. Stop."]
         ];
@@ -1908,7 +1936,7 @@ grep -n "from_port" ~/devops-lab/terraform/ec2-lab/*.tf</div>
         title: `Week ${leftover.week.week} · ${leftover.day.day} — ${leftover.day.label}`,
         closed: "Week 7 Fri is closed: taskflow → Actions green, plus local compose /health. Do not redo CI YAML.",
         detail: isW7Sat
-          ? "Laptop API passed: :8000/health = 200. Port 80 /health 404 is the website. Next: find Week 6 Terraform (Frankfurt, door 22, door 8000). Do not apply yet."
+          ? "Frankfurt + SSH 22 found. from_port 0 is outbound, not /health. Next: paste the SG block and your public IP, then add ingress 8000. Do not apply yet."
           : leftover.tasks.map((t) => t.text).join(" "),
         href: isW7Sat ? "#saturday-lab" : `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
         jump: isW7Sat ? "Start the lab" : "Open that day",
