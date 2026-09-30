@@ -886,7 +886,7 @@
       <div class="dashboard-top">
         <div>
           <h2>Your progress</h2>
-          <p class="dashboard-sub">Start here: Week 7 Saturday lab. Friday CI is already done.</p>
+          <p class="dashboard-sub">Week 7 Saturday AWS lab is done. Next leftover: Week 8 Saturday monitoring.</p>
         </div>
         <div class="now-pill" id="now-pill">
           <span class="now-dot"></span>
@@ -897,14 +897,14 @@
       <div class="leftover-card" id="leftover-card">
         <div class="leftover-kicker" id="leftover-kicker">Start here — Saturday lab</div>
         <div class="leftover-title" id="leftover-title">Finding leftover…</div>
-        <p class="leftover-closed" id="leftover-closed">Week 7 Fri is closed: taskflow → Actions green, plus local compose /health.</p>
-        <p class="leftover-detail" id="leftover-detail">Picture first: one Frankfurt host runs the same compose as your laptop. Browser /health is the proof. Destroy before you stop.</p>
+        <p class="leftover-closed" id="leftover-closed">Week 7 Fri CI and Week 7 Sat AWS lab are closed.</p>
+        <p class="leftover-detail" id="leftover-detail">Next leftover is Week 8 Saturday: monitoring for TaskFlow.</p>
         <ol class="lab-hour" id="leftover-hour"></ol>
         <div class="remain-path" id="remain-path"></div>
-        <a class="leftover-jump" id="leftover-jump" href="#saturday-lab">Open Saturday lab</a>
+        <a class="leftover-jump" id="leftover-jump" href="#w8-sat">Open that day</a>
       </div>
 
-      <section class="lab-board" id="saturday-lab">
+      <section class="lab-board" id="saturday-lab" hidden>
         <h2>Saturday lab is on — TaskFlow on one AWS host</h2>
         <p class="lab-timer">60 minutes. Stop at 60. If AWS is half-done, destroy first, then stop. Do not open GitHub Actions.</p>
 
@@ -1101,8 +1101,8 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
 
   <script>
     const STORAGE_KEY = "devops-plan-de-1h-v2";
-    const CHECKPOINT_ID = "saturday-start-2026-09-28";
-    const CHECKPOINT_THROUGH = { week: 7, day: "Fri" };
+    const CHECKPOINT_ID = "w7-sat-aws-done-2026-09-30";
+    const CHECKPOINT_THROUGH = { week: 7, day: "Sat" };
     const CALENDAR_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const DISPLAY_ORDER = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
 
@@ -1715,7 +1715,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
             full: [
               { id: "w7d5t1", tag: "hands", text: "GitHub → taskflow → Actions. Latest run on main is green. Do not rewrite YAML if it is already green." },
               { id: "w7d5t2", tag: "hands", text: "Local proof: docker compose up and GET /health returns 200. Green Actions + this = Friday done." },
-              { id: "w7d5t3", tag: "hands", text: "This sitting is already completed. Next leftover is Saturday (Terraform host), not another CI sitting." }
+              { id: "w7d5t3", tag: "hands", text: "This sitting is already completed. Do not start another CI sitting." }
             ],
             micro: [
               { id: "w7d5m1", tag: "micro", text: "Actions green + compose /health already done = skip. Do not start YAML from scratch." }
@@ -1723,7 +1723,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
           },
           {
             day: "Sat",
-            label: "START HERE — TaskFlow on one AWS host",
+            label: "TaskFlow on one AWS host — already done",
             full: [
               { id: "w7d6t1", tag: "theory", text: "Picture: web :80 is the UI ( /health → 404 is normal ). api :8000 is FastAPI ( /health → 200 ). One EC2 in eu-central-1 runs the same compose. Do not start a new CI sitting." },
               { id: "w7d6t2", tag: "hands", text: "Reuse Week 6 Terraform. SG: 22 from your IP, 8000 from your IP for API /health. SSH from WSL, compose up TaskFlow on the host." },
@@ -1915,13 +1915,11 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
     }
 
     function leftoverHourSteps(leftover) {
-      if (leftover && leftover.week.week === 7 && leftover.day.day === "Sat") {
+      if (leftover && leftover.week.week === 8 && leftover.day.day === "Sat") {
         return [
-          ["0–5 min", "Passed: :8000/health = 200. :80/health = 404 is the website, not a failure."],
-          ["5–15 min", "Passed: Frankfurt + SSH 22 found. from_port 0 is egress (out), not health."],
-          ["15–45 min", "ssh_cidr has no default. Write terraform.tfvars 193.16.224.46/32. Save ingress 8000. Then apply from WSL."],
-          ["45–55 min", "Browser http://PUBLIC_IP:8000/health → 200. Set the €5 alarm."],
-          ["55–60 min", "terraform destroy. Three notes. Tick Saturday. Stop."]
+          ["0–5 min", "Picture: /health means up; monitoring means you can see it from outside the box."],
+          ["5–50 min", "Add /metrics or basic logs. One dashboard: up/down. One alert. Test by stopping the app."],
+          ["50–60 min", "Three notes. Tick Saturday. Do not start Kubernetes."]
         ];
       }
       if (!leftover) return [];
@@ -1936,7 +1934,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
         return {
           kicker: "Plan complete",
           title: "No leftover — ship the portfolio",
-          closed: "Week 7 Fri stayed closed: green Actions + compose /health.",
+          closed: "Week 7 Fri stayed closed: green Actions + compose /health. Week 7 Sat AWS lab stayed closed.",
           detail: "You finished the Saturday-start remaining track.",
           href: "#progress-dashboard",
           jump: "Back to progress",
@@ -1944,15 +1942,16 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
         };
       }
       const isW7Sat = leftover.week.week === 7 && leftover.day.day === "Sat";
+      const isW8Sat = leftover.week.week === 8 && leftover.day.day === "Sat";
       return {
-        kicker: isW7Sat ? "Start here — Saturday lab" : "Next leftover sitting",
+        kicker: isW8Sat ? "Next leftover sitting" : isW7Sat ? "Week 7 Saturday is closed" : "Next leftover sitting",
         title: `Week ${leftover.week.week} · ${leftover.day.day} — ${leftover.day.label}`,
-        closed: "Week 7 Fri is closed: taskflow → Actions green, plus local compose /health. Do not redo CI YAML.",
-        detail: isW7Sat
-          ? "ssh_cidr has no default and no tfvars in the grep. Door 8000 is not in main.tf yet. Next: terraform.tfvars = 193.16.224.46/32, then save the 8000 ingress. Do not apply yet."
+        closed: "Week 7 Fri CI and Week 7 Sat AWS lab are closed. Do not redo YAML. Do not leave the EC2 running.",
+        detail: isW8Sat
+          ? "One hour: /metrics or logs, one dashboard (up/down), one alert. Test by stopping the app. No Kubernetes this sitting."
           : leftover.tasks.map((t) => t.text).join(" "),
-        href: isW7Sat ? "#saturday-lab" : `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
-        jump: isW7Sat ? "Start the lab" : "Open that day",
+        href: `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
+        jump: "Open that day",
         hour: leftoverHourSteps(leftover)
       };
     }
@@ -2035,7 +2034,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
                 <li>Terraform on AWS eu-central-1 + CI/CD</li>
                 <li>Monitoring, security basics, runbooks, demo video</li>
                 <li>Busy nights stay micro — Saturday is the 1-hour lab that starts the week</li>
-                <li><strong style="color:#bbf7d0">Start here: Week 7 Saturday.</strong> One AWS host, same compose as your laptop, /health in the browser, then destroy.</li>
+                <li><strong style="color:#bbf7d0">Week 7 Sat is done:</strong> TaskFlow on one Frankfurt host, <code>/health</code> on :8000, then destroy. Do not leave 18.197.140.41 running.</li>
                 <li><strong style="color:#bbf7d0">Week 7 Fri is already complete:</strong> GitHub → taskflow → Actions is green, and local <code>docker compose</code> + <code>/health</code> works. Do not redo CI.</li>
               </ul>
             </div>`;
@@ -2317,7 +2316,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
     });
 
     document.getElementById("reset-progress").addEventListener("click", () => {
-      if (confirm("Uncheck leftover tasks from Week 7 Saturday onward? Weeks 1–7 Friday stay ticked (Actions + /health already done).")) {
+      if (confirm("Uncheck leftover from Week 8 Saturday onward? Weeks 1–7 Saturday stay ticked (CI + AWS lab already done).")) {
         const busy = getBusyDays();
         localStorage.removeItem(STORAGE_KEY);
         const state = { busyDays: busy };
