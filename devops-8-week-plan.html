@@ -943,6 +943,39 @@
           <li>If EC2 <code>18.197.140.41</code> is still running, destroy it first from WSL <code>~/devops-lab/terraform/ec2-lab</code>. Do not monitor AWS this hour.</li>
         </ul>
 
+        <h3>What the three commands are</h3>
+        <ul>
+          <li><code>curl … :8000/health</code> — knock on the API’s heartbeat door. Flags: <code>-sS</code> quiet but still show failures, <code>-o /dev/null</code> throw the JSON body away, <code>-w "%{http_code}"</code> print only <code>200</code> or not. You are not “testing Python”. You are asking: is the process answering HTTP?</li>
+          <li><code>grep -RIn --include='*.py' '/health' ~/taskflow</code> — search <strong style="color:var(--text)">your repo</strong>, not the internet. <code>-R</code> recursive, <code>-I</code> skip binaries, <code>-n</code> line numbers. It tells you which FastAPI file already owns <code>/health</code>, so <code>/metrics</code> goes next to it.</li>
+          <li><code>curl … :8000/metrics</code> — knock on the new door. This time you keep the body. Expect the text <code>taskflow_up 1</code>, not JSON. Prometheus refuses JSON <code>/health</code> as a scrape.</li>
+        </ul>
+
+        <h3>What “api” is (three uses of the same word)</h3>
+        <ul>
+          <li><strong style="color:var(--text)">The program:</strong> FastAPI + uvicorn. It speaks HTTP. That is TaskFlow’s backend. nginx on :80 is the website. Postgres is the database. Prometheus is not the API — it is a watcher.</li>
+          <li><strong style="color:var(--text)">The compose service name:</strong> in <code>docker-compose.yml</code> you likely have a service key <code>api:</code>. Docker DNS on the compose network: hostname <code>api</code>, port <code>8000</code> inside the network. That is why the target is <code>api:8000</code>, not <code>127.0.0.1:8000</code>. From inside the Prometheus container, localhost is Prometheus itself.</li>
+          <li><strong style="color:var(--text)">The CLI shortcut:</strong> <code>docker compose stop api</code> means “stop the container named after that service”. Same word, three layers: code, network name, process you can kill.</li>
+        </ul>
+
+        <h3>How a DevOps engineer thinks about this design</h3>
+        <ul>
+          <li><strong style="color:var(--text)">Do not trust the box to watch itself.</strong> The app can lie or be dead. An outside scraper on a timer is the job.</li>
+          <li><strong style="color:var(--text)">Two doors, two jobs.</strong> <code>/health</code> is for humans and load balancers (JSON, easy). <code>/metrics</code> is a contract with the scraper (Prometheus text). Mixing them is why a target goes DOWN while curl still shows 200.</li>
+          <li><strong style="color:var(--text)">Ask: what can fail, and how would I know in under a minute?</strong> Today the failure is “API process gone”. Signal is <code>up == 0</code>. Later you add latency, error rate, disk. Start with “is it alive”. That is production thinking, not extra tools for the CV.</li>
+          <li><strong style="color:var(--text)">Alert on a number + time, not a feeling.</strong> <code>for: 30s</code> means “stay down that long” so a restart blip does not page you. <code>severity: critical</code> is a label you will route later. Today you only need to see the alert exist.</li>
+          <li><strong style="color:var(--text)">Prove it by breaking it.</strong> <code>docker compose stop api</code> is the experiment. If the graph does not fall, the design is wrong — you are not monitoring what you think you are.</li>
+        </ul>
+
+        <h3>Line-by-line of the files (not magic)</h3>
+        <ul>
+          <li><code>@app.get("/metrics")</code> — FastAPI: when HTTP GET hits that path, run this function. <code>PlainTextResponse("taskflow_up 1\n")</code> is the cheapest honest metric: “if this process can answer, the number is 1”. Real counters come later. Do not memorise FastAPI. Memorise the door.</li>
+          <li><code>scrape_interval: 15s</code> — how often Prometheus knocks. <code>evaluation_interval</code> — how often it re-checks alert rules.</li>
+          <li><code>job_name: taskflow</code> — a label on every sample. The query <code>up{job="taskflow"}</code> means “the scrape called taskflow”, not “the Python class name”.</li>
+          <li><code>metrics_path: /metrics</code> — the URL path on the target. Combined with <code>api:8000</code> → <code>http://api:8000/metrics</code> on the Docker network.</li>
+          <li><code>expr: up{job="taskflow"} == 0</code> — Prometheus manufactures <code>up</code> itself: 1 if the scrape worked, 0 if it did not. You did not have to export <code>up</code> from Python.</li>
+          <li><code>image: prom/prometheus</code> — another container beside api/web/db. <code>ports 9090:9090</code> is so your laptop browser can open the watcher. <code>volumes … :ro</code> bind your YAML into the container read-only. <code>depends_on: api</code> only waits for the container to start, not for <code>/metrics</code> to be ready.</li>
+        </ul>
+
         <div class="lab-now">
           <h3>The whole hour — paste in order, stay in ~/taskflow</h3>
           <p>If a command fails, paste the <strong style="color:var(--text)">text</strong> of the error. Do not send screenshots. Do not skip to Kubernetes.</p>
