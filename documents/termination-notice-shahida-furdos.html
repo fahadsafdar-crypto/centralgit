@@ -1,205 +1,189 @@
 <!DOCTYPE html>
-<html lang="ur">
+<html lang="ur" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>نوٹس برائے ختم کرایہ داری — شاہدہ فردوس</title>
+  <title>نوٹس برائے ختم کرایہ داری</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
-
-    :root {
-      --ink: #1a1a1a;
-      --muted: #444;
-      --rule: #2c2c2c;
-      --paper: #faf8f5;
-      --accent: #1f3d2b;
+    @font-face {
+      font-family: 'Noto Nastaliq Urdu';
+      src: url('file:///usr/share/fonts/truetype/noto/NotoNastaliqUrdu-Regular.ttf') format('truetype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Noto Nastaliq Urdu';
+      src: url('file:///usr/share/fonts/truetype/noto/NotoNastaliqUrdu-Bold.ttf') format('truetype');
+      font-weight: 700;
     }
 
-    * { box-sizing: border-box; }
+    @page {
+      size: A4;
+      margin: 1.1cm 1.4cm;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
-      background: #e8e4de;
-      color: var(--ink);
       font-family: 'Noto Nastaliq Urdu', serif;
-      line-height: 2.1;
+      color: #1a1a1a;
+      font-size: 11pt;
+      line-height: 1.65;
       direction: rtl;
       text-align: right;
-    }
-
-    .sheet {
-      max-width: 800px;
-      margin: 2rem auto;
-      background: var(--paper);
-      padding: 2.75rem 3rem 3rem;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
-      border: 1px solid #d4cfc6;
-      font-size: 1.15rem;
+      background: #fff;
     }
 
     h1 {
-      margin: 0 0 1.5rem;
-      font-size: 1.65rem;
-      color: var(--accent);
-      font-weight: 700;
       text-align: center;
+      font-size: 16pt;
+      color: #1f3d2b;
+      margin-bottom: 0.15rem;
+      line-height: 1.45;
     }
 
-    .meta {
-      margin: 0 0 1.25rem;
-      font-size: 1.05rem;
+    .rule {
+      border: none;
+      border-top: 1.5px solid #1f3d2b;
+      width: 55%;
+      margin: 0.1rem auto 0.55rem;
     }
 
-    .meta strong { color: var(--accent); }
+    .meta { margin-bottom: 0.4rem; font-weight: 700; font-size: 11pt; }
 
-    p { margin: 0 0 1rem; }
+    .label { font-weight: 700; margin-bottom: 0.05rem; font-size: 10.5pt; }
 
-    .address-block {
-      margin: 1rem 0 1.25rem;
-      padding: 0.85rem 1rem;
-      border-right: 3px solid var(--accent);
-      background: rgba(31, 61, 43, 0.04);
+    .box {
+      background: #f3f0ea;
+      border-right: 3px solid #1f3d2b;
+      padding: 0.25rem 0.55rem;
+      margin-bottom: 0.4rem;
+      line-height: 1.55;
+      font-size: 10pt;
     }
 
-    ul {
-      margin: 0.5rem 0 1.25rem;
-      padding-inline-end: 1.4rem;
-      padding-inline-start: 0;
-    }
-
-    li { margin-bottom: 0.45rem; }
-
-    .highlight {
+    .subject {
       font-weight: 700;
-      color: var(--accent);
+      margin: 0.3rem 0 0.4rem;
+      font-size: 10.5pt;
+      line-height: 1.55;
     }
 
-    .sign-row {
+    p { margin-bottom: 0.35rem; font-size: 10.5pt; }
+
+    .emphasis {
+      font-weight: 700;
+      color: #1f3d2b;
+    }
+
+    ol {
+      margin: 0.15rem 0 0.4rem 0;
+      padding-right: 1.1rem;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 0.2rem;
+      font-size: 10pt;
+      line-height: 1.55;
+    }
+
+    .signs {
       display: flex;
       justify-content: space-between;
-      gap: 2rem;
-      margin-top: 2.5rem;
-      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 0.9rem;
     }
 
-    .sign-box {
-      min-width: 220px;
+    .sign {
       flex: 1;
+      font-size: 10pt;
+      color: #444;
+      line-height: 1.5;
     }
 
-    .sign-line {
-      border-bottom: 1px solid var(--ink);
-      height: 2.5rem;
-      margin-bottom: 0.4rem;
+    .sign .line {
+      border-bottom: 1px solid #1a1a1a;
+      height: 1.1rem;
+      margin-bottom: 0.15rem;
     }
 
-    .sign-label {
-      font-size: 0.95rem;
-      color: var(--muted);
-    }
+    .sign strong { color: #1a1a1a; }
 
-    .cc {
-      margin-top: 1.75rem;
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-
-    .print-hint {
-      text-align: center;
+    .ref {
+      margin-top: 0.7rem;
+      padding-top: 0.35rem;
+      border-top: 1px solid #ccc;
+      font-size: 8.5pt;
       color: #666;
-      font-size: 0.85rem;
-      margin: 0 0 1rem;
-      font-family: system-ui, sans-serif;
-      direction: ltr;
-    }
-
-    @media print {
-      body { background: white; }
-      .print-hint { display: none; }
-      .sheet {
-        margin: 0;
-        box-shadow: none;
-        border: none;
-        max-width: none;
-        padding: 1.5cm;
-      }
     }
   </style>
 </head>
 <body>
-  <p class="print-hint">پرنٹ کے لیے Ctrl+P استعمال کریں</p>
+  <h1>نوٹس برائے ختم معاہدہ کرایہ داری</h1>
+  <hr class="rule" />
 
-  <article class="sheet">
-    <h1>نوٹس برائے ختم معاہدہ کرایہ داری</h1>
+  <p class="meta">تاریخ: ۳۰ ستمبر ۲۰۲۶ء</p>
 
-    <p class="meta"><strong>تاریخ:</strong> ۳۰ ستمبر ۲۰۲۶ء</p>
+  <p class="label">بخدمت:</p>
+  <div class="box">
+    محترمہ ماہم سہیل صاحبہ<br />
+    دختر جناب سہیل رضا<br />
+    شناختی کارڈ نمبر: ۳۵۲۰۲-۹۶۶۰۵۶۲-۸<br />
+    مکان نمبر ۲۴، بلاک بی-۲، محلہ پی اینڈ ڈی ہاؤسنگ اسکیم، لاہور<br />
+    (مکان مالکہ)
+  </div>
 
-    <p><strong>بخدمت:</strong></p>
-    <div class="address-block">
-      محترمہ ماہم سہیل صاحبہ<br />
-      دختر جناب سہیل رضا<br />
-      شناختی کارڈ نمبر: 35202-9660562-8<br />
-      مکان نمبر ۲۴، بلاک بی-۲، محلہ پی اینڈ ڈی ہاؤسنگ اسکیم، لاہور<br />
-      (مکان مالکہ)
+  <p class="label">منجانب:</p>
+  <div class="box">
+    شاہدہ فردوس<br />
+    زوجہ نعیم صفدر<br />
+    شناختی کارڈ نمبر: ۳۵۳۰۲-۱۸۹۴۷۸۲-۶<br />
+    (کرایہ دار)
+  </div>
+
+  <p class="subject">موضوع: مکان نمبر ۲۴، بلاک بی-۲، پی اینڈ ڈی ہاؤسنگ اسکیم، لاہور — بالائی حصہ کی کرایہ داری ختم کرنے کا نوٹس</p>
+
+  <p>محترمہ،</p>
+
+  <p>
+    السلام علیکم۔ امید ہے آپ خیریت سے ہوں گی۔ میں، <strong>شاہدہ فردوس</strong>، آپ کی کرایہ دار ہوں جو مذکورہ بالا پراپرٹی
+    (تین بیڈ رومز بمعہ غسل خانہ جات، کچن، سٹور وغیرہ) پر مورخہ <strong>۱ جون ۲۰۲۶ء</strong> سے گیارہ (۱۱) ماہ کے معاہدہ کرایہ داری
+    کے تحت مقیم ہوں۔ ماہانہ کرایہ نوے ہزار روپے (روپے ۹۰،۰۰۰/-) ہے۔
+  </p>
+
+  <p class="emphasis">
+    اس نوٹس کے ذریعے میں آپ کو باضابطہ مطلع کرتی ہوں کہ میں مذکورہ کرایہ داری آج مورخہ ۳۰ ستمبر ۲۰۲۶ء سے
+    ختم کرنے کا ارادہ رکھتی ہوں، اور ۳۱ اکتوبر ۲۰۲۶ء تک مکان خالی کر کے قبضہ آپ کے حوالے کر دوں گی۔
+  </p>
+
+  <p>اس سلسلے میں درج ذیل کی تصدیق کرتی ہوں:</p>
+  <ol>
+    <li>آخری کرایہ کا مہینہ اکتوبر ۲۰۲۶ء ہوگا، جو معمول کے مطابق ادائیگی کر دی جائے گی۔</li>
+    <li>۳۱ اکتوبر ۲۰۲۶ء کو یا اس سے پہلے مکان مکمل خالی کر کے کلیدیں آپ کو واپس کر دی جائیں گی۔</li>
+    <li>بجلی، گیس اور پانی کے واجب الادا بلوں کی ادائیگی میری ذمہ داری ہوگی۔</li>
+    <li>معاہدے کی شق کے مطابق، سیکیورٹی ڈپازٹ مبلغ ایک لاکھ اسی ہزار روپے (روپے ۱۸۰،۰۰۰/-) واجب الادا یوٹیلیٹی بلز اور نقصانات (اگر کوئی ہوں) کی ایڈجسٹمنٹ کے بعد واپس کیا جائے۔</li>
+  </ol>
+
+  <p>
+    براہِ کرم اس نوٹس کی وصولی کی تصدیق فرمائیں اور سیکیورٹی ڈپازٹ کی واپسی و مکان کی حوالگی کے لیے مناسب وقت طے کر لیں۔
+  </p>
+
+  <p>شکریہ۔</p>
+
+  <div class="signs">
+    <div class="sign">
+      <div class="line"></div>
+      دستخط کرایہ دار<br />
+      <strong>شاہدہ فردوس</strong><br />
+      تاریخ: ۳۰ / ۰۹ / ۲۰۲۶ء
     </div>
-
-    <p><strong>منجانب:</strong></p>
-    <div class="address-block">
-      شاہدہ فردوس<br />
-      زوجہ نعیم صفدر<br />
-      شناختی کارڈ نمبر: 35302-1894782-6<br />
-      (کرایہ دار)
+    <div class="sign">
+      <div class="line"></div>
+      وصولی کی تصدیق — مکان مالکہ<br />
+      <strong>ماہم سہیل</strong><br />
+      تاریخ: _______________
     </div>
+  </div>
 
-    <p><strong>موضوع:</strong> مکان نمبر ۲۴، بلاک بی-۲، پی اینڈ ڈی ہاؤسنگ اسکیم، لاہور — بالائی حصہ کی کرایہ داری ختم کرنے کا نوٹس</p>
-
-    <p>محترمہ،</p>
-
-    <p>
-      السلام علیکم۔ امید ہے آپ خیریت سے ہوں گی۔ میں، <strong>شاہدہ فردوس</strong>، آپ کی کرایہ دار ہوں جو مذکورہ بالا پراپرٹی
-      (تین بیڈ رومز بمعہ غسل خانہ جات، کچن، سٹور وغیرہ) پر مورخہ <strong>۱ جون ۲۰۲۶ء</strong> سے گیارہ (۱۱) ماہ کے معاہدہ کرایہ داری
-      کے تحت مقیم ہوں۔ ماہانہ کرایہ نوے ہزار روپے (روپے ۹۰،۰۰۰/-) ہے۔
-    </p>
-
-    <p>
-      اس نوٹس کے ذریعے میں آپ کو باضابطہ مطلع کرتی ہوں کہ میں مذکورہ کرایہ داری <span class="highlight">آج مورخہ ۳۰ ستمبر ۲۰۲۶ء سے</span>
-      ختم کرنے کا ارادہ رکھتی ہوں، اور <span class="highlight">۳۱ اکتوبر ۲۰۲۶ء</span> تک مکان خالی کر کے قبضہ آپ کے حوالے کر دوں گی۔
-    </p>
-
-    <p>اس سلسلے میں درج ذیل کی تصدیق کرتی ہوں:</p>
-    <ul>
-      <li>آخری کرایہ کا مہینہ اکتوبر ۲۰۲۶ء ہوگا، جو معمول کے مطابق ادائیگی کر دی جائے گی۔</li>
-      <li>۳۱ اکتوبر ۲۰۲۶ء کو یا اس سے پہلے مکان مکمل خالی کر کے کلیدیں آپ کو واپس کر دی جائیں گی۔</li>
-      <li>بجلی، گیس اور پانی کے واجب الادا بلوں کی ادائیگی میری ذمہ داری ہوگی۔</li>
-      <li>معاہدے کی شق کے مطابق، سیکیورٹی ڈپازٹ مبلغ ایک لاکھ اسی ہزار روپے (روپے ۱۸۰،۰۰۰/-) واجب الادا یوٹیلیٹی بلز اور نقصانات (اگر کوئی ہوں) کی ایڈجسٹمنٹ کے بعد واپس کیا جائے۔</li>
-    </ul>
-
-    <p>
-      براہِ کرم اس نوٹس کی وصولی کی تصدیق فرمائیں اور سیکیورٹی ڈپازٹ کی واپسی و مکان کی حوالگی کے لیے مناسب وقت طے کر لیں۔
-    </p>
-
-    <p>شکریہ۔</p>
-
-    <div class="sign-row">
-      <div class="sign-box">
-        <div class="sign-line"></div>
-        <div class="sign-label">
-          دستخط کرایہ دار<br />
-          شاہدہ فردوس<br />
-          تاریخ: ۳۰ / ۰۹ / ۲۰۲۶ء
-        </div>
-      </div>
-      <div class="sign-box">
-        <div class="sign-line"></div>
-        <div class="sign-label">
-          وصولی کی تصدیق — مکان مالکہ<br />
-          ماہم سہیل<br />
-          تاریخ: _______________
-        </div>
-      </div>
-    </div>
-
-    <p class="cc">حوالہ: دستاویز معاہدہ کرایہ داری، اسٹامپ آئی ڈی PB-LHR-65C4DCF2220440C2</p>
-  </article>
+  <p class="ref">حوالہ: دستاویز معاہدہ کرایہ داری، اسٹامپ آئی ڈی PB-LHR-65C4DCF2220440C2</p>
 </body>
 </html>
