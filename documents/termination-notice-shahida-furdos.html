@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>نوٹس برائے ختم کرایہ داری — شاہدہ فردوس</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Libre+Baskerville:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
 
     :root {
       --ink: #1a1a1a;
@@ -21,8 +21,10 @@
       margin: 0;
       background: #e8e4de;
       color: var(--ink);
-      font-family: 'Libre Baskerville', Georgia, serif;
-      line-height: 1.55;
+      font-family: 'Noto Nastaliq Urdu', serif;
+      line-height: 2.1;
+      direction: rtl;
+      text-align: right;
     }
 
     .sheet {
@@ -32,46 +34,20 @@
       padding: 2.75rem 3rem 3rem;
       box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
       border: 1px solid #d4cfc6;
-    }
-
-    .lang-block { margin-bottom: 2.5rem; }
-
-    .lang-block + .lang-block {
-      border-top: 2px solid var(--rule);
-      padding-top: 2.5rem;
-    }
-
-    .urdu {
-      direction: rtl;
-      text-align: right;
-      font-family: 'Noto Nastaliq Urdu', 'Noto Nastaliq Urdu', serif;
       font-size: 1.15rem;
-      line-height: 2.1;
-    }
-
-    .english {
-      direction: ltr;
-      text-align: left;
-      font-size: 0.98rem;
     }
 
     h1 {
-      margin: 0 0 0.35rem;
-      font-size: 1.55rem;
+      margin: 0 0 1.5rem;
+      font-size: 1.65rem;
       color: var(--accent);
       font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-
-    .subtitle {
-      margin: 0 0 1.5rem;
-      color: var(--muted);
-      font-size: 0.95rem;
+      text-align: center;
     }
 
     .meta {
       margin: 0 0 1.25rem;
-      font-size: 0.95rem;
+      font-size: 1.05rem;
     }
 
     .meta strong { color: var(--accent); }
@@ -85,17 +61,11 @@
       background: rgba(31, 61, 43, 0.04);
     }
 
-    .english .address-block {
-      border-right: none;
-      border-left: 3px solid var(--accent);
-    }
-
     ul {
       margin: 0.5rem 0 1.25rem;
-      padding-inline-start: 1.4rem;
+      padding-inline-end: 1.4rem;
+      padding-inline-start: 0;
     }
-
-    .urdu ul { padding-inline-start: 0; padding-inline-end: 1.4rem; }
 
     li { margin-bottom: 0.45rem; }
 
@@ -124,13 +94,13 @@
     }
 
     .sign-label {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: var(--muted);
     }
 
     .cc {
       margin-top: 1.75rem;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: var(--muted);
     }
 
@@ -140,6 +110,7 @@
       font-size: 0.85rem;
       margin: 0 0 1rem;
       font-family: system-ui, sans-serif;
+      direction: ltr;
     }
 
     @media print {
@@ -152,168 +123,83 @@
         max-width: none;
         padding: 1.5cm;
       }
-      .lang-block + .lang-block {
-        break-before: page;
-      }
     }
   </style>
 </head>
 <body>
-  <p class="print-hint">پرنٹ کے لیے Ctrl+P / Cmd+P استعمال کریں — Print this page for a signed copy</p>
+  <p class="print-hint">پرنٹ کے لیے Ctrl+P استعمال کریں</p>
 
   <article class="sheet">
-    <!-- URDU VERSION -->
-    <section class="lang-block urdu" lang="ur">
-      <h1>نوٹس برائے ختم معاہدہ کرایہ داری</h1>
-      <p class="subtitle">Notice of Termination of Tenancy</p>
+    <h1>نوٹس برائے ختم معاہدہ کرایہ داری</h1>
 
-      <p class="meta"><strong>تاریخ:</strong> ۳۰ ستمبر ۲۰۲۶ء &nbsp;/&nbsp; 30 September 2026</p>
+    <p class="meta"><strong>تاریخ:</strong> ۳۰ ستمبر ۲۰۲۶ء</p>
 
-      <p><strong>بخدمت:</strong></p>
-      <div class="address-block">
-        محترمہ ماہم سہیل صاحبہ<br />
-        دختر جناب سہیل رضا<br />
-        شناختی کارڈ نمبر: 35202-9660562-8<br />
-        مکان نمبر ۲۴، بلاک بی-۲، محلہ پی اینڈ ڈی ہاؤسنگ اسکیم، لاہور<br />
-        (مکان مالکہ / Landlord)
-      </div>
+    <p><strong>بخدمت:</strong></p>
+    <div class="address-block">
+      محترمہ ماہم سہیل صاحبہ<br />
+      دختر جناب سہیل رضا<br />
+      شناختی کارڈ نمبر: 35202-9660562-8<br />
+      مکان نمبر ۲۴، بلاک بی-۲، محلہ پی اینڈ ڈی ہاؤسنگ اسکیم، لاہور<br />
+      (مکان مالکہ)
+    </div>
 
-      <p><strong>منجانب:</strong></p>
-      <div class="address-block">
-        شاہدہ فردوس<br />
-        زوجہ نعیم صفدر<br />
-        شناختی کارڈ نمبر: 35302-1894782-6<br />
-        (کرایہ دار / Tenant)
-      </div>
+    <p><strong>منجانب:</strong></p>
+    <div class="address-block">
+      شاہدہ فردوس<br />
+      زوجہ نعیم صفدر<br />
+      شناختی کارڈ نمبر: 35302-1894782-6<br />
+      (کرایہ دار)
+    </div>
 
-      <p><strong>موضوع:</strong> مکان نمبر ۲۴، بلاک بی-۲، پی اینڈ ڈی ہاؤسنگ اسکیم، لاہور — بالائی حصہ (Upper Portion) کی کرایہ داری ختم کرنے کا نوٹس</p>
+    <p><strong>موضوع:</strong> مکان نمبر ۲۴، بلاک بی-۲، پی اینڈ ڈی ہاؤسنگ اسکیم، لاہور — بالائی حصہ کی کرایہ داری ختم کرنے کا نوٹس</p>
 
-      <p>محترمہ،</p>
+    <p>محترمہ،</p>
 
-      <p>
-        السلام علیکم۔ امید ہے آپ خیریت سے ہوں گی۔ میں، <strong>شاہدہ فردوس</strong>، آپ کی کرایہ دار ہوں جو مذکورہ بالا پراپرٹی
-        (تین بیڈ رومز بمعہ غسل خانہ جات، کچن، سٹور وغیرہ) پر مورخہ <strong>۱ جون ۲۰۲۶ء</strong> سے گیارہ (۱۱) ماہ کے معاہدہ کرایہ داری
-        کے تحت مقیم ہوں۔ ماہانہ کرایہ نوے ہزار روپے (روپے ۹۰،۰۰۰/-) ہے۔
-      </p>
+    <p>
+      السلام علیکم۔ امید ہے آپ خیریت سے ہوں گی۔ میں، <strong>شاہدہ فردوس</strong>، آپ کی کرایہ دار ہوں جو مذکورہ بالا پراپرٹی
+      (تین بیڈ رومز بمعہ غسل خانہ جات، کچن، سٹور وغیرہ) پر مورخہ <strong>۱ جون ۲۰۲۶ء</strong> سے گیارہ (۱۱) ماہ کے معاہدہ کرایہ داری
+      کے تحت مقیم ہوں۔ ماہانہ کرایہ نوے ہزار روپے (روپے ۹۰،۰۰۰/-) ہے۔
+    </p>
 
-      <p>
-        اس نوٹس کے ذریعے میں آپ کو باضابطہ مطلع کرتی ہوں کہ میں مذکورہ کرایہ داری <span class="highlight">آج مورخہ ۳۰ ستمبر ۲۰۲۶ء سے</span>
-        ختم کرنے کا ارادہ رکھتی ہوں، اور <span class="highlight">۳۱ اکتوبر ۲۰۲۶ء</span> تک مکان خالی کر کے قبضہ آپ کے حوالے کر دوں گی۔
-      </p>
+    <p>
+      اس نوٹس کے ذریعے میں آپ کو باضابطہ مطلع کرتی ہوں کہ میں مذکورہ کرایہ داری <span class="highlight">آج مورخہ ۳۰ ستمبر ۲۰۲۶ء سے</span>
+      ختم کرنے کا ارادہ رکھتی ہوں، اور <span class="highlight">۳۱ اکتوبر ۲۰۲۶ء</span> تک مکان خالی کر کے قبضہ آپ کے حوالے کر دوں گی۔
+    </p>
 
-      <p>اس سلسلے میں درج ذیل کی تصدیق کرتی ہوں:</p>
-      <ul>
-        <li>آخری کرایہ کا مہینہ اکتوبر ۲۰۲۶ء ہوگا، جو معمول کے مطابق ادائیگی کر دی جائے گی۔</li>
-        <li>۳۱ اکتوبر ۲۰۲۶ء کو یا اس سے پہلے مکان مکمل خالی کر کے کلیدیں آپ کو واپس کر دی جائیں گی۔</li>
-        <li>بجلی، گیس اور پانی کے واجب الادا بلوں کی ادائیگی میری ذمہ داری ہوگی۔</li>
-        <li>معاہدے کی شق کے مطابق، سیکیورٹی ڈپازٹ مبلغ ایک لاکھ اسی ہزار روپے (روپے ۱۸۰،۰۰۰/-) واجب الادا یوٹیلیٹی بلز اور نقصانات (اگر کوئی ہوں) کی ایڈجسٹمنٹ کے بعد واپس کیا جائے۔</li>
-      </ul>
+    <p>اس سلسلے میں درج ذیل کی تصدیق کرتی ہوں:</p>
+    <ul>
+      <li>آخری کرایہ کا مہینہ اکتوبر ۲۰۲۶ء ہوگا، جو معمول کے مطابق ادائیگی کر دی جائے گی۔</li>
+      <li>۳۱ اکتوبر ۲۰۲۶ء کو یا اس سے پہلے مکان مکمل خالی کر کے کلیدیں آپ کو واپس کر دی جائیں گی۔</li>
+      <li>بجلی، گیس اور پانی کے واجب الادا بلوں کی ادائیگی میری ذمہ داری ہوگی۔</li>
+      <li>معاہدے کی شق کے مطابق، سیکیورٹی ڈپازٹ مبلغ ایک لاکھ اسی ہزار روپے (روپے ۱۸۰،۰۰۰/-) واجب الادا یوٹیلیٹی بلز اور نقصانات (اگر کوئی ہوں) کی ایڈجسٹمنٹ کے بعد واپس کیا جائے۔</li>
+    </ul>
 
-      <p>
-        براہِ کرم اس نوٹس کی وصولی کی تصدیق فرمائیں اور سیکیورٹی ڈپازٹ کی واپسی و مکان کی حوالگی کے لیے مناسب وقت طے کر لیں۔
-      </p>
+    <p>
+      براہِ کرم اس نوٹس کی وصولی کی تصدیق فرمائیں اور سیکیورٹی ڈپازٹ کی واپسی و مکان کی حوالگی کے لیے مناسب وقت طے کر لیں۔
+    </p>
 
-      <p>شکریہ۔</p>
+    <p>شکریہ۔</p>
 
-      <div class="sign-row">
-        <div class="sign-box">
-          <div class="sign-line"></div>
-          <div class="sign-label">
-            دستخط کرایہ دار<br />
-            شاہدہ فردوس<br />
-            تاریخ: ۳۰ / ۰۹ / ۲۰۲۶ء
-          </div>
-        </div>
-        <div class="sign-box">
-          <div class="sign-line"></div>
-          <div class="sign-label">
-            وصولی کی تصدیق — مکان مالکہ<br />
-            ماہم سہیل<br />
-            تاریخ: _______________
-          </div>
+    <div class="sign-row">
+      <div class="sign-box">
+        <div class="sign-line"></div>
+        <div class="sign-label">
+          دستخط کرایہ دار<br />
+          شاہدہ فردوس<br />
+          تاریخ: ۳۰ / ۰۹ / ۲۰۲۶ء
         </div>
       </div>
-
-      <p class="cc">حوالہ: دستاویز معاہدہ کرایہ داری، اسٹامپ آئی ڈی PB-LHR-65C4DCF2220440C2</p>
-    </section>
-
-    <!-- ENGLISH VERSION -->
-    <section class="lang-block english" lang="en">
-      <h1>Notice of Termination of Tenancy</h1>
-      <p class="subtitle">نوٹس برائے ختم معاہدہ کرایہ داری</p>
-
-      <p class="meta"><strong>Date:</strong> 30 September 2026</p>
-
-      <p><strong>To:</strong></p>
-      <div class="address-block">
-        Ms. Maham Sohail<br />
-        Daughter of Sohail Raza<br />
-        CNIC: 35202-9660562-8<br />
-        House No. 24, Block B-2, P&amp;D Housing Scheme, Lahore<br />
-        (Landlord / مکان مالکہ)
-      </div>
-
-      <p><strong>From:</strong></p>
-      <div class="address-block">
-        Shahida Furdos<br />
-        Wife of Naeem Safdar<br />
-        CNIC: 35302-1894782-6<br />
-        (Tenant / کرایہ دار)
-      </div>
-
-      <p><strong>Subject:</strong> Termination of tenancy — Upper portion, House No. 24, Block B-2, P&amp;D Housing Scheme, Lahore</p>
-
-      <p>Respected Madam,</p>
-
-      <p>
-        I, <strong>Shahida Furdos</strong>, am the tenant of the above-mentioned property
-        (3 bedrooms with attached bathrooms, kitchen, store, etc.) under the rental agreement
-        commencing <strong>1 June 2026</strong> for a term of eleven (11) months, at a monthly rent of
-        Rs. 90,000/- (Rupees Ninety Thousand only).
-      </p>
-
-      <p>
-        By this notice, I hereby formally inform you that I intend to terminate the said tenancy
-        <span class="highlight">effective from today, 30 September 2026</span>, and that I shall
-        vacate the premises and hand over possession
-        <span class="highlight">on or before 31 October 2026</span>.
-      </p>
-
-      <p>I further confirm that:</p>
-      <ul>
-        <li>October 2026 will be the final month of rent, which will be paid in the ordinary course.</li>
-        <li>The premises will be vacated and the keys returned to you on or before 31 October 2026.</li>
-        <li>Outstanding electricity, gas, and water charges up to the date of vacation will be cleared by me.</li>
-        <li>As per the agreement, the security deposit of Rs. 180,000/- (Rupees One Hundred Eighty Thousand only) may please be refunded after adjustment of any unpaid utility bills and damages, if any.</li>
-      </ul>
-
-      <p>
-        Kindly acknowledge receipt of this notice and arrange a convenient time for handover of the premises and refund of the security deposit.
-      </p>
-
-      <p>Thank you.</p>
-
-      <div class="sign-row">
-        <div class="sign-box">
-          <div class="sign-line"></div>
-          <div class="sign-label">
-            Signature of Tenant<br />
-            Shahida Furdos<br />
-            Date: 30 / 09 / 2026
-          </div>
-        </div>
-        <div class="sign-box">
-          <div class="sign-line"></div>
-          <div class="sign-label">
-            Acknowledgement — Landlord<br />
-            Maham Sohail<br />
-            Date: _______________
-          </div>
+      <div class="sign-box">
+        <div class="sign-line"></div>
+        <div class="sign-label">
+          وصولی کی تصدیق — مکان مالکہ<br />
+          ماہم سہیل<br />
+          تاریخ: _______________
         </div>
       </div>
+    </div>
 
-      <p class="cc">Ref: Rental Agreement, Stamp ID PB-LHR-65C4DCF2220440C2</p>
-    </section>
+    <p class="cc">حوالہ: دستاویز معاہدہ کرایہ داری، اسٹامپ آئی ڈی PB-LHR-65C4DCF2220440C2</p>
   </article>
 </body>
 </html>
