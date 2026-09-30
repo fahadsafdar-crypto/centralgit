@@ -887,7 +887,7 @@
       <div class="dashboard-top">
         <div>
           <h2>Your progress</h2>
-          <p class="dashboard-sub">Week 7 Saturday AWS lab is done. Wednesday monitoring lab is on — same TaskFlow, local compose.</p>
+          <p class="dashboard-sub">Wednesday monitoring is done. Next leftover: Thursday 1 Oct security. Same TaskFlow.</p>
         </div>
         <div class="now-pill" id="now-pill">
           <span class="now-dot"></span>
@@ -896,16 +896,31 @@
       </div>
 
       <div class="leftover-card" id="leftover-card">
-        <div class="leftover-kicker" id="leftover-kicker">Lab is on — Wed 30 Sep</div>
+        <div class="leftover-kicker" id="leftover-kicker">Next leftover sitting</div>
         <div class="leftover-title" id="leftover-title">Finding leftover…</div>
-        <p class="leftover-closed" id="leftover-closed">Week 7 Fri CI and Week 7 Sat AWS lab are closed.</p>
-        <p class="leftover-detail" id="leftover-detail">Wednesday monitoring: /metrics, one Prometheus graph (up/down), one alert. Stop the API to test. No Kubernetes. No AWS this hour.</p>
+        <p class="leftover-closed" id="leftover-closed">Week 7 Fri CI, Week 7 Sat AWS, and Week 8 Wed monitoring are closed.</p>
+        <p class="leftover-detail" id="leftover-detail">Next leftover is Thursday 1 Oct: security basics for TaskFlow.</p>
         <ol class="lab-hour" id="leftover-hour"></ol>
         <div class="remain-path" id="remain-path"></div>
-        <a class="leftover-jump" id="leftover-jump" href="#wednesday-lab">Open Wednesday lab</a>
+        <a class="leftover-jump" id="leftover-jump" href="#w8-thu">Open Thursday 1 Oct</a>
       </div>
 
-      <section class="lab-board" id="wednesday-lab">
+      <section class="card" id="when-to-create">
+        <h2>When to create what — you do not start from a blank page</h2>
+        <p>Terraform and Ansible feel easier because the docs give you a template. <code>/health</code>, <code>/metrics</code>, Compose, and the Dockerfile are the same skill: <strong style="color:var(--text)">match a missing contract to a file</strong>. In a real job you clone the repo first and grep. You almost never invent the platform from memory.</p>
+        <ol>
+          <li><strong style="color:var(--text)">Is there already an app that speaks HTTP?</strong> If yes, you do not create “an API”. Developers (or last week’s you) already did. You read <code>docker compose config --services</code> and use that name (<code>api</code> is only a label).</li>
+          <li><strong style="color:var(--text)">Can I start it the same way twice?</strong> Missing → Dockerfile (bake the app) + Compose (run api + web + db together). Copy the sibling service’s file; change the start command. Do not write Docker from a blank exam.</li>
+          <li><strong style="color:var(--text)">Does a stranger need a yes/no “is it alive”?</strong> Load balancer, you, Kubernetes later. Missing → <code>GET /health</code> returning 200. Boolean door. JSON is fine.</li>
+          <li><strong style="color:var(--text)">Does a machine need numbers on a timer?</strong> The company already runs Prometheus. Missing → <code>GET /metrics</code> in Prometheus text + a scrape target. That is a contract, not a Python hobby.</li>
+          <li><strong style="color:var(--text)">Should a human get woken?</strong> Missing → alert rule on a number + time (<code>up == 0</code> for 30s). You already did this sitting.</li>
+          <li><strong style="color:var(--text)">Where does the machine live?</strong> Missing → Terraform (you already can). Doors on the SG match the ports the app actually uses (22, 8000) — not 5432.</li>
+          <li><strong style="color:var(--text)">Does the host need Docker/users/packages?</strong> Missing → Ansible (you already can). Do not put app code in Ansible.</li>
+        </ol>
+        <p>Order in a job: <strong style="color:var(--text)">read → grep → copy the nearest file → change one door</strong>. First week at work is reading TaskFlow-like repos, not designing Netflix.</p>
+      </section>
+
+      <section class="lab-board" id="wednesday-lab" hidden>
         <h2>Wednesday lab is on — monitoring for TaskFlow</h2>
         <p class="lab-timer">60 minutes. Stop at 60. Local compose only. No AWS. No GitHub Actions. No Kubernetes. No Grafana if the clock hits 60 — Prometheus graph is the dashboard.</p>
 
@@ -1220,7 +1235,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
       <h3>Leftover Week 8 on the calendar (from today)</h3>
       <p>Today is <strong style="color:var(--text)">Wednesday 30 Sep 2026</strong>. Same TaskFlow capstone — not a new repo.</p>
       <ol>
-        <li><strong>Wed 30 Sep</strong> — Monitoring for TaskFlow (1h)</li>
+        <li><strong>Wed 30 Sep</strong> — Monitoring for TaskFlow (1h) — done</li>
         <li><strong>Thu 1 Oct</strong> — Security basics (1h)</li>
         <li><strong>Fri 2 Oct</strong> — Security check (15 min micro; busy night)</li>
         <li><strong>Sat 3 Oct</strong> — Backups + reliability (1h Saturday lab)</li>
@@ -1254,7 +1269,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
     <section class="card">
       <h2>How to use this with your tutor (me)</h2>
       <ul>
-        <li>This sitting: <em>“Wednesday monitoring lab is on”</em> — same TaskFlow, local compose, Prometheus up/down</li>
+        <li>Next leftover: <em>Thursday 1 Oct — security</em> for the same TaskFlow. Do not start until you say start. Wednesday monitoring stays closed.</li>
         <li>Follow the calendar dates below (missed days were skipped)</li>
         <li>I teach that day’s lesson step by step</li>
         <li>You paste errors / screenshots text — we fix together</li>
@@ -1282,8 +1297,8 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
 
   <script>
     const STORAGE_KEY = "devops-plan-de-1h-v2";
-    const CHECKPOINT_ID = "w7-sat-aws-done-2026-09-30";
-    const CHECKPOINT_THROUGH = { week: 7, day: "Sat" };
+    const CHECKPOINT_ID = "w8-wed-monitoring-done-2026-09-30";
+    const CHECKPOINT_THROUGH = { week: 8, day: "Wed" };
     const CALENDAR_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const DISPLAY_ORDER = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
     const WEEK8_ORDER = ["Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue"];
@@ -1936,7 +1951,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
           {
             day: "Wed",
             date: "Wed 30 Sep",
-            label: "Monitoring for TaskFlow",
+            label: "Monitoring for TaskFlow — already done",
             full: [
               { id: "w8d1t1", tag: "hands", text: "Add /metrics or basic logging. Hook Prometheus/Grafana or CloudWatch." },
               { id: "w8d1t2", tag: "hands", text: "One dashboard: up/down + error-ish signal." },
@@ -2029,7 +2044,8 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
     function isThroughCheckpoint(weekNum, dayName) {
       if (weekNum < CHECKPOINT_THROUGH.week) return true;
       if (weekNum > CHECKPOINT_THROUGH.week) return false;
-      return CALENDAR_ORDER.indexOf(dayName) <= CALENDAR_ORDER.indexOf(CHECKPOINT_THROUGH.day);
+      const order = dayOrder(weekNum);
+      return order.indexOf(dayName) <= order.indexOf(CHECKPOINT_THROUGH.day);
     }
 
     function dayOrder(weekNum) {
@@ -2136,15 +2152,16 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
       }
       const isW7Sat = leftover.week.week === 7 && leftover.day.day === "Sat";
       const isW8Wed = leftover.week.week === 8 && leftover.day.day === "Wed";
+      const isW8Thu = leftover.week.week === 8 && leftover.day.day === "Thu";
       return {
         kicker: isW8Wed ? "Lab is on — Wed 30 Sep" : isW7Sat ? "Week 7 Saturday is closed" : "Next leftover sitting",
         title: `Week ${leftover.week.week} · ${leftover.day.date || leftover.day.day} — ${leftover.day.label}`,
-        closed: "Week 7 Fri CI and Week 7 Sat AWS lab are closed. Do not redo YAML. Do not leave the EC2 running.",
+        closed: "Week 7 Fri CI, Week 7 Sat AWS, and Week 8 Wed monitoring are closed. Do not redo YAML. Do not leave the EC2 running.",
         detail: isW8Wed
           ? "Local compose only. Add /metrics, one Prometheus graph (up/down), one alert. Stop the API to test. No Kubernetes. No AWS this hour."
           : leftover.tasks.map((t) => t.text).join(" "),
         href: isW8Wed ? "#wednesday-lab" : `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
-        jump: isW8Wed ? "Open Wednesday lab" : "Open that day",
+        jump: isW8Wed ? "Open Wednesday lab" : isW8Thu ? "Open Thursday 1 Oct" : "Open that day",
         hour: leftoverHourSteps(leftover)
       };
     }
@@ -2229,7 +2246,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
                 <li>Busy nights stay micro — Saturday is still the 1-hour lab</li>
                 <li><strong style="color:#bbf7d0">Week 7 Sat is done:</strong> TaskFlow on one Frankfurt host, <code>/health</code> on :8000, then destroy. Do not leave 18.197.140.41 running.</li>
                 <li><strong style="color:#bbf7d0">Week 7 Fri is already complete:</strong> GitHub → taskflow → Actions is green, and local <code>docker compose</code> + <code>/health</code> works. Do not redo CI.</li>
-                <li><strong style="color:#bbf7d0">Week 8 leftover starts Wednesday 30 Sep:</strong> monitoring → security → backups → docs. Same TaskFlow. Not a new repo.</li>
+                <li><strong style="color:#bbf7d0">Week 8 Wed is done:</strong> local Prometheus scrape of <code>/metrics</code>, graph <code>up</code>, alert by stopping <code>api</code>. Next leftover is Thursday security. Same TaskFlow. Not a new repo.</li>
               </ul>
             </div>`;
         }
@@ -2520,7 +2537,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
     });
 
     document.getElementById("reset-progress").addEventListener("click", () => {
-      if (confirm("Uncheck leftover from Wednesday 30 Sep onward? Weeks 1–7 Saturday stay ticked (CI + AWS lab already done).")) {
+      if (confirm("Uncheck leftover from Thursday 1 Oct onward? Weeks 1–8 Wednesday stay ticked (CI, AWS lab, and monitoring already done).")) {
         const busy = getBusyDays();
         localStorage.removeItem(STORAGE_KEY);
         const state = { busyDays: busy };
