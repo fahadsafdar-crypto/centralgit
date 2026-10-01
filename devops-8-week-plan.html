@@ -887,7 +887,7 @@
       <div class="dashboard-top">
         <div>
           <h2>Your progress</h2>
-          <p class="dashboard-sub">Wednesday monitoring is done. Next leftover: Thursday 1 Oct security. Same TaskFlow.</p>
+          <p class="dashboard-sub">Wednesday monitoring stays closed. Thursday 1 Oct security lab is on — doors, HTTPS plan, GDPR. Same TaskFlow.</p>
         </div>
         <div class="now-pill" id="now-pill">
           <span class="now-dot"></span>
@@ -896,13 +896,13 @@
       </div>
 
       <div class="leftover-card" id="leftover-card">
-        <div class="leftover-kicker" id="leftover-kicker">Next leftover sitting</div>
+        <div class="leftover-kicker" id="leftover-kicker">Lab is on — Thu 1 Oct</div>
         <div class="leftover-title" id="leftover-title">Finding leftover…</div>
         <p class="leftover-closed" id="leftover-closed">Week 7 Fri CI, Week 7 Sat AWS, and Week 8 Wed monitoring are closed.</p>
-        <p class="leftover-detail" id="leftover-detail">Next leftover is Thursday 1 Oct: security basics for TaskFlow.</p>
+        <p class="leftover-detail" id="leftover-detail">Thursday security: lock doors (no public DB), write an HTTPS plan, write a short GDPR note. Do not redo Prometheus. Do not start Kubernetes.</p>
         <ol class="lab-hour" id="leftover-hour"></ol>
         <div class="remain-path" id="remain-path"></div>
-        <a class="leftover-jump" id="leftover-jump" href="#w8-thu">Open Thursday 1 Oct</a>
+        <a class="leftover-jump" id="leftover-jump" href="#thursday-lab">Open Thursday lab</a>
       </div>
 
       <section class="card" id="when-to-create">
@@ -918,6 +918,111 @@
           <li><strong style="color:var(--text)">Does the host need Docker/users/packages?</strong> Missing → Ansible (you already can). Do not put app code in Ansible.</li>
         </ol>
         <p>Order in a job: <strong style="color:var(--text)">read → grep → copy the nearest file → change one door</strong>. First week at work is reading TaskFlow-like repos, not designing Netflix.</p>
+      </section>
+
+      <section class="lab-board" id="thursday-lab">
+        <h2>Thursday lab is on — security for TaskFlow</h2>
+        <p class="lab-timer">60 minutes. Stop at 60. Today is doors, HTTPS plan, and data — not monitoring. Do not open Prometheus. Do not start Kubernetes. Do not rewrite CI. Wednesday stays closed.</p>
+
+        <div class="arch-row" aria-label="Security architecture">
+          <div class="arch-box">
+            <strong>1. Compose ports</strong>
+            What the laptop publishes.<br>
+            <code>5432</code> must stay inside.
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-box">
+            <strong>2. Security group</strong>
+            What the internet may hit<br>
+            if you ever apply Terraform.
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-box">
+            <strong>3. Data</strong>
+            What TaskFlow stores.<br>
+            Short GDPR note. Honest.
+          </div>
+        </div>
+
+        <div class="port-key">
+          <div><strong>22</strong> SSH — your IP only (<code>var.ssh_cidr</code>). Never <code>0.0.0.0/0</code>.</div>
+          <div><strong>8000 / 80</strong> API and UI — your IP only until HTTPS exists.</div>
+          <div><strong>5432 and 9090</strong> Never on the internet. Postgres and Prometheus stay inside.</div>
+        </div>
+
+        <h3>Picture (read once) — this is not Wednesday</h3>
+        <ul>
+          <li>Wednesday was the watcher (<code>/metrics</code>, Prometheus). That sitting is done. Do not add dashboards today.</li>
+          <li>A security group is a door list on the AWS host. Compose <code>ports:</code> is a door list on the laptop. Same idea, two files.</li>
+          <li>HTTPS is a later door (443) with a certificate. In 60 minutes you write the plan — you do not buy a domain and an ALB.</li>
+          <li>GDPR here means: write down what this lab stores. SAP is your job. This repo is not a fake employer.</li>
+          <li>If EC2 <code>18.197.140.41</code> still exists, destroy it from WSL, then lock the files. Do not “secure” a host that should already be gone.</li>
+        </ul>
+
+        <div class="lab-now">
+          <h3>The whole hour — paste in order</h3>
+          <p>If a command fails, paste the <strong style="color:var(--text)">text</strong>. Do not send screenshots. Do not touch Prometheus config.</p>
+          <div class="lab-code"># 0) leftover host must be gone (WSL)
+# cd ~/devops-lab/terraform/ec2-lab && terraform state list
+# if you still see aws_instance, destroy, then continue
+
+# 1) Compose doors — laptop
+cd ~/taskflow
+grep -n "ports:" -A6 docker-compose.yml docker-compose.yaml compose.yml compose.yaml 2>/dev/null
+# db must NOT map 5432:5432 to the host. Internal-only is correct.
+# 9090:9090 is laptop-only. Do not copy 9090 into the AWS security group.
+
+# 2) Terraform doors — do not apply this hour unless a host is still running (it should not be)
+grep -n "ingress\|from_port\|cidr\|5432\|9090\|8000\|22" ~/devops-lab/terraform/ec2-lab/*.tf
+# expect: 22 and 8000 from var.ssh_cidr. No 5432. No 9090. No 0.0.0.0/0 on SSH.
+
+# 3) HTTPS plan (fits in 1h = write it, do not build ALB)
+cat > ~/taskflow/SECURITY.md << 'EOF'
+# TaskFlow security (lab)
+
+## Doors
+- SSH 22: my IP only (terraform var.ssh_cidr).
+- API 8000 / UI 80: my IP only until TLS exists.
+- Postgres 5432: compose network only. Never a public SG rule.
+- Prometheus 9090: laptop only. Never a public SG rule.
+
+## HTTPS (not built this hour)
+Phase 1 (now): HTTP from my IP only.
+Phase 2 (later): Caddy or nginx TLS on a real domain, or AWS ALB + ACM in eu-central-1.
+No 0.0.0.0/0 on 80/443 until a certificate exists.
+
+## Not this sitting
+No Kubernetes. No GitHub Actions rewrite. No Prometheus changes.
+EOF
+
+# 4) GDPR note — honest lab data, not a fake product privacy policy
+cat > ~/taskflow/GDPR.md << 'EOF'
+# TaskFlow data (lab)
+
+What: task titles/text in Postgres. Maybe an email if I typed one into a task. No SAP customer data.
+Why: learning DevOps. Not a live product.
+Where: Docker volume on my WSL machine. AWS only if I apply Terraform; then destroy after the demo.
+Who: me. No other users.
+Delete: docker compose down -v, and terraform destroy if a host exists.
+EOF
+
+# 5) stop. Tick the three Thursday boxes. Do not start Friday Kubernetes.</div>
+        </div>
+
+        <h3>If something is wrong (read the matching line)</h3>
+        <ul>
+          <li>Compose shows <code>5432:5432</code> — remove the host mapping. Keep Postgres on the compose network only. Recreate: <code>docker compose up -d</code>.</li>
+          <li>Terraform grep shows <code>0.0.0.0/0</code> on port 22 — change it to <code>var.ssh_cidr</code>. Do not apply if there is no host.</li>
+          <li>Terraform grep shows 5432 or 9090 ingress — delete that block. Those are not public doors.</li>
+          <li>Do not open <code>prometheus.yml</code>. Do not add Grafana. Do not start kind/minikube. That is not Thursday.</li>
+        </ul>
+
+        <h3>Three notes before you tick (55–60 min)</h3>
+        <ul>
+          <li>Compose <code>ports:</code> = laptop doors. Security group = internet doors. Same idea.</li>
+          <li>5432 and 9090 have no public door. HTTPS is a written phase-2 plan, not an ALB this hour.</li>
+          <li>GDPR for this lab: what I typed into tasks, on my machine, destroyed after the demo.</li>
+        </ul>
       </section>
 
       <section class="lab-board" id="wednesday-lab" hidden>
@@ -1236,7 +1341,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
       <p>Today is <strong style="color:var(--text)">Wednesday 30 Sep 2026</strong>. Same TaskFlow capstone — not a new repo.</p>
       <ol>
         <li><strong>Wed 30 Sep</strong> — Monitoring for TaskFlow (1h) — done</li>
-        <li><strong>Thu 1 Oct</strong> — Security basics (1h)</li>
+        <li><strong>Thu 1 Oct</strong> — Security basics (1h) — lab is on</li>
         <li><strong>Fri 2 Oct</strong> — Security check (15 min micro; busy night)</li>
         <li><strong>Sat 3 Oct</strong> — Backups + reliability (1h Saturday lab)</li>
         <li><strong>Sun 4 Oct</strong> — Sports / rest</li>
@@ -1269,7 +1374,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
     <section class="card">
       <h2>How to use this with your tutor (me)</h2>
       <ul>
-        <li>Next leftover: <em>Thursday 1 Oct — security</em> for the same TaskFlow. Do not start until you say start. Wednesday monitoring stays closed.</li>
+        <li>This sitting: <em>Thursday 1 Oct — security</em>. Wednesday monitoring stays closed. Do not redo /metrics.</li>
         <li>Follow the calendar dates below (missed days were skipped)</li>
         <li>I teach that day’s lesson step by step</li>
         <li>You paste errors / screenshots text — we fix together</li>
@@ -2124,6 +2229,13 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
     }
 
     function leftoverHourSteps(leftover) {
+      if (leftover && leftover.week.week === 8 && leftover.day.day === "Thu") {
+        return [
+          ["0–5 min", "Picture: compose ports vs security-group doors. Wednesday monitoring stays closed. Do not open Prometheus."],
+          ["5–50 min", "Grep compose + Terraform doors. No public 5432/9090. Write SECURITY.md (HTTPS plan) and GDPR.md. Do not apply AWS if there is no host."],
+          ["50–60 min", "Three notes. Tick Thursday 1 Oct. No Kubernetes."]
+        ];
+      }
       if (leftover && leftover.week.week === 8 && leftover.day.day === "Wed") {
         return [
           ["0–5 min", "Picture: /health is inside. Prometheus is outside, on a timer. Prove local :8000/health is 200. Destroy leftover EC2 if it is still up."],
@@ -2154,14 +2266,16 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
       const isW8Wed = leftover.week.week === 8 && leftover.day.day === "Wed";
       const isW8Thu = leftover.week.week === 8 && leftover.day.day === "Thu";
       return {
-        kicker: isW8Wed ? "Lab is on — Wed 30 Sep" : isW7Sat ? "Week 7 Saturday is closed" : "Next leftover sitting",
+        kicker: isW8Thu ? "Lab is on — Thu 1 Oct" : isW8Wed ? "Week 8 Wednesday is closed" : isW7Sat ? "Week 7 Saturday is closed" : "Next leftover sitting",
         title: `Week ${leftover.week.week} · ${leftover.day.date || leftover.day.day} — ${leftover.day.label}`,
-        closed: "Week 7 Fri CI, Week 7 Sat AWS, and Week 8 Wed monitoring are closed. Do not redo YAML. Do not leave the EC2 running.",
-        detail: isW8Wed
-          ? "Local compose only. Add /metrics, one Prometheus graph (up/down), one alert. Stop the API to test. No Kubernetes. No AWS this hour."
+        closed: "Week 7 Fri CI, Week 7 Sat AWS, and Week 8 Wed monitoring are closed. Do not redo Prometheus. Do not redo YAML. Do not leave the EC2 running.",
+        detail: isW8Thu
+          ? "Lock doors (no public DB), write an HTTPS plan, write a short GDPR note. Do not open Prometheus. Do not start Kubernetes."
+          : isW8Wed
+          ? "Wednesday monitoring is already done. Do not start it again."
           : leftover.tasks.map((t) => t.text).join(" "),
-        href: isW8Wed ? "#wednesday-lab" : `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
-        jump: isW8Wed ? "Open Wednesday lab" : isW8Thu ? "Open Thursday 1 Oct" : "Open that day",
+        href: isW8Thu ? "#thursday-lab" : isW8Wed ? "#wednesday-lab" : `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
+        jump: isW8Thu ? "Open Thursday lab" : isW8Wed ? "Open Wednesday lab" : "Open that day",
         hour: leftoverHourSteps(leftover)
       };
     }
@@ -2246,7 +2360,8 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
                 <li>Busy nights stay micro — Saturday is still the 1-hour lab</li>
                 <li><strong style="color:#bbf7d0">Week 7 Sat is done:</strong> TaskFlow on one Frankfurt host, <code>/health</code> on :8000, then destroy. Do not leave 18.197.140.41 running.</li>
                 <li><strong style="color:#bbf7d0">Week 7 Fri is already complete:</strong> GitHub → taskflow → Actions is green, and local <code>docker compose</code> + <code>/health</code> works. Do not redo CI.</li>
-                <li><strong style="color:#bbf7d0">Week 8 Wed is done:</strong> local Prometheus scrape of <code>/metrics</code>, graph <code>up</code>, alert by stopping <code>api</code>. Next leftover is Thursday security. Same TaskFlow. Not a new repo.</li>
+                <li><strong style="color:#bbf7d0">Week 8 Wed is done:</strong> monitoring stays closed. Do not redo Prometheus.</li>
+                <li><strong style="color:#bbf7d0">Week 8 Thu is on:</strong> lock doors, HTTPS plan, GDPR note. Same TaskFlow. Not a new repo.</li>
               </ul>
             </div>`;
         }
@@ -2429,11 +2544,17 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
       if (wedLab) {
         wedLab.hidden = !(leftover && leftover.week.week === 8 && leftover.day.day === "Wed");
       }
+      const thuLab = document.getElementById("thursday-lab");
+      if (thuLab) {
+        thuLab.hidden = !(leftover && leftover.week.week === 8 && leftover.day.day === "Thu");
+      }
 
       const nowText = document.getElementById("now-text");
       if (nowText) {
         if (pct === 100) {
           nowText.textContent = "Plan complete — ship the portfolio";
+        } else if (leftover && leftover.week.week === 8 && leftover.day.day === "Thu") {
+          nowText.textContent = "Start: W8 Thu security";
         } else if (leftover && leftover.week.week === 8 && leftover.day.day === "Wed") {
           nowText.textContent = "Start: W8 Wed monitoring";
         } else if (leftover && leftover.week.week === 7 && leftover.day.day === "Sat") {
