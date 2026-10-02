@@ -887,7 +887,7 @@
       <div class="dashboard-top">
         <div>
           <h2>Your progress</h2>
-          <p class="dashboard-sub">Wednesday monitoring stays closed. Thursday 1 Oct security lab is on — doors, HTTPS plan, GDPR. Same TaskFlow.</p>
+          <p class="dashboard-sub">Thursday security stays closed. Next leftover: Friday 2 Oct — 15 min security check. No Kubernetes.</p>
         </div>
         <div class="now-pill" id="now-pill">
           <span class="now-dot"></span>
@@ -896,13 +896,13 @@
       </div>
 
       <div class="leftover-card" id="leftover-card">
-        <div class="leftover-kicker" id="leftover-kicker">Lab is on — Thu 1 Oct</div>
+        <div class="leftover-kicker" id="leftover-kicker">Next leftover sitting</div>
         <div class="leftover-title" id="leftover-title">Finding leftover…</div>
-        <p class="leftover-closed" id="leftover-closed">Week 7 Fri CI, Week 7 Sat AWS, and Week 8 Wed monitoring are closed.</p>
-        <p class="leftover-detail" id="leftover-detail">Thursday security: lock doors (no public DB), write an HTTPS plan, write a short GDPR note. Do not redo Prometheus. Do not start Kubernetes.</p>
+        <p class="leftover-closed" id="leftover-closed">Week 7 Fri CI, Week 7 Sat AWS, Week 8 Wed monitoring, and Week 8 Thu security are closed.</p>
+        <p class="leftover-detail" id="leftover-detail">Next leftover is Friday 2 Oct: 15 min micro — list 5 beginner security mistakes. Do not start Kubernetes. Do not redo Thursday doors.</p>
         <ol class="lab-hour" id="leftover-hour"></ol>
         <div class="remain-path" id="remain-path"></div>
-        <a class="leftover-jump" id="leftover-jump" href="#thursday-lab">Open Thursday lab</a>
+        <a class="leftover-jump" id="leftover-jump" href="#w8-fri">Open Friday 2 Oct</a>
       </div>
 
       <section class="card" id="when-to-create">
@@ -920,7 +920,7 @@
         <p>Order in a job: <strong style="color:var(--text)">read → grep → copy the nearest file → change one door</strong>. First week at work is reading TaskFlow-like repos, not designing Netflix.</p>
       </section>
 
-      <section class="lab-board" id="thursday-lab">
+      <section class="lab-board" id="thursday-lab" hidden>
         <h2>Thursday lab is on — security for TaskFlow</h2>
         <p class="lab-timer">60 minutes. Stop at 60. Today is doors, HTTPS plan, and data — not monitoring. Do not open Prometheus. Do not start Kubernetes. Do not rewrite CI. Wednesday stays closed.</p>
 
@@ -1338,11 +1338,11 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
       <p>Rhythm stays the same: <strong style="color:var(--text)">Saturday = 1h lab</strong>, Sunday rest, Tue+Fri micro unless you change them. Leftover Week 8 is pinned to the calendar because days were missed.</p>
 
       <h3>Leftover Week 8 on the calendar (from today)</h3>
-      <p>Today is <strong style="color:var(--text)">Wednesday 30 Sep 2026</strong>. Same TaskFlow capstone — not a new repo.</p>
+      <p>Today is <strong style="color:var(--text)">Friday 2 Oct 2026</strong>. Same TaskFlow capstone — not a new repo. Thursday security stays closed.</p>
       <ol>
         <li><strong>Wed 30 Sep</strong> — Monitoring for TaskFlow (1h) — done</li>
-        <li><strong>Thu 1 Oct</strong> — Security basics (1h) — lab is on</li>
-        <li><strong>Fri 2 Oct</strong> — Security check (15 min micro; busy night)</li>
+        <li><strong>Thu 1 Oct</strong> — Security basics (1h) — done</li>
+        <li><strong>Fri 2 Oct</strong> — Security check (15 min micro; busy night) — leftover</li>
         <li><strong>Sat 3 Oct</strong> — Backups + reliability (1h Saturday lab)</li>
         <li><strong>Sun 4 Oct</strong> — Sports / rest</li>
         <li><strong>Mon 5 Oct</strong> — Docs, demo, honest LinkedIn (1h)</li>
@@ -1374,7 +1374,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
     <section class="card">
       <h2>How to use this with your tutor (me)</h2>
       <ul>
-        <li>This sitting: <em>Thursday 1 Oct — security</em>. Wednesday monitoring stays closed. Do not redo /metrics.</li>
+        <li>Next leftover: <em>Friday 2 Oct — 15 min</em> list 5 security mistakes. Thursday security stays closed. Do not start Kubernetes.</li>
         <li>Follow the calendar dates below (missed days were skipped)</li>
         <li>I teach that day’s lesson step by step</li>
         <li>You paste errors / screenshots text — we fix together</li>
@@ -1402,8 +1402,8 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
 
   <script>
     const STORAGE_KEY = "devops-plan-de-1h-v2";
-    const CHECKPOINT_ID = "w8-wed-monitoring-done-2026-09-30";
-    const CHECKPOINT_THROUGH = { week: 8, day: "Wed" };
+    const CHECKPOINT_ID = "w8-thu-security-done-2026-10-02";
+    const CHECKPOINT_THROUGH = { week: 8, day: "Thu" };
     const CALENDAR_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const DISPLAY_ORDER = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
     const WEEK8_ORDER = ["Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue"];
@@ -2069,7 +2069,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
           {
             day: "Thu",
             date: "Thu 1 Oct",
-            label: "Security basics",
+            label: "Security basics — already done",
             full: [
               { id: "w8d2t1", tag: "hands", text: "Lock security groups: DB not public, SSH only your IP." },
               { id: "w8d2t2", tag: "hands", text: "HTTPS plan: ALB+ACM or Caddy/nginx TLS (do what fits in 1h)." },
@@ -2229,6 +2229,13 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
     }
 
     function leftoverHourSteps(leftover) {
+      if (leftover && leftover.week.week === 8 && leftover.day.day === "Fri") {
+        return [
+          ["0–5 min", "Busy night. Thursday security stays closed. Do not start Kubernetes."],
+          ["5–12 min", "Write 5 beginner security mistakes from this week’s doors (public DB, open SSH, secrets in git, no TLS, public Prometheus)."],
+          ["12–15 min", "Tick Friday micro. Stop."]
+        ];
+      }
       if (leftover && leftover.week.week === 8 && leftover.day.day === "Thu") {
         return [
           ["0–5 min", "Picture: compose ports vs security-group doors. Wednesday monitoring stays closed. Do not open Prometheus."],
@@ -2265,17 +2272,20 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
       const isW7Sat = leftover.week.week === 7 && leftover.day.day === "Sat";
       const isW8Wed = leftover.week.week === 8 && leftover.day.day === "Wed";
       const isW8Thu = leftover.week.week === 8 && leftover.day.day === "Thu";
+      const isW8Fri = leftover.week.week === 8 && leftover.day.day === "Fri";
       return {
-        kicker: isW8Thu ? "Lab is on — Thu 1 Oct" : isW8Wed ? "Week 8 Wednesday is closed" : isW7Sat ? "Week 7 Saturday is closed" : "Next leftover sitting",
+        kicker: isW8Fri ? "Next leftover sitting — Fri 2 Oct" : isW8Thu ? "Week 8 Thursday is closed" : isW8Wed ? "Week 8 Wednesday is closed" : isW7Sat ? "Week 7 Saturday is closed" : "Next leftover sitting",
         title: `Week ${leftover.week.week} · ${leftover.day.date || leftover.day.day} — ${leftover.day.label}`,
-        closed: "Week 7 Fri CI, Week 7 Sat AWS, and Week 8 Wed monitoring are closed. Do not redo Prometheus. Do not redo YAML. Do not leave the EC2 running.",
-        detail: isW8Thu
-          ? "Lock doors (no public DB), write an HTTPS plan, write a short GDPR note. Do not open Prometheus. Do not start Kubernetes."
+        closed: "Week 7 Fri CI, Week 7 Sat AWS, Week 8 Wed monitoring, and Week 8 Thu security are closed. Do not redo those sittings. Do not leave the EC2 running.",
+        detail: isW8Fri
+          ? "Busy night: 15 minutes. List 5 beginner security mistakes. Do not start Kubernetes. Do not redo Thursday doors."
+          : isW8Thu
+          ? "Thursday security is already done. Do not start it again."
           : isW8Wed
           ? "Wednesday monitoring is already done. Do not start it again."
           : leftover.tasks.map((t) => t.text).join(" "),
-        href: isW8Thu ? "#thursday-lab" : isW8Wed ? "#wednesday-lab" : `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
-        jump: isW8Thu ? "Open Thursday lab" : isW8Wed ? "Open Wednesday lab" : "Open that day",
+        href: isW8Fri ? "#w8-fri" : isW8Thu ? "#thursday-lab" : isW8Wed ? "#wednesday-lab" : `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
+        jump: isW8Fri ? "Open Friday 2 Oct" : isW8Thu ? "Open Thursday lab" : isW8Wed ? "Open Wednesday lab" : "Open that day",
         hour: leftoverHourSteps(leftover)
       };
     }
@@ -2361,7 +2371,8 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
                 <li><strong style="color:#bbf7d0">Week 7 Sat is done:</strong> TaskFlow on one Frankfurt host, <code>/health</code> on :8000, then destroy. Do not leave 18.197.140.41 running.</li>
                 <li><strong style="color:#bbf7d0">Week 7 Fri is already complete:</strong> GitHub → taskflow → Actions is green, and local <code>docker compose</code> + <code>/health</code> works. Do not redo CI.</li>
                 <li><strong style="color:#bbf7d0">Week 8 Wed is done:</strong> monitoring stays closed. Do not redo Prometheus.</li>
-                <li><strong style="color:#bbf7d0">Week 8 Thu is on:</strong> lock doors, HTTPS plan, GDPR note. Same TaskFlow. Not a new repo.</li>
+                <li><strong style="color:#bbf7d0">Week 8 Thu is done:</strong> doors, HTTPS plan, GDPR. Do not redo it.</li>
+                <li><strong style="color:#bbf7d0">Next leftover is Friday 2 Oct:</strong> 15 min micro — 5 security mistakes. No Kubernetes.</li>
               </ul>
             </div>`;
         }
@@ -2553,6 +2564,8 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
       if (nowText) {
         if (pct === 100) {
           nowText.textContent = "Plan complete — ship the portfolio";
+        } else if (leftover && leftover.week.week === 8 && leftover.day.day === "Fri") {
+          nowText.textContent = "Leftover: W8 Fri 2 Oct micro";
         } else if (leftover && leftover.week.week === 8 && leftover.day.day === "Thu") {
           nowText.textContent = "Start: W8 Thu security";
         } else if (leftover && leftover.week.week === 8 && leftover.day.day === "Wed") {
@@ -2658,7 +2671,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
     });
 
     document.getElementById("reset-progress").addEventListener("click", () => {
-      if (confirm("Uncheck leftover from Thursday 1 Oct onward? Weeks 1–8 Wednesday stay ticked (CI, AWS lab, and monitoring already done).")) {
+      if (confirm("Uncheck leftover from Friday 2 Oct onward? Weeks 1–8 Thursday stay ticked (CI, AWS, monitoring, and Thursday security already done).")) {
         const busy = getBusyDays();
         localStorage.removeItem(STORAGE_KEY);
         const state = { busyDays: busy };
