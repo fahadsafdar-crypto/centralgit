@@ -887,7 +887,7 @@
       <div class="dashboard-top">
         <div>
           <h2>Your progress</h2>
-          <p class="dashboard-sub">Thursday security stays closed. Next leftover: Friday 2 Oct — 15 min security check. No Kubernetes.</p>
+          <p class="dashboard-sub">Thursday security stays closed. Friday 2 Oct is a full hour: security walk + Kubernetes picture. Do not install a cluster unless minutes are left.</p>
         </div>
         <div class="now-pill" id="now-pill">
           <span class="now-dot"></span>
@@ -896,13 +896,13 @@
       </div>
 
       <div class="leftover-card" id="leftover-card">
-        <div class="leftover-kicker" id="leftover-kicker">Next leftover sitting</div>
+        <div class="leftover-kicker" id="leftover-kicker">Lab is on — Fri 2 Oct full hour</div>
         <div class="leftover-title" id="leftover-title">Finding leftover…</div>
         <p class="leftover-closed" id="leftover-closed">Week 7 Fri CI, Week 7 Sat AWS, Week 8 Wed monitoring, and Week 8 Thu security are closed.</p>
-        <p class="leftover-detail" id="leftover-detail">Next leftover is Friday 2 Oct: 15 min micro — list 5 beginner security mistakes. Do not start Kubernetes. Do not redo Thursday doors.</p>
+        <p class="leftover-detail" id="leftover-detail">Friday full hour: walk the doors you already have, write 5 mistakes, then a Kubernetes picture (Pod / Deployment / Service). Do not redo Thursday files from scratch. Do not install kind unless time is left.</p>
         <ol class="lab-hour" id="leftover-hour"></ol>
         <div class="remain-path" id="remain-path"></div>
-        <a class="leftover-jump" id="leftover-jump" href="#w8-fri">Open Friday 2 Oct</a>
+        <a class="leftover-jump" id="leftover-jump" href="#friday-lab">Open Friday lab</a>
       </div>
 
       <section class="card" id="when-to-create">
@@ -918,6 +918,95 @@
           <li><strong style="color:var(--text)">Does the host need Docker/users/packages?</strong> Missing → Ansible (you already can). Do not put app code in Ansible.</li>
         </ol>
         <p>Order in a job: <strong style="color:var(--text)">read → grep → copy the nearest file → change one door</strong>. First week at work is reading TaskFlow-like repos, not designing Netflix.</p>
+      </section>
+
+      <section class="lab-board" id="friday-lab">
+        <h2>Friday lab is on — full hour security check</h2>
+        <p class="lab-timer">60 minutes. Stop at 60. Thursday files stay as they are — you walk them, you do not rewrite them. Do not install kind/minikube unless the walk is done and you still have minutes. Saturday backups is tomorrow, not today.</p>
+
+        <div class="arch-row" aria-label="Friday architecture">
+          <div class="arch-box">
+            <strong>1. Walk</strong>
+            Grep doors and secrets<br>
+            in files you already wrote.
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-box">
+            <strong>2. Five mistakes</strong>
+            Write them from evidence,<br>
+            not from a memorised list.
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-box">
+            <strong>3. K8s picture</strong>
+            Pod, Deployment, Service.<br>
+            Phase 2 = EKS. No cluster.
+          </div>
+        </div>
+
+        <div class="port-key">
+          <div><strong>Pod</strong> One running box (your API process).</div>
+          <div><strong>Deployment</strong> Keep N boxes alive if one dies.</div>
+          <div><strong>Service</strong> A stable door in front of those boxes.</div>
+        </div>
+
+        <h3>Picture (read once)</h3>
+        <ul>
+          <li>Thursday already locked doors and wrote SECURITY.md / GDPR.md. Today you <strong style="color:var(--text)">prove they still hold</strong>.</li>
+          <li>Kubernetes is how many German job ads say “keep N copies of the API behind one door”. You do not need a cluster to understand that sentence.</li>
+          <li>kind/minikube is optional leftover minutes. Installing it is a different sitting if the clock is tight.</li>
+        </ul>
+
+        <div class="lab-now">
+          <h3>The whole hour — paste in order</h3>
+          <p>Paste error <strong style="color:var(--text)">text</strong> if a grep looks wrong. Do not send screenshots. Do not open Prometheus. Do not rewrite Thursday’s markdown from scratch.</p>
+          <div class="lab-code"># 1) security walk — expect: no host 5432, no 0.0.0.0/0 on 22, no .env in git
+cd ~/taskflow
+grep -n "5432\|9090\|ports:" docker-compose.yml docker-compose.yaml compose.yml compose.yaml 2>/dev/null
+ls -la SECURITY.md GDPR.md
+git -C ~/taskflow status --short
+git -C ~/taskflow ls-files | grep -E '\.env$|\.pem$|tfvars|id_rsa' || true
+
+grep -n "from_port\|cidr\|5432\|9090\|0.0.0.0" ~/devops-lab/terraform/ec2-lab/*.tf
+
+# 2) five mistakes — write from what you just saw (edit if your evidence differs)
+cat > ~/taskflow/SECURITY-MISTAKES.md << 'EOF'
+# 5 beginner security mistakes (TaskFlow)
+
+1. Publish Postgres 5432 on the laptop or in the AWS SG.
+2. SSH (22) open to 0.0.0.0/0 instead of my /32.
+3. Commit .env, .pem, or terraform.tfvars.
+4. Put Prometheus 9090 on the public internet.
+5. Leave HTTP open to the world with no TLS plan.
+EOF
+
+# 3) Kubernetes picture in README — three sentences + phase 2
+# append once; do not paste twice
+cat >> ~/taskflow/README.md << 'EOF'
+
+## Kubernetes (Phase 2 — not this lab)
+A Pod is one running box. A Deployment keeps N boxes alive. A Service is the stable door in front.
+Phase 2 = EKS in eu-central-1. This lab stays Compose + one EC2. No cluster installed on 2 Oct.
+EOF
+
+# 4) optional only if minutes left — default is STOP and tick Friday
+# kind create cluster   # skip unless you still have 15+ minutes
+# do not start Saturday backups tonight</div>
+        </div>
+
+        <h3>If something is wrong</h3>
+        <ul>
+          <li>5432 still mapped to the host — remove that compose port. That is a fix, not a Thursday rewrite.</li>
+          <li><code>.env</code> is tracked — <code>git rm --cached .env</code> and add it to <code>.gitignore</code>. Do not paste secrets here.</li>
+          <li>Do not install Docker-in-Docker, kind, or minikube to “make Friday look complete”. The walk + five mistakes + three K8s sentences <strong style="color:var(--text)">is</strong> the full hour.</li>
+        </ul>
+
+        <h3>Three notes before you tick (55–60 min)</h3>
+        <ul>
+          <li>A security check is grep + evidence, not a new project.</li>
+          <li>Pod / Deployment / Service = box / keep-N-alive / door. Phase 2 = EKS later.</li>
+          <li>kind is optional leftover minutes. Saturday is backups.</li>
+        </ul>
       </section>
 
       <section class="lab-board" id="thursday-lab" hidden>
@@ -1342,7 +1431,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
       <ol>
         <li><strong>Wed 30 Sep</strong> — Monitoring for TaskFlow (1h) — done</li>
         <li><strong>Thu 1 Oct</strong> — Security basics (1h) — done</li>
-        <li><strong>Fri 2 Oct</strong> — Security check (15 min micro; busy night) — leftover</li>
+        <li><strong>Fri 2 Oct</strong> — Security check (full 1h) — lab is on</li>
         <li><strong>Sat 3 Oct</strong> — Backups + reliability (1h Saturday lab)</li>
         <li><strong>Sun 4 Oct</strong> — Sports / rest</li>
         <li><strong>Mon 5 Oct</strong> — Docs, demo, honest LinkedIn (1h)</li>
@@ -1354,7 +1443,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
         <label><input type="checkbox" value="Tue" checked /> Tue busy night</label>
         <label><input type="checkbox" value="Wed" /> Wed busy night</label>
         <label><input type="checkbox" value="Thu" /> Thu busy night</label>
-        <label><input type="checkbox" value="Fri" checked /> Fri busy night</label>
+        <label><input type="checkbox" value="Fri" /> Fri busy night</label>
         <label><input type="checkbox" value="Sat" disabled /> Sat = 1h lab</label>
         <label><input type="checkbox" value="Sun" disabled /> Sun = sports / rest</label>
       </div>
@@ -1374,7 +1463,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
     <section class="card">
       <h2>How to use this with your tutor (me)</h2>
       <ul>
-        <li>Next leftover: <em>Friday 2 Oct — 15 min</em> list 5 security mistakes. Thursday security stays closed. Do not start Kubernetes.</li>
+        <li>This sitting: <em>Friday 2 Oct — full hour</em>. Thursday security stays closed. Kubernetes is a picture first; do not install a cluster unless minutes are left.</li>
         <li>Follow the calendar dates below (missed days were skipped)</li>
         <li>I teach that day’s lesson step by step</li>
         <li>You paste errors / screenshots text — we fix together</li>
@@ -1402,7 +1491,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
 
   <script>
     const STORAGE_KEY = "devops-plan-de-1h-v2";
-    const CHECKPOINT_ID = "w8-thu-security-done-2026-10-02";
+    const CHECKPOINT_ID = "w8-fri-full-lab-2026-10-02";
     const CHECKPOINT_THROUGH = { week: 8, day: "Thu" };
     const CALENDAR_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const DISPLAY_ORDER = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
@@ -2082,11 +2171,11 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
           {
             day: "Fri",
             date: "Fri 2 Oct",
-            label: "Security check",
+            label: "Security check — full hour",
             full: [
-              { id: "w8d4t2", tag: "hands", text: "If Friday is a free evening: optional kind/minikube nginx scaled to 3 — only if Thursday security is done." },
-              { id: "w8d4t3", tag: "read", text: "Optional stretch: note “Phase 2 = EKS” in README. Do not start Kubernetes today unless Thursday security is done." },
-              { id: "w8d4t1", tag: "theory", text: "Optional stretch only: Pods, Deployments, Services — why DE companies mention K8s." }
+              { id: "w8d4t2", tag: "hands", text: "Walk TaskFlow files you already have (compose ports, SG, secrets, gitignore). Optional kind/minikube only if minutes are left — default is skip the install." },
+              { id: "w8d4t3", tag: "read", text: "Write “Phase 2 = EKS” in README. Do not start a cluster unless the walk is done and you still have time." },
+              { id: "w8d4t1", tag: "theory", text: "Picture: Pod, Deployment, Service — why DE companies mention K8s. Three sentences is enough." }
             ],
             micro: [
               { id: "w8d2m1", tag: "micro", text: "List 5 security mistakes beginners make." }
@@ -2188,6 +2277,12 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
         });
       });
       state._checkpoint = CHECKPOINT_ID;
+      if (Array.isArray(state.busyDays)) {
+        state.busyDays = state.busyDays.filter((d) => d !== "Fri");
+        if (!state.busyDays.length) state.busyDays = ["Tue"];
+      } else {
+        state.busyDays = ["Tue"];
+      }
       return true;
     }
 
@@ -2231,9 +2326,9 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
     function leftoverHourSteps(leftover) {
       if (leftover && leftover.week.week === 8 && leftover.day.day === "Fri") {
         return [
-          ["0–5 min", "Busy night. Thursday security stays closed. Do not start Kubernetes."],
-          ["5–12 min", "Write 5 beginner security mistakes from this week’s doors (public DB, open SSH, secrets in git, no TLS, public Prometheus)."],
-          ["12–15 min", "Tick Friday micro. Stop."]
+          ["0–5 min", "Full hour. Thursday stays closed. Walk existing doors — do not rewrite SECURITY.md from scratch."],
+          ["5–45 min", "Grep compose + Terraform + git. Write 5 mistakes from evidence. Append Pod / Deployment / Service + Phase 2 = EKS to README."],
+          ["45–60 min", "Tick Friday. Do not install kind unless minutes are left. Saturday backups is tomorrow."]
         ];
       }
       if (leftover && leftover.week.week === 8 && leftover.day.day === "Thu") {
@@ -2274,18 +2369,18 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
       const isW8Thu = leftover.week.week === 8 && leftover.day.day === "Thu";
       const isW8Fri = leftover.week.week === 8 && leftover.day.day === "Fri";
       return {
-        kicker: isW8Fri ? "Next leftover sitting — Fri 2 Oct" : isW8Thu ? "Week 8 Thursday is closed" : isW8Wed ? "Week 8 Wednesday is closed" : isW7Sat ? "Week 7 Saturday is closed" : "Next leftover sitting",
+        kicker: isW8Fri ? "Lab is on — Fri 2 Oct full hour" : isW8Thu ? "Week 8 Thursday is closed" : isW8Wed ? "Week 8 Wednesday is closed" : isW7Sat ? "Week 7 Saturday is closed" : "Next leftover sitting",
         title: `Week ${leftover.week.week} · ${leftover.day.date || leftover.day.day} — ${leftover.day.label}`,
         closed: "Week 7 Fri CI, Week 7 Sat AWS, Week 8 Wed monitoring, and Week 8 Thu security are closed. Do not redo those sittings. Do not leave the EC2 running.",
         detail: isW8Fri
-          ? "Busy night: 15 minutes. List 5 beginner security mistakes. Do not start Kubernetes. Do not redo Thursday doors."
+          ? "Full hour: walk doors you already have, write 5 mistakes from evidence, then a Kubernetes picture. Do not install kind unless minutes are left. Do not redo Thursday."
           : isW8Thu
           ? "Thursday security is already done. Do not start it again."
           : isW8Wed
           ? "Wednesday monitoring is already done. Do not start it again."
           : leftover.tasks.map((t) => t.text).join(" "),
-        href: isW8Fri ? "#w8-fri" : isW8Thu ? "#thursday-lab" : isW8Wed ? "#wednesday-lab" : `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
-        jump: isW8Fri ? "Open Friday 2 Oct" : isW8Thu ? "Open Thursday lab" : isW8Wed ? "Open Wednesday lab" : "Open that day",
+        href: isW8Fri ? "#friday-lab" : isW8Thu ? "#thursday-lab" : isW8Wed ? "#wednesday-lab" : `#w${leftover.week.week}-${leftover.day.day.toLowerCase()}`,
+        jump: isW8Fri ? "Open Friday lab" : isW8Thu ? "Open Thursday lab" : isW8Wed ? "Open Wednesday lab" : "Open that day",
         hour: leftoverHourSteps(leftover)
       };
     }
@@ -2300,7 +2395,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
     function getBusyDays() {
       const state = getState();
       if (Array.isArray(state.busyDays) && state.busyDays.length) return state.busyDays;
-      return ["Tue", "Fri"];
+      return ["Tue"];
     }
 
     function setBusyDays(days) {
@@ -2372,7 +2467,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
                 <li><strong style="color:#bbf7d0">Week 7 Fri is already complete:</strong> GitHub → taskflow → Actions is green, and local <code>docker compose</code> + <code>/health</code> works. Do not redo CI.</li>
                 <li><strong style="color:#bbf7d0">Week 8 Wed is done:</strong> monitoring stays closed. Do not redo Prometheus.</li>
                 <li><strong style="color:#bbf7d0">Week 8 Thu is done:</strong> doors, HTTPS plan, GDPR. Do not redo it.</li>
-                <li><strong style="color:#bbf7d0">Next leftover is Friday 2 Oct:</strong> 15 min micro — 5 security mistakes. No Kubernetes.</li>
+                <li><strong style="color:#bbf7d0">Week 8 Fri is on:</strong> full hour — walk doors, 5 mistakes, K8s picture. No kind install unless minutes are left. Thursday stays closed.</li>
               </ul>
             </div>`;
         }
@@ -2559,13 +2654,17 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
       if (thuLab) {
         thuLab.hidden = !(leftover && leftover.week.week === 8 && leftover.day.day === "Thu");
       }
+      const friLab = document.getElementById("friday-lab");
+      if (friLab) {
+        friLab.hidden = !(leftover && leftover.week.week === 8 && leftover.day.day === "Fri");
+      }
 
       const nowText = document.getElementById("now-text");
       if (nowText) {
         if (pct === 100) {
           nowText.textContent = "Plan complete — ship the portfolio";
         } else if (leftover && leftover.week.week === 8 && leftover.day.day === "Fri") {
-          nowText.textContent = "Leftover: W8 Fri 2 Oct micro";
+          nowText.textContent = "Start: W8 Fri full hour";
         } else if (leftover && leftover.week.week === 8 && leftover.day.day === "Thu") {
           nowText.textContent = "Start: W8 Thu security";
         } else if (leftover && leftover.week.week === 8 && leftover.day.day === "Wed") {
@@ -2610,7 +2709,7 @@ printf 'ssh_cidr = "193.16.224.46/32"\n' > ~/devops-lab/terraform/ec2-lab/terraf
         { week: 7, day: "Sat", label: "AWS host + /health" },
         { week: 8, day: "Wed", date: "30 Sep", label: "Monitoring lab" },
         { week: 8, day: "Thu", date: "1 Oct", label: "Security" },
-        { week: 8, day: "Fri", date: "2 Oct", label: "Security micro" },
+        { week: 8, day: "Fri", date: "2 Oct", label: "Security check" },
         { week: 8, day: "Sat", date: "3 Oct", label: "Backups lab" },
         { week: 8, day: "Mon", date: "5 Oct", label: "Docs + demo" },
         { week: 8, day: "Tue", date: "6 Oct", label: "Interview close" }
